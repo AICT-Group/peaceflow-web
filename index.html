@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>peaceflow - Navigate with Clarity & Connection</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Michroma&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- VARIABLEN & GRUNDLAGEN --- */
+        :root {
+            /* Farben aus deinem PDF */
+            --color-primary-yellow: #e6be1b; /* Gelb */
+            --color-primary-teal: #5a8a95;   /* Blau/Teal */
+            --color-text-dark: #1d1d1f;      /* Apple-artiges Dunkelgrau */
+            --color-text-light: #86868b;     /* Apple-artiges Hellgrau */
+            --color-bg-light: #fbfbfd;       /* Off-White */
+            --color-white: #ffffff;
+            
+            --font-headline: 'Michroma', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --spacing-section: 120px;
+            --border-radius: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text-dark);
+            background-color: var(--color-white);
+            line-height: 1.6;
+            overflow-x: hidden; /* Verhindert horizontales Scrollen */
+        }
+
+        /* --- TYPOGRAFIE --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-headline);
+            font-weight: 400; /* Michroma hat nur 400, wirkt aber fett */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem); /* Responsive Größe */
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--color-text-dark);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.125rem;
+            color: var(--color-text-light);
+            margin-bottom: 1.5rem;
+            max-width: 700px;
+        }
+
+        .highlight {
+            color: var(--color-primary-teal);
+        }
+
+        .highlight-yellow {
+            color: var(--color-primary-yellow);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px); /* Der typische Apple-Glass-Effekt */
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-family: var(--font-headline);
+            font-size: 1.5rem;
+            color: var(--color-text-dark);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+        
+        .logo span { color: var(--color-primary-teal); }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-text-dark);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary-teal);
+        }
+
+        /* --- BUTTONS --- */
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            background-color: var(--color-primary-teal);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: #466e7a;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--color-primary-yellow);
+            color: var(--color-text-dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-primary-yellow);
+            color: white;
+        }
+
+        /* --- SECTIONS ALLGEMEIN --- */
+        section {
+            padding: var(--spacing-section) 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- HINTERGRUND FLUSS (Placeholder für deine Bilder) --- */
+        /* HIER BILDER EINFÜGEN: Ersetze url('...') mit deinen Dateinamen */
+        .bg-wave-top {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            /* Fallback Gradient, falls Bild fehlt */
+            background: radial-gradient(circle at top right, rgba(230,190,27,0.1), transparent 40%);
+            background-image: url('Background-Box1_L.jpg'); background-size: cover;
+        }
+
+        /* --- HERO SECTION --- */
+        #hero {
+            min-height: 100vh;
+            text-align: left;
+            padding-top: 150px;
+            align-items: flex-start;
+        }
+
+        #hero h1 {
+            max-width: 900px;
+            margin-bottom: 30px;
+        }
+
+        #hero p {
+            font-size: 1.5rem;
+            color: var(--color-text-dark);
+            max-width: 800px;
+        }
+
+        /* --- PAINPOINTS (Dunklerer Abschnitt für Kontrast) --- */
+        #painpoints {
+            background-color: #f5f5f7; /* Leichtes Grau */
+            text-align: center;
+        }
+
+        .painpoint-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .painpoint-card {
+            background: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .painpoint-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* --- SOLUTION & FEATURES --- */
+        #solution {
+            text-align: center;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+            text-align: left;
+        }
+
+        .feature-item {
+            padding: 30px;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--color-primary-yellow);
+        }
+
+        /* --- HOW IT WORKS (Timeline Style) --- */
+        #how-it-works {
+            background-color: var(--color-white);
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            margin-bottom: 60px;
+            max-width: 800px;
+        }
+
+        .step-number {
+            font-family: var(--font-headline);
+            font-size: 3rem;
+            color: var(--color-primary-teal);
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        /* --- USE CASES (Apple Cards) --- */
+        #use-cases {
+            background: linear-gradient(180deg, #ffffff 0%, #f5f5f7 100%);
+        }
+
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+
+        .case-card {
+            background: white;
+            padding: 50px;
+            border-radius: var(--border-radius);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-tag {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            color: var(--color-primary-yellow);
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* --- TESTIMONIALS --- */
+        .quote-slider {
+            max-width: 900px;
+            text-align: center;
+        }
+        
+        .quote-text {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--color-text-dark);
+            margin-bottom: 20px;
+            font-family: var(--font-body); /* Eher clean als technisch */
+        }
+
+        .quote-author {
+            color: var(--color-primary-teal);
+            font-weight: bold;
+        }
+
+        /* --- CTA --- */
+        #cta {
+            background-color: var(--color-text-dark);
+            color: white;
+            text-align: center;
+        }
+        
+        #cta h2, #cta p {
+            color: white;
+        }
+
+        .cta-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 60px 20px;
+            background-color: #111;
+            color: #888;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        footer a { color: var(--color-primary-yellow); text-decoration: none; }
+
+        /* --- ANIMATIONS (Scroll Reveal) --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .nav-links { display: none; } /* Mobile Menu müsste man per JS togglen */
+            .step { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">peaceflow<span>.ai</span></a>
+        <div class="nav-links">
+            <a href="#how-it-works">Funktionsweise</a>
+            <a href="#use-cases">Anwendungsfälle</a>
+            <a href="#solution">Lösungen</a>
+            <a href="#cta" class="btn" style="padding: 10px 20px; font-size: 0.9rem;">Starten</a>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <div class="bg-wave-top"></div> <div class="container reveal">
+            <h1>Manche Situationen<br>brauchen mehr als<br>nur <span class="highlight">gute Absichten</span>.</h1>
+            <p>Peaceflow ist dein smarter Begleiter – für Gespräche, die verbinden, statt zu trennen. Wann immer du ihn brauchst. Wo immer du gerade stehst.</p>
+            <br>
+            <p style="font-weight: 600; color: var(--color-text-dark);">Stell dir vor: Klarheit, wo Chaos war. Verbindung, wo Spannung war.</p>
+            <br>
+            <a href="#cta" class="btn">Jetzt ausprobieren</a>
+        </div>
+    </section>
+
+    <section id="painpoints">
+        <div class="container reveal">
+            <h2>Konflikte sind komplex.</h2>
+            <p>Frust? Überlastung? Sackgasse? Ob im Team, in der Partnerschaft oder mit dir selbst.</p>
+            
+            <div class="painpoint-grid">
+                <div class="painpoint-card">
+                    <h3>Das Problem</h3>
+                    <p>Wer begleitet dich, wenn du zwischen „Ich sag’s jetzt einfach!“ und „Ich sollte es runterschlucken“ schwankst?</p>
+                </div>
+                <div class="painpoint-card" style="border: 2px solid var(--color-primary-yellow);">
+                    <h3>Die Perspektive</h3>
+                    <p>Was, wenn Konflikte kein Fehler sind, sondern ein Zeichen, dass etwas <span class="highlight-yellow">wachsen will</span>?</p>
+                </div>
+                <div class="painpoint-card">
+                    <h3>Die Lösung</h3>
+                    <p>Peaceflow hilft dir, den nächsten Schritt zu finden. Da steckt mehr drin, als du allein gerade siehst.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="solution">
+        <div class="container reveal">
+            <h2>Peaceflow ist dein <span class="highlight">smarter Begleiter</span>.</h2>
+            <p>Dein digitaler Sparringspartner, wenn du mitten im Konflikt steckst, ein Gespräch vorbereitest oder dich selbst besser verstehen willst.</p>
+
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">👂</div>
+                    <h3>Es hört zu.</h3>
+                    <p>Peaceflow merkt sich, worum es dir geht. Fragt nach. Erkennt Muster. Es ist dein ruhiger Raum, der immer offensteht.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔗</div>
+                    <h3>Es verbindet.</h3>
+                    <p>Ob mentale Klarheit oder Strategie: Peaceflow bringt dich zur passenden Unterstützung – von Coaching über Mediation bis Psychologie.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Es begleitet.</h3>
+                    <p>Auch zwischen den Sitzungen. Peaceflow kann ergänzen, vertiefen und vorbereiten – auch wenn dein Coach gerade Feierabend hat.</p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 60px; text-align: center;">
+                <h3>Führungskraft oder HR?</h3>
+                <p>Peaceflow hilft, Krisen zu entschärfen, bevor sie Flächenbrände werden. Kein Ersatz für Profis – sondern ihr digitaler Kollege.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works">
+        <div class="container reveal">
+            <h2>Wie peaceflow funktioniert</h2>
+            <p>Du erzählst. Peaceflow versteht. Und begleitet dich Schritt für Schritt.</p>
+            <br><br>
+
+            <div class="step">
+                <div class="step-number">01</div>
+                <div>
+                    <h3>Du startest das Gespräch.</h3>
+                    <p>Du beschreibst, was dich beschäftigt. Klar, emotional oder chaotisch. Peaceflow hört zu und bleibt dran.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">02</div>
+                <div>
+                    <h3>Peaceflow sortiert.</h3>
+                    <p>Die KI erkennt, worum es dir wirklich geht. Sie stellt Fragen, nicht um zu analysieren, sondern um dich zu stärken.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">03</div>
+                <div>
+                    <h3>Du bekommst Unterstützung.</h3>
+                    <p>Verhandlung, Coaching, Psychologie oder Mediation. Du bekommst kein Standard-Blabla, sondern passgenaue Antworten.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">04</div>
+                <div>
+                    <h3>Alles bleibt im Fluss.</h3>
+                    <p>Es erinnert sich an dein Warum. So entsteht eine Begleitung, die sich echt anfühlt.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="use-cases">
+        <div class="container reveal">
+            <h2 style="text-align: center; margin-bottom: 60px;">Peaceflow in Action</h2>
+            <div class="case-grid">
+                
+                <div class="case-card">
+                    <span class="case-tag">Team & Leadership</span>
+                    <h3>Julia, 37</h3>
+                    <p><strong>Situation:</strong> Ein Mitarbeiter blockiert, Stimmung kippt. Julia will nicht eskalieren.</p>
+                    <p style="margin-top: 15px;"><strong>Mit Peaceflow:</strong> Sie simuliert das Gespräch vorab. Am nächsten Tag ist sie souverän, die Spannung löst sich.</p>
+                </div>
+
+                <div class="case-card">
+                    <span class="case-tag">Coaching Support</span>
+                    <h3>Malik, 45</h3>
+                    <p><strong>Situation:</strong> Sein Coachee braucht Hilfe, Malik ist unterwegs.</p>
+                    <p style="margin-top: 15px;"><strong>Mit Peaceflow:</strong> Er nutzt es als Zwischenbegleitung. Die nächste Sitzung startet dadurch viel tiefer.</p>
+                </div>
+
+                <div class="case-card">
+                    <span class="case-tag">Corporate HR</span>
+                    <h3>HR-Team International</h3>
+                    <p><strong>Situation:</strong> Nach Burnout-Vorfall ist das Team verunsichert.</p>
+                    <p style="margin-top: 15px;"><strong>Mit Peaceflow:</strong> Präventives Angebot für alle. Anonyme Reflexion verbessert das Betriebsklima spürbar.</p>
+                </div>
+
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="#cta" class="btn btn-secondary">Praxisbeispiele entdecken</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials">
+        <div class="container reveal quote-slider">
+            <div class="quote-text">„Ich hätte nicht gedacht, dass ein digitales Gespräch so menschlich sein kann.“</div>
+            <div class="quote-author">– Nutzer:in nach einem Familiengespräch</div>
+            <br><br>
+            <div class="quote-text">„Ich hab mich zum ersten Mal bei einer KI nicht klein gefühlt – sondern ernst genommen.“</div>
+            <div class="quote-author">– Nutzer:in mit mentaler Belastung</div>
+        </div>
+    </section>
+
+    <section id="cta">
+        <div class="container reveal">
+            <h2>Bereit, Konflikt neu zu erleben?</h2>
+            <p style="color: #aaa;">Peaceflow ist bereit für dich. Nicht perfekt. Aber bereit.</p>
+            
+            <div class="cta-options">
+                <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; text-align: center;">
+                    <h3>Privatpersonen</h3>
+                    <p style="font-size: 0.9rem; margin-bottom: 20px;">Ich möchte Peaceflow erleben.</p>
+                    <a href="#" class="btn">Jetzt starten</a>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; text-align: center;">
+                    <h3>Experten</h3>
+                    <p style="font-size: 0.9rem; margin-bottom: 20px;">Ich will Peaceflow kennenlernen.</p>
+                    <a href="#" class="btn btn-secondary" style="color: white; border-color: white;">Demo buchen</a>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; text-align: center;">
+                    <h3>Unternehmen</h3>
+                    <p style="font-size: 0.9rem; margin-bottom: 20px;">Lösungen für Zusammenarbeit.</p>
+                    <a href="#" class="btn btn-secondary" style="color: white; border-color: white;">Kontakt</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <h3 style="color: white; font-size: 1.2rem;">Peaceflow & AICT Group</h3>
+            <p style="max-width: 600px; margin: 0 auto; color: #666;">
+                Teil einer größeren Bewegung. Für eine Welt, in der Konflikte transformiert werden.
+                Amplified Intelligence for Conflict Transformation.
+            </p>
+            <br>
+            <a href="#">Mehr über die AICT Group erfahren</a>
+            <br><br>
+            <p style="font-size: 0.7rem;">&copy; 2025 peaceflow. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Einfacher Scroll-Reveal Effekt
+        window.addEventListener('scroll', reveal);
+
+        function reveal(){
+            var reveals = document.querySelectorAll('.reveal');
+
+            for(var i = 0; i < reveals.length; i++){
+                var windowheight = window.innerHeight;
+                var revealtop = reveals[i].getBoundingClientRect().top;
+                var revealpoint = 150;
+
+                if(revealtop < windowheight - revealpoint){
+                    reveals[i].classList.add('active');
+                }
+                else{
+                    reveals[i].classList.remove('active');
+                }
+            }
+        }
+        
+        // Initiale Prüfung beim Laden
+        reveal();
+    </script>
+</body>
+</html>
