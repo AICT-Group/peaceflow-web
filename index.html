@@ -64,6 +64,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.04);
         }
 
+        /* Safeguard: keep card geometry stable (before micro-outline rollout) */
+        .painpoint-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            text-align: left;
+        }
+
+        .feature-item {
+            padding: 30px;
+            border-radius: var(--border-radius);
+            background: rgba(255,255,255,0.7);
+        }
+
+        .case-card {
+            padding: 50px;
+            border-radius: var(--border-radius);
+            background: rgba(255,255,255,0.95);
+            text-align: left;
+        }
+
         .qr-card {
             display: inline-flex;
             align-items: center;
@@ -179,8 +200,16 @@
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(15px);
             z-index: 1000;
-            transition: all 0.3s ease;
+            transition: transform 0.35s ease, opacity 0.25s ease;
+            will-change: transform;
             border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Nav hide-on-scroll */
+        nav.nav-hidden {
+            transform: translateY(-110%);
+            opacity: 0;
+        }
         }
 
         .logo {
@@ -397,11 +426,7 @@
             margin-top: 60px;
         }
 
-        .painpoint-card {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        .painpoint-card {$1box-shadow: 0 10px 30px rgba(0,0,0,0.04);
             transition: transform 0.3s;
             text-align: left;
         }
@@ -633,29 +658,39 @@
             text-align: left;
         }
 
+        /* Footer line should feel like body copy, not headline */
         .footer-bottom .copyright {
             font-size: 0.9rem;
-            color: #666;
-            font-family: var(--font-headline);
-            font-weight: 700;
-            text-transform: lowercase;
-            letter-spacing: 1px;
+            color: var(--color-text-dark);
+            font-family: var(--font-body);
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
         }
 
         .footer-bottom .legal-links {
             display: inline-flex;
-            gap: 18px;
+            gap: 10px;
             flex-wrap: wrap;
             align-items: center;
+            font-family: var(--font-body);
+            font-weight: 400;
+            letter-spacing: 0;
         }
 
         .footer-bottom .legal-links a {
             font-size: 0.9rem;
-            font-family: var(--font-headline);
-            font-weight: 700;
-            text-transform: lowercase;
-            letter-spacing: 1px;
+            font-family: var(--font-body);
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
             color: var(--color-text-dark);
+        }
+
+        .footer-bottom .legal-sep {
+            color: rgba(0,0,0,0.35);
+            font-family: var(--font-body);
+            font-weight: 400;
         }
 
         @media (max-width: 640px) {
@@ -754,9 +789,9 @@
         </button>
 
         <div class="nav-links" id="navLinks">
-            <a href="#how-it-works">wie funktioniert´s</a>
-            <a href="#use-cases">use cases</a>
-            <a href="#solution">lösungen</a>
+            <a href="#how-it-works">so läuft´s</a>
+            <a href="#use-cases">beispiele</a>
+            <a href="#solution">warum peaceflow</a>
             <a href="#cta" class="btn">starten</a>
         </div>
     </nav>
@@ -794,15 +829,15 @@
             <p class="section-intro">Konflikt ist kein Fehler, sondern ein Signal: Da sind Bedürfnisse, Muster und ein Potenzial, das sich zeigen will.</p>
 
             <div class="painpoint-grid">
-                <div class="painpoint-card">
+                <div class="painpoint-card micro-outline">
                     <h3>das problem</h3>
                     <p>Wer begleitet dich, wenn du zwischen „Ich sag’s jetzt einfach!“ und „Ich sollte es runterschlucken“ schwankst?</p>
                 </div>
-                <div class="painpoint-card" style="border: 2px solid var(--color-primary-yellow);">
+                <div class="painpoint-card micro-outline" style="border: 2px solid var(--color-primary-yellow);">
                     <h3>die perspektive</h3>
                     <p>Was, wenn Konflikte kein Fehler sind, sondern ein Zeichen, dass etwas <span class="highlight-yellow" style="font-weight: bold;">wachsen will</span>?</p>
                 </div>
-                <div class="painpoint-card">
+                <div class="painpoint-card micro-outline">
                     <h3>die lösung</h3>
                     <p>Peaceflow hilft dir, den nächsten Schritt zu finden. Da steckt mehr drin, als du allein gerade siehst.</p>
                 </div>
@@ -816,17 +851,17 @@
             <p class="section-intro">Dein digitaler Sparringspartner, wenn du mitten im Konflikt steckst, ein Gespräch vorbereitest oder dich selbst besser verstehen willst.</p>
 
             <div class="feature-grid">
-                <div class="feature-item">
+                <div class="feature-item micro-outline">
                     <div class="feature-icon">👂</div>
                     <h3>es hört zu.</h3>
                     <p>Peaceflow merkt sich, worum es dir geht. Fragt nach. Erkennt Muster. Es ist dein ruhiger Raum, der immer offensteht.</p>
                 </div>
-                <div class="feature-item">
+                <div class="feature-item micro-outline">
                     <div class="feature-icon">🔗</div>
                     <h3>es verbindet.</h3>
                     <p>Ob mentale Klarheit oder Strategie: Peaceflow bringt dich zur passenden Unterstützung - von Coaching über Mediation bis Psychologie.</p>
                 </div>
-                <div class="feature-item">
+                <div class="feature-item micro-outline">
                     <div class="feature-icon">🤝</div>
                     <h3>es begleitet.</h3>
                     <p>Auch zwischen den Sitzungen. Peaceflow kann ergänzen, vertiefen und vorbereiten - auch wenn dein Coach gerade Feierabend hat.</p>
@@ -886,21 +921,21 @@
             <h2 style="text-align: center; margin-bottom: 60px;">peaceflow <span class="highlight-outline">in action</span><span class="headline-dot">.</span></h2>
 
             <div class="case-grid">
-                <div class="case-card">
+                <div class="case-card micro-outline">
                     <span class="case-tag">team & leadership</span>
                     <h3>julia, 37</h3>
                     <p><strong>Situation:</strong> Ein Mitarbeiter blockiert, Stimmung kippt. Julia will nicht eskalieren.</p>
                     <p style="margin-top: 15px;"><strong>Mit Peaceflow:</strong> Sie simuliert das Gespräch vorab. Am nächsten Tag ist sie souverän, die Spannung löst sich.</p>
                 </div>
 
-                <div class="case-card">
+                <div class="case-card micro-outline">
                     <span class="case-tag">coaching support</span>
                     <h3>malik, 45</h3>
                     <p><strong>Situation:</strong> Sein Coachee braucht Hilfe, Malik ist unterwegs.</p>
                     <p style="margin-top: 15px;"><strong>Mit Peaceflow:</strong> Er nutzt es als Zwischenbegleitung. Die nächste Sitzung startet dadurch viel tiefer.</p>
                 </div>
 
-                <div class="case-card">
+                <div class="case-card micro-outline">
                     <span class="case-tag">corporate hr</span>
                     <h3>hr-team international</h3>
                     <p><strong>Situation:</strong> Nach Burnout-Vorfall ist das Team verunsichert.</p>
@@ -961,6 +996,25 @@
         </div>
     </section>
 
+    <section id="partners" style="padding-top: 70px; padding-bottom: 40px;">
+        <div class="container reveal text-center">
+            <div class="qr-card micro-outline" style="justify-content: center; margin: 0 auto 22px;">
+                <span class="qr-dot"></span>
+                <span style="font-family: var(--font-headline); font-weight: 700; text-transform: lowercase; letter-spacing: 1px;">supported by<span class="headline-dot">.</span></span>
+            </div>
+
+            <p class="section-intro" style="max-width: 920px;">Peaceflow entsteht nicht allein. Partner helfen uns, Technologie, Forschung und Praxis in echten Situationen zusammenzubringen.</p>
+
+            <div class="micro-outline" style="margin: 26px auto 0; max-width: 980px; padding: 26px; border-radius: var(--border-radius); background: rgba(255,255,255,0.75);">
+                <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: center;">
+                    <div style="height: 56px; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(0,0,0,0.18); border-radius: 14px; color: rgba(0,0,0,0.45);">logo 1</div>
+                    <div style="height: 56px; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(0,0,0,0.18); border-radius: 14px; color: rgba(0,0,0,0.45);">logo 2</div>
+                    <div style="height: 56px; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(0,0,0,0.18); border-radius: 14px; color: rgba(0,0,0,0.45);">logo 3</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer>
         <div class="container">
             <img src="AICT_Logo_4C.png" alt="AICT Group Logo" style="max-width: 450px; margin-bottom: 20px; display: inline-block;">
@@ -977,11 +1031,12 @@
 
             <div class="footer-bottom">
 
-                <div class="copyright">&copy; 2025 peaceflow. all rights reserved.</div>
+                <div class="copyright">(c) 2026 AICT Group</div>
 
                 <div class="legal-links">
-                    <a href="#" aria-label="impressum">impressum</a>
-                    <a href="#" aria-label="nutzungsbedingungen">nutzungsbedingungen</a>
+                    <a href="#" aria-label="impressum">Impressum</a>
+                    <span class="legal-sep">|</span>
+                    <a href="#" aria-label="nutzungsbedingungen">Nutzungsbedingungen</a>
                 </div>
 
             </div>
@@ -1068,6 +1123,30 @@
             window.addEventListener('resize', update);
             update();
         })();
+    </script>
+
+    <script>
+    /* Nav show/hide on scroll (reversible) */
+    (function () {
+        const nav = document.querySelector('nav');
+        if (!nav) return;
+
+        let lastY = window.scrollY;
+        const threshold = 12; // deadzone
+
+        window.addEventListener('scroll', () => {
+            const currentY = window.scrollY;
+            const delta = currentY - lastY;
+            if (Math.abs(delta) < threshold) return;
+
+            if (delta > 0 && currentY > 120) {
+                nav.classList.add('nav-hidden');
+            } else {
+                nav.classList.remove('nav-hidden');
+            }
+            lastY = currentY;
+        }, { passive: true });
+    })();
     </script>
 
 </body>
