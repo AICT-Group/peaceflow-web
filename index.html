@@ -58,6 +58,31 @@
         .mb-0 { margin-bottom: 0; }
         .muted { color: #bbb; }
 
+        /* Print harmony: consistent micro-outline + QR card look */
+        .micro-outline {
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+        }
+
+        .qr-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.10);
+            backdrop-filter: blur(8px);
+        }
+
+        .qr-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            background: var(--color-primary-yellow);
+            display: inline-block;
+        }
+
         /* Fix: Prevent ugly line breaks like a single "als" on its own */
         .nowrap { white-space: nowrap; }
 
@@ -191,14 +216,11 @@
         }
 
         .nav-links a:hover { color: var(--color-primary-teal); }
-        .nav-links a.btn:hover { color: #ffffff; }
-	.nav-links a.btn {
-	    color: #ffffff;
-	}
+        .nav-links a.btn {
+            color: #ffffff;
+        }
 
-	.nav-links a.btn:hover {
-	    color: #ffffff;
-	}
+        .nav-links a.btn:hover { color: #ffffff; }
 
         .nav-toggle {
             display: none;
@@ -597,6 +619,48 @@
         }
 
         footer a { color: var(--color-primary-yellow); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        .footer-bottom {
+            margin-top: 28px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            text-align: left;
+        }
+
+        .footer-bottom .copyright {
+            font-size: 0.9rem;
+            color: #666;
+            font-family: var(--font-headline);
+            font-weight: 700;
+            text-transform: lowercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-bottom .legal-links {
+            display: inline-flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .footer-bottom .legal-links a {
+            font-size: 0.9rem;
+            font-family: var(--font-headline);
+            font-weight: 700;
+            text-transform: lowercase;
+            letter-spacing: 1px;
+            color: var(--color-text-dark);
+        }
+
+        @media (max-width: 640px) {
+            .footer-bottom { justify-content: flex-start; }
+        }
 
         /* ANIMATIONS */
         .reveal {
@@ -698,6 +762,9 @@
     </nav>
 
     <section id="hero">
+        
+        
+
         <div class="container reveal">
             <div class="hero-grid">
                 <div class="hero-copy">
@@ -723,8 +790,8 @@
 
     <section id="painpoints">
         <div class="container reveal">
-            <h2>konflikte sind <span class="highlight-outline">komplex</span><span class="headline-dot">.</span></h2>
-            <p class="section-intro">Frust? Überlastung? Sackgasse? Ob im Team,<br>in der Partnerschaft oder mit dir selbst.</p>
+            <h2>conflict is not a <span class="highlight-outline">failure</span><span class="headline-dot">.</span></h2>
+            <p class="section-intro">Konflikt ist kein Fehler, sondern ein Signal: Da sind Bedürfnisse, Muster und ein Potenzial, das sich zeigen will.</p>
 
             <div class="painpoint-grid">
                 <div class="painpoint-card">
@@ -847,7 +914,15 @@
         </div>
     </section>
 
-    <section id="testimonials">
+    <section id="testimonials" style="padding-top: 90px;">
+        
+        <div class="container reveal text-center" style="margin-bottom: 30px;">
+            <div class="qr-card micro-outline" aria-hidden="true">
+                <span class="qr-dot"></span>
+                <span style="font-family: var(--font-headline); font-weight: 700; text-transform: lowercase; letter-spacing: 1px;">real voices. real shifts<span class="headline-dot">.</span></span>
+            </div>
+        </div>
+
         <div class="container reveal quote-slider">
             <div class="quote-text">„ich hätte nicht gedacht, dass ein digitales gespräch so menschlich sein kann.“</div>
             <div class="quote-author">- Nutzer:in nach einem Familiengespräch</div>
@@ -889,26 +964,27 @@
     <footer>
         <div class="container">
             <img src="AICT_Logo_4C.png" alt="AICT Group Logo" style="max-width: 450px; margin-bottom: 20px; display: inline-block;">
-           <p style="max-width: 600px; margin: 0 auto; color: var(--color-text-dark);">
-                Peaceflow ist Teil einer größeren Bewegung. Für eine Welt, in der Konflikte transformiert werden.
-                Amplified Intelligence for Conflict Transformation.
+
+            <p style="max-width: 640px; margin: 0 auto; color: var(--color-text-dark);">
+                Peaceflow ist Teil einer größeren Bewegung. Wir bauen ein Ecosystem, das Technologie, menschliche Expertise und Forschung zusammenbringt - damit Konflikte verstanden werden und sich transformieren können. Amplified Intelligence for Conflict Transformation.
             </p>
 
             <div style="height: 16px;"></div>
 
-            <a
-  href="https://aict.group"
-  target="_blank"
-  rel="noopener noreferrer"
-  style="font-size: 1rem; font-family: var(--font-headline);"
->
-  Mehr über die AICT Group erfahren
-</a>
-
+            <a href="https://aict.group" target="_blank" rel="noopener noreferrer" style="font-size: 1rem; font-family: var(--font-headline); font-weight: 700; text-transform: lowercase; letter-spacing: 1px;">Mehr über die AICT Group erfahren</a>
 
             <div style="height: 16px;"></div>
 
-            <p style="font-size: 0.7rem; color: #999;">&copy; 2025 peaceflow. All rights reserved.</p>
+            <div class="footer-bottom">
+
+                <div class="copyright">&copy; 2025 peaceflow. all rights reserved.</div>
+
+                <div class="legal-links">
+                    <a href="#" aria-label="impressum">impressum</a>
+                    <a href="#" aria-label="nutzungsbedingungen">nutzungsbedingungen</a>
+                </div>
+
+            </div>
         </div>
     </footer>
 
