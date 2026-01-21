@@ -56,10 +56,10 @@
         .mt-40 { margin-top: 40px; }
         .mt-80 { margin-top: 80px; }
         .mb-0 { margin-bottom: 0; }
-
-        .nowrap { white-space: nowrap; }
-
         .muted { color: #bbb; }
+
+        /* Fix: Prevent ugly line breaks like a single "als" on its own */
+        .nowrap { white-space: nowrap; }
 
         .bg-fixed {
             position: fixed;
@@ -175,6 +175,7 @@
             display: flex;
             gap: 40px;
             align-items: center;
+            z-index: 1001; /* Fix: keep above nav background */
         }
 
         .nav-links a {
@@ -186,19 +187,41 @@
             text-transform: lowercase;
             letter-spacing: 1px;
             transition: color 0.3s;
+            white-space: nowrap;
         }
 
-        .nav-links a:hover {
-            color: var(--color-primary-teal);
-        }
+        .nav-links a:hover { color: var(--color-primary-teal); }
+        .nav-links a.btn:hover { color: #ffffff; }
 
         .nav-toggle {
             display: none;
-            font-size: 2rem;
-            background: none;
-            border: none;
+            width: 46px;
+            height: 42px;
+            background: transparent;
+            border: 1px solid rgba(0,0,0,0.15);
+            border-radius: 10px;
             cursor: pointer;
+            position: relative;
+            z-index: 1002; /* Fix: ensure toggle stays clickable */
         }
+
+        .nav-toggle .bar {
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            height: 2px;
+            background: rgba(0,0,0,0.75);
+            border-radius: 2px;
+            transition: transform 0.25s ease, top 0.25s ease, opacity 0.2s ease;
+        }
+
+        .nav-toggle .bar:nth-child(1) { top: 13px; }
+        .nav-toggle .bar:nth-child(2) { top: 20px; }
+        .nav-toggle .bar:nth-child(3) { top: 27px; }
+
+        .nav-toggle[aria-expanded="true"] .bar:nth-child(1) { top: 20px; transform: rotate(45deg); }
+        .nav-toggle[aria-expanded="true"] .bar:nth-child(2) { opacity: 0; }
+        .nav-toggle[aria-expanded="true"] .bar:nth-child(3) { top: 20px; transform: rotate(-45deg); }
 
         .btn {
             display: inline-block;
@@ -224,19 +247,17 @@
             content: "";
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
+            left: -120%;
+            width: 120%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: left 0.6s ease;
         }
 
-        .btn:hover::after {
-            left: 100%;
-        }
+        .btn:hover::after { left: 120%; }
 
         .btn:hover {
-            transform: scale(1.05);
+            transform: scale(1.02);
             background-color: rgba(80, 80, 80, 0.7);
             border-color: rgba(255,255,255,0.4);
         }
@@ -276,6 +297,7 @@
             margin: 0 auto;
         }
 
+        /* HERO */
         #hero {
             min-height: 100vh;
             text-align: left;
@@ -285,9 +307,9 @@
 
         .hero-grid {
             display: grid;
-            grid-template-columns: 1.25fr 1fr;
+            grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
             gap: 40px;
-            align-items: center;
+            align-items: start;
         }
 
         .hero-copy {
@@ -295,44 +317,44 @@
             margin-top: 50px;
         }
 
-        #hero h1 {
-            text-align: left;
-            margin-bottom: 30px;
-        }
-
-        #hero p {
-            text-align: left;
-            font-size: 1.1rem;
-            color: var(--color-text-dark);
-            max-width: 800px;
-        }
+        #hero h1 { text-align: left; margin-bottom: 30px; }
+        #hero p { text-align: left; font-size: 1.1rem; color: var(--color-text-dark); max-width: 800px; }
 
         .hero-visual {
             position: relative;
-            width: 100%;
             display: flex;
             justify-content: flex-end;
-            align-items: center;
-            min-height: 400px;
+            align-items: flex-start;
+
+            margin-top: 18px;     /* war -20px -> verhindert Abschneiden */
+            padding-top: 10px;    /* kleine Luft nach oben */
+            min-height: 420px;    /* etwas mehr Platz für große Varianten */
+
+            width: 100%;
         }
 
+        /* Früher skalieren + etwas größer starten */
         .hero-visual img {
-            width: 100%;
-            max-width: 600px;
-            border-radius: 25px;
+            width: clamp(420px, 36vw, 720px);
+            height: auto;
+            max-height: clamp(320px, 50vh, 600px);
+            object-fit: cover;
+
+            border-radius: 24px;
             filter: none;
             box-shadow: none;
+            display: block;
         }
 
         .hero-glow {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(0,0,0,0.15), transparent 70%);
-            filter: blur(20px);
+            inset: 12%;
+            background: radial-gradient(circle at 60% 45%, rgba(0,0,0,0.10), transparent 60%);
+            filter: blur(30px);
             z-index: -1;
         }
 
+        /* PAINPOINTS */
         #painpoints {
             background-image: url('Background-Box3_L.jpg');
             background-size: cover;
@@ -355,14 +377,10 @@
             text-align: left;
         }
 
-        .painpoint-card h3 {
-            color: var(--color-primary-teal);
-        }
+        .painpoint-card h3 { color: var(--color-primary-teal); }
+        .painpoint-card:hover { transform: translateY(-10px); }
 
-        .painpoint-card:hover {
-            transform: translateY(-10px);
-        }
-
+        /* SOLUTION */
         #solution {
             text-align: center;
             background-color: rgba(255, 255, 255, 0.6);
@@ -390,6 +408,7 @@
             color: var(--color-primary-yellow);
         }
 
+        /* HOW IT WORKS */
         #how-it-works {
             background-color: rgba(255,255,255,0.8);
         }
@@ -397,7 +416,33 @@
         .steps-wrapper {
             position: relative;
             max-width: 900px;
+            width: 100%;
             margin-top: 40px;
+            padding-left: 40px;
+            --flow-progress: 0%;
+        }
+
+        .steps-wrapper::before {
+            content: "";
+            position: absolute;
+            left: 14px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(0,0,0,0.10);
+            border-radius: 2px;
+        }
+
+        .steps-wrapper::after {
+            content: "";
+            position: absolute;
+            left: 14px;
+            top: 0;
+            height: var(--flow-progress);
+            width: 2px;
+            background: rgba(90,138,149,0.75);
+            border-radius: 2px;
+            transition: height 0.12s linear;
         }
 
         .step {
@@ -419,6 +464,7 @@
             min-width: 60px;
         }
 
+        /* USE CASES */
         #use-cases {
             background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(245,245,247,0.8) 100%);
         }
@@ -443,22 +489,24 @@
         .case-card::after {
             content: "";
             position: absolute;
-            top: -30px;
-            right: -30px;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(0,0,0,0.15), transparent 70%);
+            top: -40px;
+            right: -40px;
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, rgba(0,0,0,0.14), transparent 65%);
             transform: rotate(20deg);
+            pointer-events: none;
         }
 
         .case-card::before {
             content: "";
             position: absolute;
-            bottom: -40px;
-            left: -40px;
-            width: 180px;
-            height: 180px;
-            background: radial-gradient(circle, rgba(0,0,0,0.1), transparent 70%);
+            bottom: -55px;
+            left: -55px;
+            width: 190px;
+            height: 190px;
+            background: radial-gradient(circle, rgba(0,0,0,0.10), transparent 65%);
+            pointer-events: none;
         }
 
         .case-tag {
@@ -472,6 +520,7 @@
             display: block;
         }
 
+        /* TESTIMONIALS */
         .quote-slider {
             max-width: 900px;
             text-align: center;
@@ -492,19 +541,15 @@
             font-size: 0.9rem;
         }
 
+        /* CTA */
         #cta {
             background-color: rgba(0, 0, 0, 0.7);
             color: white;
             text-align: center;
         }
 
-        #cta h2 {
-            color: white;
-        }
-
-        #cta p {
-            color: #ccc;
-        }
+        #cta h2 { color: white; }
+        #cta p { color: #ccc; }
 
         .cta-options {
             display: flex;
@@ -531,10 +576,9 @@
             text-align: center;
         }
 
-        .cta-box p {
-            text-align: center;
-        }
+        .cta-box p { text-align: center; }
 
+        /* FOOTER */
         footer {
             padding: 60px var(--page-pad);
             color: #888;
@@ -545,15 +589,14 @@
             z-index: 2;
         }
 
-        footer a {
-            color: var(--color-primary-yellow);
-            text-decoration: none;
-        }
+        footer a { color: var(--color-primary-yellow); text-decoration: none; }
 
+        /* ANIMATIONS */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.8s ease-out;
+            will-change: transform, opacity;
         }
 
         .reveal.active {
@@ -561,48 +604,66 @@
             transform: translateY(0);
         }
 
-        @media (max-width: 900px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
+        /* RESPONSIVE */
+        @media (max-width: 980px) {
+            nav { padding: 16px 18px; }
+
+            .nav-toggle { display: inline-block; }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: 20px;
+                left: 20px;
+                display: none;
+                flex-direction: column;
+                gap: 18px;
+                padding: 20px;
+                background: rgba(255,255,255,0.92);
+                backdrop-filter: blur(16px);
+                border-radius: 16px;
+                border: 1px solid rgba(0,0,0,0.06);
+                z-index: 1001;
             }
 
-            #hero {
-                align-items: center;
-            }
+            .nav-links.open { display: flex; }
+        }
+
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns: 1fr; gap: 30px; }
+            #hero { align-items: center; }
+
+            .hero-copy { margin-top: 0; }
 
             .hero-visual {
+                margin-top: 0;
+                padding-top: 0;
                 justify-content: center;
+                min-height: 300px;
+            }
+
+            .hero-visual img {
+                width: min(620px, 92vw);
+                max-height: 360px;
+                object-fit: cover;
             }
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .nav-toggle {
-                display: block;
-            }
+            h1 { font-size: 1.8rem; }
 
             .logo-img {
                 height: 70px;
                 transform: translateY(10px);
             }
 
-            .step {
-                flex-direction: column;
-                gap: 15px;
-                margin-bottom: 60px;
-            }
+            .step { flex-direction: column; gap: 15px; margin-bottom: 60px; }
+            .step-number { font-size: 2rem; }
 
-            .step-number {
-                font-size: 2rem;
-            }
+            .steps-wrapper { padding-left: 0; }
+
+            .steps-wrapper::before,
+            .steps-wrapper::after { display: none; }
         }
     </style>
 </head>
@@ -611,13 +672,17 @@
     <div class="bg-fixed"></div>
 
     <nav>
-        <a href="#" class="logo">
+        <a href="#" class="logo" aria-label="peaceflow startseite">
             <img src="Peaceflow_Logo.png" alt="peaceflow" class="logo-img">
         </a>
 
-        <button class="nav-toggle">☰</button>
+        <button class="nav-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
 
-        <div class="nav-links">
+        <div class="nav-links" id="navLinks">
             <a href="#how-it-works">wie funktioniert´s</a>
             <a href="#use-cases">use cases</a>
             <a href="#solution">lösungen</a>
@@ -635,8 +700,14 @@
                     <a href="#cta" class="btn">jetzt ausprobieren</a>
                 </div>
 
-                <div class="hero-visual">
-                    <img src="Chamaeleon.png" alt="Peaceflow Chamäleon">
+                <div class="hero-visual" aria-hidden="true">
+                    <img
+                        src="Chamaeleon.png"
+                        sizes="(max-width: 900px) 92vw, 720px"
+                        alt=""
+                        loading="eager"
+                        decoding="async"
+                    >
                     <div class="hero-glow"></div>
                 </div>
             </div>
@@ -700,7 +771,7 @@
             <h2>wie peaceflow <span class="highlight-outline">funktioniert</span><span class="headline-dot">.</span></h2>
             <p class="section-intro">Du erzählst. Peaceflow versteht. Und begleitet dich Schritt für Schritt.</p>
 
-            <div class="steps-wrapper">
+            <div class="steps-wrapper" id="flowSteps">
                 <div class="step">
                     <div class="step-number">01</div>
                     <div>
@@ -776,7 +847,7 @@
 
             <div style="height: 30px;"></div>
 
-            <div class="quote-text">„ich hab mich zum ersten mal bei einer ki nicht klein gefühlt - sondern ernst genommen.“</div>
+            <div class="quote-text">„ich hab mich zum ersten mal bei einer ki nicht klein gefühlt - sondern ernst genommen."</div>
             <div class="quote-author">- Nutzer:in mit mentaler Belastung</div>
         </div>
     </section>
@@ -828,17 +899,86 @@
     </footer>
 
     <script>
-        const reveals = document.querySelectorAll('.reveal');
+        // Mobile Nav Toggle (robust)
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggle = document.querySelector('.nav-toggle');
+            const links = document.getElementById('navLinks');
+            if (!toggle || !links) return;
 
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                const isOpen = links.classList.toggle('open');
+                toggle.setAttribute('aria-expanded', String(isOpen));
             });
+
+            links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+                links.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+            }));
         });
 
-        reveals.forEach(reveal => observer.observe(reveal));
+        // Reveal Animation via IntersectionObserver (inkl. Reduced Motion)
+        (function () {
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            if (prefersReduced) {
+                document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+                return;
+            }
+
+            const io = new IntersectionObserver((entries, obs) => {
+                for (const e of entries) {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('active');
+                        obs.unobserve(e.target);
+                    }
+                }
+            }, { threshold: 0.12 });
+
+            document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+        })();
+
+        // Flow Progress in "How it works"
+        (function () {
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const steps = document.getElementById('flowSteps');
+            if (!steps || prefersReduced) return;
+
+            let isActive = false;
+
+            const clamp01 = (v) => Math.max(0, Math.min(1, v));
+
+            const update = () => {
+                if (!isActive) return;
+
+                const rect = steps.getBoundingClientRect();
+                const vh = window.innerHeight || document.documentElement.clientHeight;
+
+                const start = vh * 0.85;
+                const end = vh * 0.15;
+
+                const total = (rect.height + (start - end));
+                const progressed = (start - rect.top);
+
+                const p = clamp01(progressed / total);
+                steps.style.setProperty('--flow-progress', (p * 100).toFixed(2) + '%');
+            };
+
+            const io = new IntersectionObserver((entries) => {
+                for (const e of entries) {
+                    if (e.target !== steps) continue;
+                    isActive = e.isIntersecting;
+                    if (isActive) update();
+                }
+            }, { threshold: 0.05 });
+
+            io.observe(steps);
+
+            window.addEventListener('scroll', update, { passive: true });
+            window.addEventListener('resize', update);
+            update();
+        })();
     </script>
+
 </body>
 </html>
