@@ -671,6 +671,66 @@
             .footer-bottom { justify-content: flex-start; }
         }
 
+        /* PARTNERS */
+        #partners {
+            padding-top: 70px;
+            padding-bottom: 40px;
+            text-align: center;
+        }
+
+        /* Make supported-by look identical in logic to the real-voices badge */
+        .partners-badge {
+            justify-content: center;
+            margin: 0 auto 22px;
+            padding: 14px 22px;
+        }
+
+        .partners-badge-text {
+            font-family: var(--font-headline);
+            font-weight: 700;
+            text-transform: lowercase;
+            letter-spacing: 1px;
+            color: var(--color-text-dark);
+        }
+
+        /* Force 3 logos in one row on desktop */
+        #partners .partners-logos {
+            margin: 26px auto 0;
+            max-width: 980px;
+            padding: 26px;
+            border-radius: var(--border-radius);
+            background: rgba(255,255,255,0.75);
+
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            justify-content: center;
+            align-items: center;
+            column-gap: 56px;
+            row-gap: 18px;
+        }
+
+        #partners .partners-logos a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Scale to ~50% while keeping layout stable (no transform-based wrapping issues) */
+        #partners .partners-logos img {
+            height: 44px;
+            width: auto;
+            max-width: none;
+            max-height: none;
+            display: block;
+        }
+
+        @media (max-width: 820px) {
+            #partners .partners-logos {
+                grid-template-columns: 1fr;
+                row-gap: 18px;
+            }
+        }
+
         /* ANIMATIONS */
         .reveal {
             opacity: 0;
@@ -766,7 +826,7 @@
             <a href="#how-it-works">so läuft´s</a>
             <a href="#use-cases">beispiele</a>
             <a href="#solution">warum peaceflow</a>
-            <a href="login.html" class="btn">login</a>
+            <a href="https://app.peaceflow.ai" target="_blank" rel="noopener noreferrer" class="btn nav-cta">login</a>
         </div>
     </nav>
 
@@ -948,7 +1008,7 @@
                 <div class="cta-box">
                     <h3>privatpersonen</h3>
                     <p style="margin-bottom: 20px;">Ich möchte Peaceflow erleben.</p>
-                    <a href="#" class="btn">jetzt starten</a>
+                    <a href="https://app.peaceflow.ai" target="_blank" rel="noopener noreferrer" class="btn">jetzt starten</a>
                 </div>
 
                 <div class="cta-box">
@@ -966,21 +1026,25 @@
         </div>
     </section>
 
-    <section id="partners" style="padding-top: 70px; padding-bottom: 40px;">
+    <section id="partners">
         <div class="container reveal text-center">
-            <div class="qr-card micro-outline" style="justify-content: center; margin: 0 auto 22px;">
+            <div class="qr-card micro-outline partners-badge" aria-hidden="true">
                 <span class="qr-dot"></span>
-                <span style="font-family: var(--font-headline); font-weight: 700; text-transform: lowercase; letter-spacing: 1px;">supported by</span>
+                <span class="partners-badge-text">supported by</span>
             </div>
 
             <p class="section-intro" style="max-width: 920px;">Peaceflow entsteht nicht allein. Partner helfen uns, Technologie, Forschung und Praxis in echten Situationen zusammenzubringen.</p>
 
-            <div class="micro-outline" style="margin: 26px auto 0; max-width: 980px; padding: 26px; border-radius: var(--border-radius); background: rgba(255,255,255,0.75);">
-                <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: center;">
-                    <div style="height: 56px; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(0,0,0,0.18); border-radius: 14px; color: rgba(0,0,0,0.45);">logo 1</div>
-                    <div style="height: 56px; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(0,0,0,0.18); border-radius: 14px; color: rgba(0,0,0,0.45);">logo 2</div>
-                    <div style="height: 56px; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(0,0,0,0.18); border-radius: 14px; color: rgba(0,0,0,0.45);">logo 3</div>
-                </div>
+            <div class="partners-logos micro-outline" aria-label="partner logos">
+                <a href="https://dentalyst.de" target="_blank" rel="noopener noreferrer">
+                    <img src="dentalyst.png" alt="Dentalyst">
+                </a>
+                <a href="https://www.garten.ai" target="_blank" rel="noopener noreferrer">
+                    <img src="garten.png" alt="Garten AI">
+                </a>
+                <a href="https://degeler.consulting" target="_blank" rel="noopener noreferrer">
+                    <img src="dc.png" alt="Degeler Consulting">
+                </a>
             </div>
         </div>
     </section>
