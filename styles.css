@@ -705,10 +705,12 @@ footer a:hover { text-decoration: underline; }
 #partners .partners-logos img {
     height: 44px;
     width: auto;
-    max-width: none;
-    max-height: none;
-    display: block;
 }
+
+#partners .partners-logos img.logo-tall {
+    height: 52px;
+}
+
 
 @media (max-width: 820px) {
     #partners .partners-logos {
@@ -905,13 +907,4 @@ button:focus-visible {
   border-radius: 20px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
   padding: clamp(24px, 4vw, 48px);
-}
-
-.partner-logo {
-  height: 40px;
-  width: auto;
-}
-
-.partner-logo.logo-tall {
-  height: 52px;
 }
