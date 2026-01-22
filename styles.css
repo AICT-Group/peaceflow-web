@@ -708,7 +708,7 @@ footer a:hover { text-decoration: underline; }
 }
 
 #partners .partners-logos img.logo-tall {
-    height: 90px !important;
+    height: 90px;
 }
 
 
