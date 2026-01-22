@@ -70,6 +70,7 @@
             padding: 40px;
             border-radius: var(--border-radius);
             text-align: left;
+            transition: transform 0.3s;
         }
 
         .feature-item {
@@ -210,7 +211,6 @@
             transform: translateY(-110%);
             opacity: 0;
         }
-        }
 
         .logo {
             display: inline-flex;
@@ -245,10 +245,7 @@
         }
 
         .nav-links a:hover { color: var(--color-primary-teal); }
-        .nav-links a.btn {
-            color: #ffffff;
-        }
-
+        .nav-links a.btn { color: #ffffff; }
         .nav-links a.btn:hover { color: #ffffff; }
 
         .nav-toggle {
@@ -384,14 +381,13 @@
             justify-content: flex-end;
             align-items: flex-start;
 
-            margin-top: 18px;     /* war -20px -> verhindert Abschneiden */
-            padding-top: 10px;    /* kleine Luft nach oben */
-            min-height: 420px;    /* etwas mehr Platz für große Varianten */
+            margin-top: 18px;
+            padding-top: 10px;
+            min-height: 420px;
 
             width: 100%;
         }
 
-        /* Früher skalieren + etwas größer starten */
         .hero-visual img {
             width: clamp(420px, 36vw, 720px);
             height: auto;
@@ -424,11 +420,6 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 40px;
             margin-top: 60px;
-        }
-
-        .painpoint-card {$1box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            transition: transform 0.3s;
-            text-align: left;
         }
 
         .painpoint-card h3 { color: var(--color-primary-teal); }
@@ -520,7 +511,7 @@
 
         /* USE CASES */
         #use-cases {
-            background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(245,245,247,0.8) 100%);
+            background: rgba(255,255,255,0.9);
         }
 
         .case-grid {
@@ -540,27 +531,11 @@
             text-align: left;
         }
 
-        .case-card::after {
-            content: "";
-            position: absolute;
-            top: -40px;
-            right: -40px;
-            width: 160px;
-            height: 160px;
-            background: radial-gradient(circle, rgba(0,0,0,0.14), transparent 65%);
-            transform: rotate(20deg);
-            pointer-events: none;
-        }
-
+        /* Remove decorative blobs in use-case cards (keep clean white background) */
+        .case-card::after,
         .case-card::before {
-            content: "";
-            position: absolute;
-            bottom: -55px;
-            left: -55px;
-            width: 190px;
-            height: 190px;
-            background: radial-gradient(circle, rgba(0,0,0,0.10), transparent 65%);
-            pointer-events: none;
+            content: none;
+            display: none;
         }
 
         .case-tag {
@@ -658,7 +633,6 @@
             text-align: left;
         }
 
-        /* Footer line should feel like body copy, not headline */
         .footer-bottom .copyright {
             font-size: 0.9rem;
             color: var(--color-text-dark);
@@ -792,19 +766,16 @@
             <a href="#how-it-works">so läuft´s</a>
             <a href="#use-cases">beispiele</a>
             <a href="#solution">warum peaceflow</a>
-            <a href="#cta" class="btn">starten</a>
+            <a href="login.html" class="btn">login</a>
         </div>
     </nav>
 
     <section id="hero">
-        
-        
-
         <div class="container reveal">
             <div class="hero-grid">
                 <div class="hero-copy">
                     <h1>manche situationen<br>brauchen <span class="nowrap">mehr als</span><br><span class="highlight-outline">gute absichten</span><span class="headline-dot">.</span></h1>
-                    <p>Peaceflow ist dein smarter Begleiter - für Gespräche, die verbinden, statt zu trennen. Wann immer du ihn brauchst. Wo immer du gerade stehst.</p>
+                    <p>Peaceflow ist dein smarter Begleiter. Für Gespräche, die verbinden, statt zu trennen. Wann immer du ihn brauchst. Wo immer du gerade stehst.</p>
                     <p class="text-strong">Stell dir vor: Klarheit, wo Chaos war. Verbindung, wo Spannung war.</p>
                     <a href="#cta" class="btn">jetzt ausprobieren</a>
                 </div>
@@ -835,7 +806,7 @@
                 </div>
                 <div class="painpoint-card micro-outline" style="border: 2px solid var(--color-primary-yellow);">
                     <h3>die perspektive</h3>
-                    <p>Was, wenn Konflikte kein Fehler sind, sondern ein Zeichen, dass etwas <span class="highlight-yellow" style="font-weight: bold;">wachsen will</span>?</p>
+                    <p>Was, wenn Konflikte kein Fehler sind, sondern ein Zeichen, dass etwas <span style="font-weight: bold; color: var(--color-text-dark);">wachsen will</span>?</p>
                 </div>
                 <div class="painpoint-card micro-outline">
                     <h3>die lösung</h3>
@@ -859,18 +830,18 @@
                 <div class="feature-item micro-outline">
                     <div class="feature-icon">🔗</div>
                     <h3>es verbindet.</h3>
-                    <p>Ob mentale Klarheit oder Strategie: Peaceflow bringt dich zur passenden Unterstützung - von Coaching über Mediation bis Psychologie.</p>
+                    <p>Ob mentale Klarheit oder Strategie: Peaceflow bringt dich zur passenden Unterstützung ... von Coaching über Mediation bis Psychologie.</p>
                 </div>
                 <div class="feature-item micro-outline">
                     <div class="feature-icon">🤝</div>
                     <h3>es begleitet.</h3>
-                    <p>Auch zwischen den Sitzungen. Peaceflow kann ergänzen, vertiefen und vorbereiten - auch wenn dein Coach gerade Feierabend hat.</p>
+                    <p>Auch zwischen den Sitzungen. Peaceflow kann ergänzen, vertiefen und vorbereiten ... auch wenn dein Coach gerade Feierabend hat.</p>
                 </div>
             </div>
 
             <div class="mt-80 text-center">
                 <h3 class="text-center">führungskraft oder hr?</h3>
-                <p class="section-intro">Peaceflow hilft, Krisen zu entschärfen, bevor sie Flächenbrände werden. Kein Ersatz für Profis - sondern ihr digitaler Kollege.</p>
+                <p class="section-intro">Peaceflow hilft, Krisen zu entschärfen, bevor sie Flächenbrände werden. Und zeigt Mitarbeitenden, dass ihr Wohlbefinden mehr ist als nur Theorie. Preaceflow ist keine Konkurrenz für Profis, sondern ihr digitaler Kollege. Ihr Backup. Ihr ruhiger Raum, der immer offensteht.</p>
             </div>
         </div>
     </section>
@@ -885,15 +856,15 @@
                     <div class="step-number">01</div>
                     <div>
                         <h3>du startest das gespräch.</h3>
-                        <p>Du beschreibst, was dich beschäftigt. Klar, emotional oder chaotisch. Peaceflow hört zu und bleibt dran.</p>
+                        <p>Du beschreibst, was dich beschäftigt. So, wie du es eben gerade kannst. Klar, emotional, chaotisch oder leise zweifelnd. Peaceflow hört zu. Fragt nach. Und bleibt dran ... auch wenn du den Faden verlierst</p>
                     </div>
                 </div>
 
                 <div class="step">
                     <div class="step-number">02</div>
                     <div>
-                        <h3>peaceflow sortiert.</h3>
-                        <p>Die KI erkennt, worum es dir wirklich geht. Sie stellt Fragen, nicht um zu analysieren, sondern um dich zu stärken.</p>
+                        <h3>peaceflow sortiert, was wichtig ist</h3>
+                        <p>Erkennt, worum es dir wirklich geht. Sie stellt dir Fragen, hilft dir, Gedanken zu strukturieren. Nicht um dich zu analysieren, sondern um dich zu stärken.</p>
                     </div>
                 </div>
 
@@ -901,7 +872,7 @@
                     <div class="step-number">03</div>
                     <div>
                         <h3>du bekommst unterstützung.</h3>
-                        <p>Verhandlung, Coaching, Psychologie oder Mediation. Du bekommst kein Standard-Blabla, sondern passgenaue Antworten.</p>
+                        <p>Peaceflow verbindet dich mit einem spezialisierten digitalen Begleiter. Verhandlung, Coaching, Psychologie oder Mediation. Du bekommst kein Standard-Blabla. Sondern Antworten, die sich anfühlen wie: "Ja, genau das meinte ich"</p>
                     </div>
                 </div>
 
@@ -909,7 +880,7 @@
                     <div class="step-number">04</div>
                     <div>
                         <h3>alles bleibt im fluss.</h3>
-                        <p>Es erinnert sich an dein Warum. So entsteht eine Begleitung, die sich echt anfühlt.</p>
+                        <p>Peaceflow merkt sich eure Gespräche, erinnert sich an dein Warum. Es schließt an, wenn du zurück kommst. So entsteht eine Begleitung, die sich echt anfühlt.</p>
                     </div>
                 </div>
             </div>
@@ -950,11 +921,10 @@
     </section>
 
     <section id="testimonials" style="padding-top: 90px;">
-        
         <div class="container reveal text-center" style="margin-bottom: 30px;">
             <div class="qr-card micro-outline" aria-hidden="true">
                 <span class="qr-dot"></span>
-                <span style="font-family: var(--font-headline); font-weight: 700; text-transform: lowercase; letter-spacing: 1px;">real voices. real shifts<span class="headline-dot">.</span></span>
+                <span style="font-family: var(--font-headline); font-weight: 700; text-transform: lowercase; letter-spacing: 1px;">real voices. real shifts</span>
             </div>
         </div>
 
@@ -964,7 +934,7 @@
 
             <div style="height: 30px;"></div>
 
-            <div class="quote-text">„ich hab mich zum ersten mal bei einer ki nicht klein gefühlt - sondern ernst genommen."</div>
+            <div class="quote-text">„ich hab mich zum ersten mal bei einer ki nicht klein gefühlt, sondern ernst genommen."</div>
             <div class="quote-author">- Nutzer:in mit mentaler Belastung</div>
         </div>
     </section>
@@ -984,13 +954,13 @@
                 <div class="cta-box">
                     <h3>experten</h3>
                     <p style="margin-bottom: 20px;">Ich will Peaceflow kennenlernen.</p>
-                    <a href="#" class="btn btn-secondary">demo buchen</a>
+                    <a href="mailto:office@aict.group?subject=Peaceflow%20Demo%20anfragen" class="btn btn-secondary">demo buchen</a>
                 </div>
 
                 <div class="cta-box">
                     <h3>unternehmen</h3>
                     <p style="margin-bottom: 20px;">Lösungen für Zusammenarbeit.</p>
-                    <a href="#" class="btn btn-secondary">kontakt</a>
+                    <a href="mailto:office@aict.group?subject=Peaceflow%20Kontakt" class="btn btn-secondary">kontakt</a>
                 </div>
             </div>
         </div>
@@ -1000,7 +970,7 @@
         <div class="container reveal text-center">
             <div class="qr-card micro-outline" style="justify-content: center; margin: 0 auto 22px;">
                 <span class="qr-dot"></span>
-                <span style="font-family: var(--font-headline); font-weight: 700; text-transform: lowercase; letter-spacing: 1px;">supported by<span class="headline-dot">.</span></span>
+                <span style="font-family: var(--font-headline); font-weight: 700; text-transform: lowercase; letter-spacing: 1px;">supported by</span>
             </div>
 
             <p class="section-intro" style="max-width: 920px;">Peaceflow entsteht nicht allein. Partner helfen uns, Technologie, Forschung und Praxis in echten Situationen zusammenzubringen.</p>
@@ -1025,20 +995,18 @@
 
             <div style="height: 16px;"></div>
 
-            <a href="https://aict.group" target="_blank" rel="noopener noreferrer" style="font-size: 1rem; font-family: var(--font-headline); font-weight: 700; text-transform: lowercase; letter-spacing: 1px;">Mehr über die AICT Group erfahren</a>
+            <a href="https://aict.group" target="_blank" rel="noopener noreferrer" style="font-size: 1rem; font-family: var(--font-headline); font-weight: 700; text-transform: lowercase; letter-spacing: 1px; color: var(--color-text-dark);">Mehr über die AICT Group erfahren</a>
 
             <div style="height: 16px;"></div>
 
             <div class="footer-bottom">
-
-                <div class="copyright">(c) 2026 AICT Group</div>
+                <div class="copyright">© 2026 AICT Group</div>
 
                 <div class="legal-links">
                     <a href="#" aria-label="impressum">Impressum</a>
                     <span class="legal-sep">|</span>
                     <a href="#" aria-label="nutzungsbedingungen">Nutzungsbedingungen</a>
                 </div>
-
             </div>
         </div>
     </footer>
