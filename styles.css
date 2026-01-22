@@ -861,3 +861,11 @@ footer a:hover { text-decoration: underline; }
 .legal-back-link:hover {
     text-decoration: underline;
 }
+
+/* Accessibility / Focus */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid rgba(90, 138, 149, 0.55);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
