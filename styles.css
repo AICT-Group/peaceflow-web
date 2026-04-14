@@ -989,3 +989,20 @@ button:focus-visible {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
   padding: clamp(24px, 4vw, 48px);
 }
+
+
+#newsletter {
+  padding-top: 60px;
+  padding-bottom: 40px;
+
+}
+
+#newsletter h3 {
+  text-align: center;
+}
+
+.newsletter-embed {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
