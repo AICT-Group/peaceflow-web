@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>peaceflow.ai — GEO + SEO Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #e6be1b;
+    --teal: #5a8a95;
+    --bg: #f6f6f6;
+    --nav: #111;
+    --white: #ffffff;
+    --critical: #b6453d;
+    --high: #e6891a;
+    --medium: #5a8a95;
+    --low: #6e6e6e;
+    --cat-citability: #e6be1b;
+    --cat-technical: #5a8a95;
+    --cat-eeat: #4a8a5a;
+    --cat-schema: #7b5ea7;
+    --cat-brand: #3a72b8;
+    --cat-platform: #e6891a;
+    --border: #e0e0e0;
+    --text: #1a1a1a;
+    --text-muted: #666;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: var(--nav);
+    color: var(--white);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid var(--gold);
+  }
+  .header-left h1 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .header-left h1 span { color: var(--gold); }
+  .header-left .subtitle {
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    color: #aaa;
+    margin-top: 2px;
+  }
+  .header-right {
+    text-align: right;
+  }
+  .header-right .badge {
+    display: inline-block;
+    background: var(--gold);
+    color: #111;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .header-right .date {
+    display: block;
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    color: #aaa;
+    margin-top: 4px;
+  }
+
+  /* NAV */
+  .section-nav {
+    background: #1a1a1a;
+    padding: 0 32px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .section-nav::-webkit-scrollbar { display: none; }
+  .section-nav a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 10px 14px;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .section-nav a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* MAIN */
+  main { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+
+  /* SECTION TITLES */
+  .section-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+  .section-title span { color: var(--gold); }
+  section { margin-bottom: 56px; }
+
+  /* SCORE HERO */
+  .score-hero {
+    background: var(--nav);
+    border-radius: 12px;
+    padding: 40px 32px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (max-width: 700px) {
+    .score-hero { grid-template-columns: 1fr; }
+  }
+  .gauge-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .gauge-svg { display: block; }
+  .gauge-label {
+    text-align: center;
+    color: var(--white);
+  }
+  .gauge-label .score-num {
+    font-size: 52px;
+    font-weight: 800;
+    color: var(--critical);
+    line-height: 1;
+    font-family: system-ui, sans-serif;
+  }
+  .gauge-label .score-max {
+    font-size: 22px;
+    color: #666;
+    font-weight: 400;
+  }
+  .gauge-label .score-text {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 4px;
+    font-family: 'Courier Prime', monospace;
+    letter-spacing: 1px;
+  }
+  .category-bars { color: var(--white); }
+  .category-bars h3 {
+    font-size: 13px;
+    color: #aaa;
+    font-weight: 500;
+    margin-bottom: 16px;
+    font-family: 'Courier Prime', monospace;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 10px;
+  }
+  .bar-item { margin-bottom: 14px; }
+  .bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  .bar-name { font-size: 13px; font-weight: 500; color: var(--white); }
+  .bar-score { font-size: 13px; font-weight: 700; font-family: 'Courier Prime', monospace; }
+  .bar-track {
+    background: #333;
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+    width: 0;
+  }
+
+  /* CRITICAL ISSUES */
+  .issues-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 16px;
+  }
+  .issue-card {
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    padding: 18px;
+    border-top: 3px solid var(--critical);
+  }
+  .issue-card.high { border-top-color: var(--high); }
+  .issue-card.medium { border-top-color: var(--medium); }
+  .issue-card.low { border-top-color: var(--low); }
+  .issue-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .sev-badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .sev-critical { background: var(--critical); color: #fff; }
+  .sev-high { background: var(--high); color: #fff; }
+  .sev-medium { background: var(--medium); color: #fff; }
+  .sev-low { background: var(--low); color: #fff; }
+  .cat-badge {
+    font-size: 9px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 1px;
+    border: 1px solid;
+  }
+  .issue-title {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+    flex: 1;
+  }
+  .issue-detail {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .issue-fix {
+    background: #f8f8f8;
+    border-left: 3px solid var(--teal);
+    padding: 8px 12px;
+    border-radius: 0 4px 4px 0;
+    font-size: 12px;
+    color: var(--text);
+    font-family: 'Courier Prime', monospace;
+    line-height: 1.5;
+  }
+  .issue-fix strong { color: var(--teal); font-family: system-ui, sans-serif; font-size: 11px; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* QUICK WINS */
+  .quickwin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .quickwin-card {
+    background: var(--white);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 16px 18px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .quickwin-num {
+    background: var(--gold);
+    color: #111;
+    font-size: 13px;
+    font-weight: 800;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Courier Prime', monospace;
+  }
+  .quickwin-text {
+    font-size: 13px;
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  /* ACCORDION */
+  .accordion { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .accordion-item { border-bottom: 1px solid var(--border); }
+  .accordion-item:last-child { border-bottom: none; }
+  .accordion-header {
+    background: var(--white);
+    padding: 16px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .accordion-header:hover { background: #fafafa; }
+  .accordion-header.open { background: #f4f4f4; }
+  .acc-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .acc-title {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .acc-score {
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+  .acc-arrow {
+    font-size: 12px;
+    color: var(--text-muted);
+    transition: transform 0.2s;
+  }
+  .accordion-header.open .acc-arrow { transform: rotate(90deg); }
+  .accordion-body {
+    display: none;
+    padding: 20px;
+    background: #fafafa;
+    border-top: 1px solid var(--border);
+  }
+  .accordion-body.open { display: block; }
+  .acc-summary {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    background: var(--white);
+    border-radius: 6px;
+    border-left: 3px solid var(--border);
+  }
+  .acc-strengths {
+    margin-bottom: 16px;
+  }
+  .acc-strengths h4 {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #4a8a5a;
+    margin-bottom: 8px;
+  }
+  .acc-strengths ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .acc-strengths li {
+    font-size: 12px;
+    padding-left: 16px;
+    position: relative;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .acc-strengths li::before { content: "✓"; position: absolute; left: 0; color: #4a8a5a; font-weight: 700; }
+  .acc-issues h4 {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--critical);
+    margin-bottom: 8px;
+  }
+  .acc-issue-item {
+    background: var(--white);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    border-left: 3px solid var(--low);
+  }
+  .acc-issue-item.critical { border-left-color: var(--critical); }
+  .acc-issue-item.high { border-left-color: var(--high); }
+  .acc-issue-item.medium { border-left-color: var(--medium); }
+  .acc-issue-item-title {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .acc-issue-item-detail {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* TECHNICAL STATUS */
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .status-card {
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .status-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    width: 36px;
+    text-align: center;
+  }
+  .status-info { flex: 1; }
+  .status-name { font-size: 13px; font-weight: 600; }
+  .status-value {
+    font-size: 12px;
+    font-family: 'Courier Prime', monospace;
+    margin-top: 2px;
+  }
+  .status-ok { color: #4a8a5a; }
+  .status-err { color: var(--critical); }
+  .status-warn { color: var(--high); }
+
+  /* PAGES TABLE */
+  .pages-table {
+    width: 100%;
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    border-collapse: collapse;
+  }
+  .pages-table th {
+    background: #111;
+    color: #aaa;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 10px 16px;
+    text-align: left;
+  }
+  .pages-table td {
+    padding: 12px 16px;
+    font-size: 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .pages-table tr:last-child td { border-bottom: none; }
+  .pages-table tr:hover td { background: #f9f9f9; }
+  .page-url {
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    color: var(--teal);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .page-title { font-weight: 600; }
+  .http-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier Prime', monospace;
+  }
+  .http-200 { background: #e8f5e9; color: #2e7d32; }
+  .http-404 { background: #ffebee; color: #c62828; }
+  .http-301 { background: #fff3e0; color: #e65100; }
+  .issue-count-badge {
+    display: inline-block;
+    background: var(--critical);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-family: 'Courier Prime', monospace;
+  }
+
+  /* ACTION PLAN */
+  .weeks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .week-card {
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .week-header {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .week-num {
+    background: var(--nav);
+    color: var(--gold);
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+  }
+  .week-title { font-size: 13px; font-weight: 700; }
+  .week-tasks {
+    padding: 14px 16px;
+    list-style: none;
+  }
+  .week-tasks li {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 5px 0;
+    border-bottom: 1px dashed #f0f0f0;
+    align-items: flex-start;
+  }
+  .week-tasks li:last-child { border-bottom: none; }
+  .task-dot {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--border);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .task-dot.critical { border-color: var(--critical); background: #fff5f5; }
+  .task-dot.high { border-color: var(--high); background: #fff8f0; }
+  .task-dot.medium { border-color: var(--medium); background: #f0f6f7; }
+
+  /* FOOTER */
+  footer {
+    background: var(--nav);
+    color: #666;
+    text-align: center;
+    padding: 24px;
+    font-size: 11px;
+    font-family: 'Courier Prime', monospace;
+    border-top: 2px solid #222;
+  }
+  footer span { color: var(--gold); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #f0f0f0; }
+  ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <h1><span>peaceflow.ai</span> — GEO + SEO Audit</h1>
+    <p class="subtitle">Generative Engine Optimization · Full Website Analysis</p>
+  </div>
+  <div class="header-right">
+    <span class="badge">AICT Group — Internal</span>
+    <span class="date">June 02, 2026</span>
+  </div>
+</header>
+
+<nav class="section-nav">
+  <a href="#score">Score</a>
+  <a href="#critical">Critical Issues</a>
+  <a href="#quickwins">Quick Wins</a>
+  <a href="#categories">Categories</a>
+  <a href="#technical">Technical Checks</a>
+  <a href="#pages">Page Analysis</a>
+  <a href="#actionplan">30-Day Plan</a>
+</nav>
+
+<main>
+
+  <!-- SCORE HERO -->
+  <section id="score">
+    <p class="section-label">Overall Score</p>
+    <h2 class="section-title">GEO Score: <span>16 / 100</span></h2>
+    <div class="score-hero">
+      <div class="gauge-wrap">
+        <svg class="gauge-svg" width="220" height="130" viewBox="0 0 220 130">
+          <defs>
+            <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#b6453d"/>
+              <stop offset="100%" style="stop-color:#e6891a"/>
+            </linearGradient>
+          </defs>
+          <path d="M 20 110 A 90 90 0 0 1 200 110" fill="none" stroke="#333" stroke-width="16" stroke-linecap="round"/>
+          <path id="gauge-arc" d="M 20 110 A 90 90 0 0 1 200 110" fill="none" stroke="url(#gaugeGrad)" stroke-width="16" stroke-linecap="round"
+            stroke-dasharray="282.7" stroke-dashoffset="237.5"/>
+          <line x1="110" y1="20" x2="110" y2="35" stroke="#444" stroke-width="1.5"/>
+          <line x1="20" y1="110" x2="35" y2="110" stroke="#444" stroke-width="1.5"/>
+          <line x1="200" y1="110" x2="185" y2="110" stroke="#444" stroke-width="1.5"/>
+          <text x="13" y="125" font-size="9" fill="#666" font-family="monospace">0</text>
+          <text x="105" y="16" font-size="9" fill="#666" font-family="monospace">50</text>
+          <text x="196" y="125" font-size="9" fill="#666" font-family="monospace">100</text>
+        </svg>
+        <div class="gauge-label">
+          <div><span class="score-num">16</span><span class="score-max">/100</span></div>
+          <div class="score-text">CRITICAL — ACT NOW</div>
+        </div>
+      </div>
+      <div class="category-bars">
+        <h3>Category Scores</h3>
+        <div class="bar-item">
+          <div class="bar-header">
+            <span class="bar-name">AI Citability</span>
+            <span class="bar-score" style="color:var(--cat-citability)">18/100</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="background:var(--cat-citability)" data-width="18"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-header">
+            <span class="bar-name">Technical GEO</span>
+            <span class="bar-score" style="color:var(--cat-technical)">22/100</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="background:var(--cat-technical)" data-width="22"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-header">
+            <span class="bar-name">E-E-A-T</span>
+            <span class="bar-score" style="color:var(--cat-eeat)">24/100</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="background:var(--cat-eeat)" data-width="24"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-header">
+            <span class="bar-name">Schema &amp; Structured Data</span>
+            <span class="bar-score" style="color:var(--cat-schema)">3/100</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="background:var(--cat-schema)" data-width="3"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-header">
+            <span class="bar-name">Brand Authority</span>
+            <span class="bar-score" style="color:var(--cat-brand)">8/100</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="background:var(--cat-brand)" data-width="8"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-header">
+            <span class="bar-name">Platform Optimization</span>
+            <span class="bar-score" style="color:var(--cat-platform)">18/100</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="background:var(--cat-platform)" data-width="18"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CRITICAL ISSUES -->
+  <section id="critical">
+    <p class="section-label">Immediate Action Required</p>
+    <h2 class="section-title">Critical &amp; High Priority <span>Issues</span></h2>
+    <div class="issues-grid">
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <span class="sev-badge sev-critical">Critical</span>
+          <span class="cat-badge" style="color:var(--cat-schema);border-color:var(--cat-schema)">Schema</span>
+          <div class="issue-title">No schema.org markup on any page</div>
+        </div>
+        <p class="issue-detail">Zero JSON-LD on Homepage, /en/ and /de/. AI engines (ChatGPT, Perplexity, Claude, Gemini) are completely blind to peaceflow.ai as a named entity. SoftwareApplication, Organization, FAQPage — none of it present.</p>
+        <div class="issue-fix"><strong>Fix</strong>Add JSON-LD with Organization + SoftwareApplication + FAQPage in &lt;head&gt; of every page. Minimum Viable Snippet: SoftwareApplication + Organization on the Homepage. Highest GEO uplift per development hour.</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <span class="sev-badge sev-critical">Critical</span>
+          <span class="cat-badge" style="color:var(--cat-technical);border-color:var(--cat-technical)">Technical</span>
+          <div class="issue-title">robots.txt not present (HTTP 404)</div>
+        </div>
+        <p class="issue-detail">robots.txt returns 404. AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended) receive no structured entry point and cannot find a sitemap.</p>
+        <div class="issue-fix"><strong>Fix</strong>Create robots.txt in the repo root: User-agent: * Allow: / Sitemap: https://peaceflow.ai/sitemap.xml — explicitly allow all AI bots.</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <span class="sev-badge sev-critical">Critical</span>
+          <span class="cat-badge" style="color:var(--cat-technical);border-color:var(--cat-technical)">Technical</span>
+          <div class="issue-title">sitemap.xml completely missing</div>
+        </div>
+        <p class="issue-detail">/sitemap.xml returns 404. Crawlers must discover pages through link-following. The /de/ route is already 404 — without a sitemap, the German content is practically invisible to crawlers.</p>
+        <div class="issue-fix"><strong>Fix</strong>Create sitemap.xml with all canonical URLs: /, /en/, /de/ (once fixed), legal pages — with lastmod, changefreq, and priority. Reference it in robots.txt.</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <span class="sev-badge sev-critical">Critical</span>
+          <span class="cat-badge" style="color:var(--cat-technical);border-color:var(--cat-technical)">Technical</span>
+          <div class="issue-title">German route /de/ returns HTTP 404</div>
+        </div>
+        <p class="issue-detail">https://peaceflow.ai/de/ returns 404. The primary German market URL is unreachable for both crawlers and users. hreflang tags on /en/ point to this 404 path.</p>
+        <div class="issue-fix"><strong>Fix</strong>Create /de/index.html in the repo or set up a 301 redirect from /de → /. Update hreflang tags to use absolute URLs: https://peaceflow.ai/de/</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <span class="sev-badge sev-critical">Critical</span>
+          <span class="cat-badge" style="color:var(--cat-technical);border-color:var(--cat-technical)">Technical</span>
+          <div class="issue-title">llms.txt not present</div>
+        </div>
+        <p class="issue-detail">/llms.txt returns 404. For an AI product positioning itself as a smart companion, the absence of an AI-readable content description is a particularly embarrassing gap.</p>
+        <div class="issue-fix"><strong>Fix</strong>Create /llms.txt: product description (2-3 sentences), key use cases, target audience, team, links to most important pages. Max 500 words. A one-time effort of 30 minutes.</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <span class="sev-badge sev-critical">Critical</span>
+          <span class="cat-badge" style="color:var(--cat-technical);border-color:var(--cat-technical)">Technical</span>
+          <div class="issue-title">No canonical tags on any page</div>
+        </div>
+        <p class="issue-detail">Neither Homepage nor /en/ nor /de/ have &lt;link rel="canonical"&gt;. The Homepage is reachable under https://peaceflow.ai and possibly /index.html. Link equity fragments across URL variants.</p>
+        <div class="issue-fix"><strong>Fix</strong>Add canonical tags to all pages: &lt;link rel="canonical" href="https://peaceflow.ai/"&gt; on Homepage, equivalent tags for /en/ and /de/.</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <span class="sev-badge sev-critical">Critical</span>
+          <span class="cat-badge" style="color:var(--cat-brand);border-color:var(--cat-brand)">Brand</span>
+          <div class="issue-title">No Wikidata/Wikipedia entry — not in the Knowledge Graph</div>
+        </div>
+        <p class="issue-detail">AICT Group and peaceflow.ai have no Wikipedia article, no Wikidata entry. For LLM retrieval pipelines, peaceflow.ai simply does not exist as an entity.</p>
+        <div class="issue-fix"><strong>Fix</strong>Create a Wikidata entry for AICT Group / peaceflow.ai with sameAs links to domain, LinkedIn, and Crunchbase. This is the single GEO action with the highest leverage.</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <span class="sev-badge sev-critical">Critical</span>
+          <span class="cat-badge" style="color:var(--cat-brand);border-color:var(--cat-brand)">Brand</span>
+          <div class="issue-title">No verified LinkedIn company profile found</div>
+        </div>
+        <p class="issue-detail">No dedicated company profile found for peaceflow.ai or AICT Group on LinkedIn. LinkedIn company pages are a primary trust signal for AI systems.</p>
+        <div class="issue-fix"><strong>Fix</strong>Create LinkedIn company pages for AICT Group (parent) and Peaceflow. Add logo, tagline, website link, 2-3 founders as employees, weekly posting cadence.</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <span class="sev-badge sev-critical">Critical</span>
+          <span class="cat-badge" style="color:var(--cat-eeat);border-color:var(--cat-eeat)">E-E-A-T</span>
+          <div class="issue-title">No About/Team page — human expertise invisible</div>
+        </div>
+        <p class="issue-detail">No /about, /team, or /founders page. The four managing directors (Alexander Lexa, Felix Degeler, Carlos Berná-Esteban, Patrik Garten) appear only in the legal imprint — no AI crawler evaluates this as an E-E-A-T signal.</p>
+        <div class="issue-fix"><strong>Fix</strong>Create /en/about and /de/ueber-uns with team bios, photos, LinkedIn links, professional background, and a "why we built this" narrative. Add Person schema with sameAs.</div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header">
+          <span class="sev-badge sev-critical">Critical</span>
+          <span class="cat-badge" style="color:var(--cat-eeat);border-color:var(--cat-eeat)">E-E-A-T</span>
+          <div class="issue-title">No credentials or methodology referenced</div>
+        </div>
+        <p class="issue-detail">For a platform in conflict resolution and mental health (YMYL-adjacent), references to recognized frameworks (NVC, Harvard Negotiation Project, ICF, Austrian mediation law) are completely absent.</p>
+        <div class="issue-fix"><strong>Fix</strong>Create a methodology page explaining which frameworks the AI is based on. List team certifications (CMC, ICF PCC, certified mediator) with issuing body.</div>
+      </div>
+
+      <div class="issue-card high">
+        <div class="issue-header">
+          <span class="sev-badge sev-high">High</span>
+          <span class="cat-badge" style="color:var(--cat-citability);border-color:var(--cat-citability)">Citability</span>
+          <div class="issue-title">9 H1 tags on the English page</div>
+        </div>
+        <p class="issue-detail">The /en/ page uses 9 H1 elements. AI models use H1 as the primary topic signal. With 9 H1s, no page can establish a clear citation anchor.</p>
+        <div class="issue-fix"><strong>Fix</strong>Exactly one H1 per page (primary topic). Demote all other current H1s to H2 or H3. Pure HTML change, no design impact.</div>
+      </div>
+
+      <div class="issue-card high">
+        <div class="issue-header">
+          <span class="sev-badge sev-high">High</span>
+          <span class="cat-badge" style="color:var(--cat-citability);border-color:var(--cat-citability)">Citability</span>
+          <div class="issue-title">No citable "What is Peaceflow" statement</div>
+        </div>
+        <p class="issue-detail">Not a single factual definition sentence in the style of "Peaceflow is an AI-powered conflict navigation platform that..." — only marketing taglines that AI models skip.</p>
+        <div class="issue-fix"><strong>Fix</strong>An authoritative definition sentence in the first 200 words of both language versions in a &lt;p&gt; tag, with no JavaScript dependency. This sentence will become the citation anchor for all LLMs.</div>
+      </div>
+
+      <div class="issue-card high">
+        <div class="issue-header">
+          <span class="sev-badge sev-high">High</span>
+          <span class="cat-badge" style="color:var(--cat-citability);border-color:var(--cat-citability)">Citability</span>
+          <div class="issue-title">No statistics, research references, or data points</div>
+        </div>
+        <p class="issue-detail">AI models disproportionately cite content with data: percentages, study citations, user numbers, outcome metrics. Peaceflow.ai has zero statistics, zero research references.</p>
+        <div class="issue-fix"><strong>Fix</strong>Add at least 3 verifiable data points: cite published conflict cost studies, publish internal beta metrics, or reference a psychological model (NVC, CBC).</div>
+      </div>
+
+      <div class="issue-card high">
+        <div class="issue-header">
+          <span class="sev-badge sev-high">High</span>
+          <span class="cat-badge" style="color:var(--cat-citability);border-color:var(--cat-citability)">Citability</span>
+          <div class="issue-title">No FAQ or Q&amp;A content structure</div>
+        </div>
+        <p class="issue-detail">Perplexity, ChatGPT, and Google SGE draw heavily on FAQ content. Peaceflow.ai has no FAQ section, no structured How-It-Works, and no Q&A pairs.</p>
+        <div class="issue-fix"><strong>Fix</strong>Dedicated FAQ section with 8-12 questions (ideally /faq as a standalone page). Minimum questions: What is Peaceflow? / Who is it for? / Does it replace therapy? / Privacy? / Languages? — with FAQPage JSON-LD markup.</div>
+      </div>
+
+      <div class="issue-card high">
+        <div class="issue-header">
+          <span class="sev-badge sev-high">High</span>
+          <span class="cat-badge" style="color:var(--cat-technical);border-color:var(--cat-technical)">Technical</span>
+          <div class="issue-title">hreflang uses relative file paths instead of absolute URLs</div>
+        </div>
+        <p class="issue-detail">/en/ has hreflang tags pointing to ../de/index.html and index.html — relative file paths. Google requires absolute URLs. The de href also points to a 404 URL.</p>
+        <div class="issue-fix"><strong>Fix</strong>Update all hreflang href values to absolute URLs: href="https://peaceflow.ai/de/" and href="https://peaceflow.ai/en/". Also add hreflang tags to the Homepage.</div>
+      </div>
+
+      <div class="issue-card high">
+        <div class="issue-header">
+          <span class="sev-badge sev-high">High</span>
+          <span class="cat-badge" style="color:var(--cat-technical);border-color:var(--cat-technical)">Technical</span>
+          <div class="issue-title">No security headers (HSTS, CSP, X-Frame-Options)</div>
+        </div>
+        <p class="issue-detail">HTTP response headers show: no HSTS, no CSP, no X-Frame-Options, no X-Content-Type-Options. GitHub Pages does not set these automatically.</p>
+        <div class="issue-fix"><strong>Fix</strong>Migrate to Netlify or Vercel for header control. Or add a Cloudflare proxy layer. Recommendation: migrate to Netlify/Vercel for full GEO infrastructure control.</div>
+      </div>
+
+      <div class="issue-card high">
+        <div class="issue-header">
+          <span class="sev-badge sev-high">High</span>
+          <span class="cat-badge" style="color:var(--cat-technical);border-color:var(--cat-technical)">Technical</span>
+          <div class="issue-title">og:image uses relative path — social previews broken</div>
+        </div>
+        <p class="issue-detail">Both Homepage and /en/ set og:image to a relative path (img/Chamaeleon.png). Open Graph requires absolute URLs. LinkedIn, X/Twitter, and WhatsApp previews show no image.</p>
+        <div class="issue-fix"><strong>Fix</strong>&lt;meta property="og:image" content="https://peaceflow.ai/img/Chamaeleon.png"&gt; — absolute URL. Add og:url with canonical URL, og:locale for DE/EN variants.</div>
+      </div>
+
+      <div class="issue-card high">
+        <div class="issue-header">
+          <span class="sev-badge sev-high">High</span>
+          <span class="cat-badge" style="color:var(--cat-eeat);border-color:var(--cat-eeat)">E-E-A-T</span>
+          <div class="issue-title">No author attribution on content</div>
+        </div>
+        <p class="issue-detail">All pages without bylines. For an AI product making implicit claims about mental health and conflict outcomes, anonymous content is a strong negative E-E-A-T signal.</p>
+        <div class="issue-fix"><strong>Fix</strong>Visible author/editorial bylines on all content pages. Attribution to founding team or named subject matter experts. Add rel="author" and schema.org author property.</div>
+      </div>
+
+      <div class="issue-card high">
+        <div class="issue-header">
+          <span class="sev-badge sev-high">High</span>
+          <span class="cat-badge" style="color:var(--cat-brand);border-color:var(--cat-brand)">Brand</span>
+          <div class="issue-title">Only 1 external backlink domain (degeler.consulting)</div>
+        </div>
+        <p class="issue-detail">The degeler.consulting homepage does NOT link to peaceflow.ai directly — only an internal project page. garten.ai has no Peaceflow link. Total external referring domain count: 1-2.</p>
+        <div class="issue-fix"><strong>Fix</strong>Add a direct hyperlink to peaceflow.ai from the degeler.consulting homepage/footer. Add a partner/ecosystem section with a peaceflow.ai link to garten.ai and dentalyst.de.</div>
+      </div>
+
+      <div class="issue-card high">
+        <div class="issue-header">
+          <span class="sev-badge sev-high">High</span>
+          <span class="cat-badge" style="color:var(--cat-brand);border-color:var(--cat-brand)">Brand</span>
+          <div class="issue-title">No press coverage, earned media, or third-party validation</div>
+        </div>
+        <p class="issue-detail">No press mentions, awards, conference appearances, or independent reviews. TechCrunch, ProductHunt, G2, Crunchbase — all return 0 results for peaceflow.ai.</p>
+        <div class="issue-fix"><strong>Fix</strong>Submit to ProductHunt immediately (free, high value). Create a Crunchbase profile for AICT Group. Targeted pitch to HR-Tech/mediation publications (HR Technologist, Mediate.com).</div>
+      </div>
+
+      <div class="issue-card high">
+        <div class="issue-header">
+          <span class="sev-badge sev-high">High</span>
+          <span class="cat-badge" style="color:var(--cat-brand);border-color:var(--cat-brand)">Brand</span>
+          <div class="issue-title">Open-source claim unverifiable — no GitHub</div>
+        </div>
+        <p class="issue-detail">AICT Group's own website calls Peaceflow open source — but no GitHub repository found. An unverifiable open-source claim is a credibility liability.</p>
+        <div class="issue-fix"><strong>Fix</strong>Create a public GitHub organization (aict-group or peaceflow-ai) with at least one public repo (can be docs-only). Or remove the open-source claim from the website.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- QUICK WINS -->
+  <section id="quickwins">
+    <p class="section-label">Implement immediately — max. 1 hour per item</p>
+    <h2 class="section-title">Quick <span>Wins</span></h2>
+    <div class="quickwin-grid">
+      <div class="quickwin-card">
+        <div class="quickwin-num">1</div>
+        <p class="quickwin-text">Write one authoritative "Peaceflow is..." definition sentence into the first paragraph of both language versions — no code change, copywriting only</p>
+      </div>
+      <div class="quickwin-card">
+        <div class="quickwin-num">2</div>
+        <p class="quickwin-text">Create robots.txt in the repo root (10 lines): allow all AI bots, reference the sitemap URL — unlocks structured crawler access</p>
+      </div>
+      <div class="quickwin-card">
+        <div class="quickwin-num">3</div>
+        <p class="quickwin-text">Generate and deploy sitemap.xml with all live URLs — immediate crawl coverage improvement for all search engines</p>
+      </div>
+      <div class="quickwin-card">
+        <div class="quickwin-num">4</div>
+        <p class="quickwin-text">Add alt text to all images in the HTML: logo, chameleon illustration, all partner logos — 15 minutes of work</p>
+      </div>
+      <div class="quickwin-card">
+        <div class="quickwin-num">5</div>
+        <p class="quickwin-text">Add a meta description to the German root page (150 characters): product name, core benefit, primary use case</p>
+      </div>
+      <div class="quickwin-card">
+        <div class="quickwin-num">6</div>
+        <p class="quickwin-text">Fix the 9-H1 problem: demote all section headings to H2/H3 — pure HTML change, no design impact</p>
+      </div>
+      <div class="quickwin-card">
+        <div class="quickwin-num">7</div>
+        <p class="quickwin-text">Add canonical link tags to all three pages (10 min.) — immediate duplicate content protection for all crawlers</p>
+      </div>
+      <div class="quickwin-card">
+        <div class="quickwin-num">8</div>
+        <p class="quickwin-text">Change og:image and og:url to absolute URLs — social preview images will work immediately on LinkedIn, X, WhatsApp</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORY DEEP DIVES -->
+  <section id="categories">
+    <p class="section-label">Detailed analysis by area</p>
+    <h2 class="section-title">Category <span>Deep Dives</span></h2>
+    <div class="accordion">
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span class="acc-dot" style="background:var(--cat-citability)"></span>
+          <span class="acc-title">AI Citability</span>
+          <span class="acc-score" style="color:var(--cat-citability)">18/100</span>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="accordion-body">
+          <div class="acc-summary">Peaceflow.ai scores 18/100 for AI Citability. The product concept is differentiated and the copywriting is convincingly marketing-grade — but nearly all the technical and structural prerequisites for AI citation are missing: no schema markup, no robots.txt or sitemap, no FAQ content, no statistics or research references, no named authors or E-E-A-T signals, broken German routing, multiple H1s and anonymized testimonials.</div>
+          <div class="acc-strengths">
+            <h4>Strengths</h4>
+            <ul>
+              <li>Clear, differentiated product concept — AI Conflict Navigation with Human Expert Handoff is a distinct category</li>
+              <li>English version exists and loads correctly</li>
+              <li>4-step process is a crawlable How-It-Works structure</li>
+              <li>Privacy commitment (chats not used for training) is a differentiating factual claim</li>
+              <li>Partner ecosystem (Dentalyst, garten.ai, Degeler Consulting, AICT Group) as potential authority anchors</li>
+            </ul>
+          </div>
+          <div class="acc-issues">
+            <h4>Issues</h4>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>No schema.org structured data</div>
+              <div class="acc-issue-item-detail">Zero JSON-LD on all pages — AI engines cannot recognize peaceflow.ai as a named entity</div>
+            </div>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>No robots.txt or sitemap</div>
+              <div class="acc-issue-item-detail">AI crawlers have no structured entry point</div>
+            </div>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>/de route returns 404</div>
+              <div class="acc-issue-item-detail">German authority is split and broken — primary language version unindexable</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>No citable "What is Peaceflow" statement</div>
+              <div class="acc-issue-item-detail">Only marketing taglines — AI models look for encyclopedic declarative sentences</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>9 H1 tags on the English page</div>
+              <div class="acc-issue-item-detail">Dilutes topical signal, makes clear citation anchors impossible</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>No statistics or research references</div>
+              <div class="acc-issue-item-detail">Zero data points — AI models disproportionately cite data-rich content</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>No FAQ or Q&amp;A content structure</div>
+              <div class="acc-issue-item-detail">No FAQ section — primary content format for Perplexity and ChatGPT citations</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span class="acc-dot" style="background:var(--cat-technical)"></span>
+          <span class="acc-title">Technical GEO</span>
+          <span class="acc-score" style="color:var(--cat-technical)">22/100</span>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="accordion-body">
+          <div class="acc-summary">peaceflow.ai is a GitHub Pages static site with fundamental technical GEO/SEO gaps. Six critical issues alone would exclude the site from any meaningful AI engine coverage: no robots.txt, no sitemap, broken /de/ locale (404), zero schema.org markup, no canonical tags, and no llms.txt. The infrastructure delivers correct HTTPS and basic mobile viewport, but every layer that modern search and AI engines expect is missing.</div>
+          <div class="acc-strengths">
+            <h4>Strengths</h4>
+            <ul>
+              <li>HTTPS correctly served via GitHub Pages/Fastly CDN</li>
+              <li>Mobile viewport meta tag present</li>
+              <li>JS loaded with defer attribute — non-blocking</li>
+              <li>Lazy loading and decoding=async on non-critical images</li>
+              <li>Open Graph tags present (partially configured)</li>
+              <li>preconnect hints for Google Fonts present</li>
+              <li>Page size lean (~21KB HTML) — fast transfer</li>
+            </ul>
+          </div>
+          <div class="acc-issues">
+            <h4>Issues</h4>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>robots.txt returns HTTP 404</div>
+            </div>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>sitemap.xml returns HTTP 404</div>
+            </div>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>German /de/ returns HTTP 404</div>
+            </div>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>No canonical tags on any page</div>
+            </div>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>llms.txt returns HTTP 404</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>hreflang uses relative paths, points to 404</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>Homepage missing hreflang tags entirely</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>No security headers (HSTS, CSP, X-Frame-Options)</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>3 external font dependencies — render-blocking risk</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>og:image uses relative path — social previews broken</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span class="acc-dot" style="background:var(--cat-eeat)"></span>
+          <span class="acc-title">E-E-A-T (Expertise, Authority, Trust)</span>
+          <span class="acc-score" style="color:var(--cat-eeat)">24/100</span>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="accordion-body">
+          <div class="acc-summary">Peaceflow.ai scores 24/100 for E-E-A-T. The site has a legally complete imprint (AICT FlexCo, FN 657256 d, four named managing directors) — that is a credibility foundation. But nearly every other E-E-A-T signal is missing: no About/Team page, no author attribution, no schema markup, no credentials or methodology references, no press coverage, no research citations. For a platform in a high-stakes YMYL-adjacent domain, this is a significant credibility deficit.</div>
+          <div class="acc-strengths">
+            <h4>Strengths</h4>
+            <ul>
+              <li>Legally complete imprint with all four managing directors and Austrian commercial register number</li>
+              <li>Substantive GDPR-compliant privacy policy naming all third-party processors</li>
+              <li>Privacy-by-design messaging ("chats not used for training") as a genuine trust differentiator</li>
+              <li>Positioning as a complement to human professionals — demonstrates ethical awareness</li>
+              <li>Bilingual site (DE/EN) as a structural foundation</li>
+            </ul>
+          </div>
+          <div class="acc-issues">
+            <h4>Issues</h4>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>No About/Team page</div>
+            </div>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>No credentials or methodology referenced</div>
+            </div>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>Zero schema.org structured data</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>No author attribution on content</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>No press coverage or third-party validation</div>
+            </div>
+            <div class="acc-issue-item medium">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-medium">Medium</span>Anonymized testimonials — not attributable</div>
+            </div>
+            <div class="acc-issue-item medium">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-medium">Medium</span>AICT Group / AICT FlexCo relationship not explained</div>
+            </div>
+            <div class="acc-issue-item medium">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-medium">Medium</span>No content freshness signals (no publication dates)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span class="acc-dot" style="background:var(--cat-schema)"></span>
+          <span class="acc-title">Schema &amp; Structured Data</span>
+          <span class="acc-score" style="color:var(--cat-schema)">3/100</span>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="accordion-body">
+          <div class="acc-summary">peaceflow.ai has ZERO schema.org markup on all pages — the worst possible starting point for GEO. The site is completely invisible to structured data parsers of all major AI engines (ChatGPT, Perplexity, Claude, Gemini, Google SGE). Immediate implementation of Organization + SoftwareApplication + WebSite would deliver the greatest GEO uplift per dev hour.</div>
+          <div class="acc-strengths">
+            <h4>Strengths</h4>
+            <ul>
+              <li>Clear, differentiated product identity — fits well with several high-value schema types</li>
+              <li>Business model with SaaS + service components enables richer schema</li>
+              <li>Bilingual DE/EN content supports hreflang + locale-specific schema</li>
+            </ul>
+          </div>
+          <div class="acc-issues">
+            <h4>Issues</h4>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>No SoftwareApplication schema — AI SaaS product unrecognized</div>
+            </div>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>No FAQPage schema for How-It-Works / Use Cases</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>No WebSite schema with SearchAction</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>No sameAs links — entity disambiguation completely absent</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>No BreadcrumbList on sub-pages</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>No Person schema — founders/team invisible to AI</div>
+            </div>
+            <div class="acc-issue-item medium">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-medium">Medium</span>No Speakable schema — voice AI unreachable</div>
+            </div>
+            <div class="acc-issue-item medium">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-medium">Medium</span>No Service schema for coach/mediator matching</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span class="acc-dot" style="background:var(--cat-brand)"></span>
+          <span class="acc-title">Brand Authority</span>
+          <span class="acc-score" style="color:var(--cat-brand)">8/100</span>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="accordion-body">
+          <div class="acc-summary">peaceflow.ai has near-zero brand authority as measured by AI citability signals. The product exists as a functional website but is effectively invisible to AI retrieval systems. No Knowledge Graph entry, no LinkedIn company profile, broken German route, no sitemap, no schema, no third-party press coverage, no ProductHunt or G2 listing, no YouTube or social media presence, and only 1-2 external referring domains.</div>
+          <div class="acc-strengths">
+            <h4>Strengths</h4>
+            <ul>
+              <li>Coherent product narrative — conflict resolution/AI companion positioning is clear and differentiated</li>
+              <li>Founding team partially findable — Felix Degeler (COO) has LinkedIn presence</li>
+              <li>degeler.consulting provides at least one dofollow backlink from an indexed domain</li>
+              <li>aict.group as a second web property of the parent organization</li>
+              <li>No AI bots actively blocked — GPTBot, ClaudeBot, PerplexityBot have default-open access</li>
+            </ul>
+          </div>
+          <div class="acc-issues">
+            <h4>Issues</h4>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>Zero AI-crawlable social proof — no Wikidata/Knowledge Graph</div>
+            </div>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>No verified LinkedIn company profile</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>Only 1 external backlink domain (degeler.consulting)</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>No press coverage or third-party validation</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>Open-source claim unverifiable — no GitHub</div>
+            </div>
+            <div class="acc-issue-item medium">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-medium">Medium</span>No social media accounts linkable from website</div>
+            </div>
+            <div class="acc-issue-item medium">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-medium">Medium</span>No YouTube or video content</div>
+            </div>
+            <div class="acc-issue-item medium">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-medium">Medium</span>No llms.txt or AI-readable content layer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span class="acc-dot" style="background:var(--cat-platform)"></span>
+          <span class="acc-title">Platform Optimization</span>
+          <span class="acc-score" style="color:var(--cat-platform)">18/100</span>
+          <span class="acc-arrow">▶</span>
+        </div>
+        <div class="accordion-body">
+          <div class="acc-summary">peaceflow.ai is critically unprepared for AI search visibility. Zero structured data, broken German locale (404 on /de), missing robots.txt and sitemap, no hreflang tags, multiple H1 violations, no citable authority signals. With a compelling and differentiated product in a growing category (AI-powered conflict resolution), the GEO gap is purely technical and fixable.</div>
+          <div class="acc-strengths">
+            <h4>Strengths</h4>
+            <ul>
+              <li>Product concept is highly distinct and citable — "AI-powered conflict navigation" is a specific category</li>
+              <li>Bilingual (DE/EN) intent present — architecture for both markets exists</li>
+              <li>No AI bots actively blocked</li>
+              <li>Clear business type: human coach connection is a strong E-E-A-T narrative</li>
+            </ul>
+          </div>
+          <div class="acc-issues">
+            <h4>Issues</h4>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>No robots.txt or XML sitemap</div>
+            </div>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>German locale /de returns HTTP 404</div>
+            </div>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>Zero schema.org / JSON-LD structured data</div>
+            </div>
+            <div class="acc-issue-item critical">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-critical">Critical</span>No hreflang link tags for DE/EN variants</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>Multiple H1 tags (9 H1 elements on /en)</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>No meta description on /de</div>
+            </div>
+            <div class="acc-issue-item high">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-high">High</span>Generic meta description on /en</div>
+            </div>
+            <div class="acc-issue-item medium">
+              <div class="acc-issue-item-title"><span class="sev-badge sev-medium">Medium</span>Page content ~1200 words — too thin for AI citability</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TECHNICAL CHECKS -->
+  <section id="technical">
+    <p class="section-label">Infrastructure Status Check</p>
+    <h2 class="section-title">Technical <span>Checks</span></h2>
+    <div class="status-grid">
+      <div class="status-card">
+        <div class="status-icon">✗</div>
+        <div class="status-info">
+          <div class="status-name">robots.txt</div>
+          <div class="status-value status-err">HTTP 404 — not present</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon">✗</div>
+        <div class="status-info">
+          <div class="status-name">sitemap.xml</div>
+          <div class="status-value status-err">HTTP 404 — not present</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon">✗</div>
+        <div class="status-info">
+          <div class="status-name">llms.txt</div>
+          <div class="status-value status-err">HTTP 404 — not present</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon">✗</div>
+        <div class="status-info">
+          <div class="status-name">German route /de/</div>
+          <div class="status-value status-err">HTTP 404 — primary market unreachable</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon">✓</div>
+        <div class="status-info">
+          <div class="status-name">HTTPS</div>
+          <div class="status-value status-ok">Correctly served via GitHub Pages / Fastly CDN</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon">✓</div>
+        <div class="status-info">
+          <div class="status-name">English route /en/</div>
+          <div class="status-value status-ok">HTTP 200 — correctly accessible</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon">⚠</div>
+        <div class="status-info">
+          <div class="status-name">hreflang tags</div>
+          <div class="status-value status-warn">Present on /en/ — relative paths, pointing to 404</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon">✗</div>
+        <div class="status-info">
+          <div class="status-name">Canonical tags</div>
+          <div class="status-value status-err">Not present on any page</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon">✗</div>
+        <div class="status-info">
+          <div class="status-name">Schema.org JSON-LD</div>
+          <div class="status-value status-err">Zero structured data on all pages</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon">✗</div>
+        <div class="status-info">
+          <div class="status-name">Security headers</div>
+          <div class="status-value status-err">HSTS, CSP, X-Frame-Options missing</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon">⚠</div>
+        <div class="status-info">
+          <div class="status-name">Open Graph tags</div>
+          <div class="status-value status-warn">Partially present — og:image relative path</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon">✗</div>
+        <div class="status-info">
+          <div class="status-name">Twitter Card tags</div>
+          <div class="status-value status-err">Not present</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon">✓</div>
+        <div class="status-info">
+          <div class="status-name">Mobile viewport</div>
+          <div class="status-value status-ok">Meta viewport correctly set</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon">✓</div>
+        <div class="status-info">
+          <div class="status-name">AI bot access</div>
+          <div class="status-value status-ok">GPTBot, ClaudeBot, PerplexityBot not blocked</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon">⚠</div>
+        <div class="status-info">
+          <div class="status-name">Cache-Control</div>
+          <div class="status-value status-warn">max-age=600 (10 min.) — too short for static assets</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon">⚠</div>
+        <div class="status-info">
+          <div class="status-name">Hosting</div>
+          <div class="status-value status-warn">GitHub Pages — limited header/redirect control</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE ANALYSIS -->
+  <section id="pages">
+    <p class="section-label">Crawled pages</p>
+    <h2 class="section-title">Page <span>Analysis</span></h2>
+    <table class="pages-table">
+      <thead>
+        <tr>
+          <th>Page</th>
+          <th>HTTP Status</th>
+          <th>Title / Meta Description</th>
+          <th>Issues</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="page-url">https://peaceflow.ai/</span>
+            <span class="page-title">Homepage (DE)</span>
+          </td>
+          <td><span class="http-badge http-200">200</span></td>
+          <td>
+            <strong>peaceflow - navigate with clarity &amp; connection</strong><br>
+            <span style="color:var(--high);font-size:11px">English title on German page (lang=de)</span><br>
+            <span style="font-size:11px">Meta Desc: "Peaceflow - dein smarter Begleiter für Gespräche, die verbinden."</span>
+          </td>
+          <td>
+            <span class="issue-count-badge">12</span>
+            <div style="margin-top:5px;font-size:11px;color:var(--text-muted)">No schema, no canonical, no hreflang, title language conflict</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="page-url">https://peaceflow.ai/en/</span>
+            <span class="page-title">English Version</span>
+          </td>
+          <td><span class="http-badge http-200">200</span></td>
+          <td>
+            <strong>peaceflow - navigate with clarity &amp; connection</strong><br>
+            <span style="color:var(--high);font-size:11px">German meta description on English page!</span>
+          </td>
+          <td>
+            <span class="issue-count-badge">15</span>
+            <div style="margin-top:5px;font-size:11px;color:var(--text-muted)">9 H1 tags, hreflang pointing to 404, DE meta desc on EN page, no schema</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="page-url">https://peaceflow.ai/de/</span>
+            <span class="page-title">German Version</span>
+          </td>
+          <td><span class="http-badge http-404">404</span></td>
+          <td>
+            <span style="color:var(--critical);font-size:12px">Page not accessible</span><br>
+            <span style="font-size:11px;color:var(--text-muted)">No title, no meta description, no content indexed</span>
+          </td>
+          <td>
+            <span class="issue-count-badge" style="background:var(--critical)">FATAL</span>
+            <div style="margin-top:5px;font-size:11px;color:var(--text-muted)">Primary language version for primary market unreachable</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="page-url">https://peaceflow.ai/en/imprint.html</span>
+            <span class="page-title">Imprint (EN)</span>
+          </td>
+          <td><span class="http-badge http-200">200</span></td>
+          <td>
+            <span style="font-size:11px;color:var(--text-muted)">Complete legal information (AICT FlexCo, FN 657256 d, 4 managing directors)</span>
+          </td>
+          <td>
+            <span class="issue-count-badge" style="background:#6e6e6e">3</span>
+            <div style="margin-top:5px;font-size:11px;color:var(--text-muted)">No schema, no canonical — legally sufficient</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="page-url">https://peaceflow.ai/en/privacy.html</span>
+            <span class="page-title">Privacy Policy (EN)</span>
+          </td>
+          <td><span class="http-badge http-200">200</span></td>
+          <td>
+            <span style="font-size:11px;color:var(--text-muted)">GDPR-compliant, all third-party processors named (Azure, Supabase, Stripe, MailerLite)</span>
+          </td>
+          <td>
+            <span class="issue-count-badge" style="background:#6e6e6e">2</span>
+            <div style="margin-top:5px;font-size:11px;color:var(--text-muted)">No schema, no canonical — content substantive</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="page-url">https://peaceflow.ai/robots.txt</span>
+            <span class="page-title">robots.txt</span>
+          </td>
+          <td><span class="http-badge http-404">404</span></td>
+          <td><span style="color:var(--critical);font-size:12px">Not present</span></td>
+          <td><span class="issue-count-badge" style="background:var(--critical)">Critical</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="page-url">https://peaceflow.ai/sitemap.xml</span>
+            <span class="page-title">sitemap.xml</span>
+          </td>
+          <td><span class="http-badge http-404">404</span></td>
+          <td><span style="color:var(--critical);font-size:12px">Not present</span></td>
+          <td><span class="issue-count-badge" style="background:var(--critical)">Critical</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="page-url">https://peaceflow.ai/llms.txt</span>
+            <span class="page-title">llms.txt</span>
+          </td>
+          <td><span class="http-badge http-404">404</span></td>
+          <td><span style="color:var(--critical);font-size:12px">Not present</span></td>
+          <td><span class="issue-count-badge" style="background:var(--critical)">Critical</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 30-DAY ACTION PLAN -->
+  <section id="actionplan">
+    <p class="section-label">Prioritized action plan</p>
+    <h2 class="section-title">30-Day <span>Action Plan</span></h2>
+    <div class="weeks-grid">
+
+      <div class="week-card">
+        <div class="week-header">
+          <span class="week-num">WEEK 1</span>
+          <span class="week-title">Infrastructure Foundations</span>
+        </div>
+        <ul class="week-tasks">
+          <li>
+            <div class="task-dot critical"></div>
+            <span>Create robots.txt (User-agent: *, allow all AI bots, reference sitemap) — 10 minutes</span>
+          </li>
+          <li>
+            <div class="task-dot critical"></div>
+            <span>Generate and deploy sitemap.xml with all canonical URLs and lastmod dates</span>
+          </li>
+          <li>
+            <div class="task-dot critical"></div>
+            <span>Fix /de/ route: create /de/index.html in the repo or set up a 301 redirect</span>
+          </li>
+          <li>
+            <div class="task-dot critical"></div>
+            <span>Add canonical tags to all pages (absolute URLs) — 10 minutes</span>
+          </li>
+          <li>
+            <div class="task-dot critical"></div>
+            <span>Create llms.txt: product description, use cases, team, most important pages — 30 minutes</span>
+          </li>
+          <li>
+            <div class="task-dot high"></div>
+            <span>Update og:image and og:url to absolute URLs — fix social previews</span>
+          </li>
+          <li>
+            <div class="task-dot high"></div>
+            <span>Add alt text to all images: logo, chameleon, partner logos</span>
+          </li>
+          <li>
+            <div class="task-dot high"></div>
+            <span>Demote 9 H1s on /en/ to H2/H3 — pure HTML change</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="week-card">
+        <div class="week-header">
+          <span class="week-num">WEEK 2</span>
+          <span class="week-title">Schema Markup &amp; Meta</span>
+        </div>
+        <ul class="week-tasks">
+          <li>
+            <div class="task-dot critical"></div>
+            <span>Implement Organization + SoftwareApplication JSON-LD in &lt;head&gt; of all pages</span>
+          </li>
+          <li>
+            <div class="task-dot critical"></div>
+            <span>Add FAQPage schema with 6-8 Q&amp;A pairs to Homepage and /en/</span>
+          </li>
+          <li>
+            <div class="task-dot high"></div>
+            <span>Add WebSite schema with canonical URL and publisher reference</span>
+          </li>
+          <li>
+            <div class="task-dot high"></div>
+            <span>Update hreflang tags to absolute URLs, bidirectional on /de/ and /en/</span>
+          </li>
+          <li>
+            <div class="task-dot high"></div>
+            <span>Add meta description for /de (150 characters, German, with product name and core benefit)</span>
+          </li>
+          <li>
+            <div class="task-dot high"></div>
+            <span>Rewrite /en/ meta description in English with concrete capability claims</span>
+          </li>
+          <li>
+            <div class="task-dot high"></div>
+            <span>Change Homepage title to German (lang=de page needs a German title)</span>
+          </li>
+          <li>
+            <div class="task-dot medium"></div>
+            <span>Add Twitter Card meta tags to all pages</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="week-card">
+        <div class="week-header">
+          <span class="week-num">WEEK 3</span>
+          <span class="week-title">E-E-A-T &amp; Content</span>
+        </div>
+        <ul class="week-tasks">
+          <li>
+            <div class="task-dot critical"></div>
+            <span>Create About/Team page (/en/about + /de/ueber-uns) with bios, LinkedIn links, Person schema</span>
+          </li>
+          <li>
+            <div class="task-dot critical"></div>
+            <span>Add authoritative "Peaceflow is..." definition sentences in the first 200 words of both language versions</span>
+          </li>
+          <li>
+            <div class="task-dot high"></div>
+            <span>Create methodology page: referenced frameworks (NVC, Harvard PON), team credentials</span>
+          </li>
+          <li>
+            <div class="task-dot high"></div>
+            <span>Add at least 3 data points/statistics: conflict cost studies, beta metrics</span>
+          </li>
+          <li>
+            <div class="task-dot high"></div>
+            <span>Add FAQ section with 8-12 questions to both language versions</span>
+          </li>
+          <li>
+            <div class="task-dot medium"></div>
+            <span>Replace anonymized testimonials with at least 2 named, attributed quotes</span>
+          </li>
+          <li>
+            <div class="task-dot medium"></div>
+            <span>Explain AICT Group / AICT FlexCo relationship in About page and Organization schema</span>
+          </li>
+          <li>
+            <div class="task-dot medium"></div>
+            <span>Add publication dates and "last updated" date to all pages</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="week-card">
+        <div class="week-header">
+          <span class="week-num">WEEK 4</span>
+          <span class="week-title">Brand Authority &amp; Infrastructure</span>
+        </div>
+        <ul class="week-tasks">
+          <li>
+            <div class="task-dot critical"></div>
+            <span>Create LinkedIn company page for AICT Group and Peaceflow, add sameAs to schema</span>
+          </li>
+          <li>
+            <div class="task-dot critical"></div>
+            <span>Create Wikidata entry for AICT Group / peaceflow.ai with sameAs links</span>
+          </li>
+          <li>
+            <div class="task-dot high"></div>
+            <span>Create ProductHunt listing for peaceflow.ai (free, immediate brand signal impact)</span>
+          </li>
+          <li>
+            <div class="task-dot high"></div>
+            <span>Create Crunchbase profile for AICT Group</span>
+          </li>
+          <li>
+            <div class="task-dot high"></div>
+            <span>Create GitHub organization (aict-group) with public repo or remove open-source claim</span>
+          </li>
+          <li>
+            <div class="task-dot high"></div>
+            <span>Add direct hyperlink to peaceflow.ai from degeler.consulting homepage</span>
+          </li>
+          <li>
+            <div class="task-dot medium"></div>
+            <span>Evaluate migration from GitHub Pages to Netlify/Vercel for security headers + cache control</span>
+          </li>
+          <li>
+            <div class="task-dot medium"></div>
+            <span>Record a 90-second product explainer video, upload to a "Peaceflow" YouTube channel, embed it</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:20px 24px;display:flex;align-items:center;gap:16px;margin-bottom:32px;">
+    <div style="font-size:24px;flex-shrink:0">PDF</div>
+    <div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Export as PDF</div>
+      <div style="font-size:12px;color:#666;">Open the browser print dialog (Cmd+P / Ctrl+P), select "Save as PDF" and enable "Background graphics". Recommended setting: A3 landscape for full dashboard view.</div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>GEO + SEO Audit — <span>peaceflow.ai</span> — AICT Group internal — Created June 02, 2026</p>
+  <p style="margin-top:6px;font-size:10px;color:#444;">Powered by Degeler Consulting GEO Audit Framework · degeler.consulting</p>
+</footer>
+
+<script>
+  function toggleAccordion(header) {
+    const body = header.nextElementSibling;
+    const isOpen = header.classList.contains('open');
+    document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('open'));
+    document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('open'));
+    if (!isOpen) {
+      header.classList.add('open');
+      body.classList.add('open');
+    }
+  }
+
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.bar-fill[data-width]').forEach(el => {
+        el.style.width = el.getAttribute('data-width') + '%';
+      });
+    }, 300);
+  });
+
+  document.querySelectorAll('.section-nav a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>
