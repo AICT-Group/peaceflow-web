@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- German Homepage -->
+  <url>
+    <loc>https://peaceflow.ai/de/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://peaceflow.ai/de/"/>
+    <image:image>
+      <image:loc>https://peaceflow.ai/img/Chamaeleon.png</image:loc>
+      <image:title>peaceflow — KI-Begleiter für Konfliktlösung</image:title>
+    </image:image>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- English Homepage -->
+  <url>
+    <loc>https://peaceflow.ai/en/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://peaceflow.ai/de/"/>
+    <image:image>
+      <image:loc>https://peaceflow.ai/img/Chamaeleon.png</image:loc>
+      <image:title>peaceflow — AI companion for conflict transformation</image:title>
+    </image:image>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- German Features -->
+  <url>
+    <loc>https://peaceflow.ai/de/features/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/features/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/features/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://peaceflow.ai/de/features/"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+  <!-- English Features -->
+  <url>
+    <loc>https://peaceflow.ai/en/features/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/features/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/features/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://peaceflow.ai/de/features/"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+  <!-- Impressum / Imprint -->
+  <url>
+    <loc>https://peaceflow.ai/de/impressum/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/impressum/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/imprint/"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.20</priority>
+  </url>
+
+  <url>
+    <loc>https://peaceflow.ai/en/imprint/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/impressum/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/imprint/"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.20</priority>
+  </url>
+
+  <!-- Datenschutz / Privacy -->
+  <url>
+    <loc>https://peaceflow.ai/de/datenschutz/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/datenschutz/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/privacy/"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.20</priority>
+  </url>
+
+  <url>
+    <loc>https://peaceflow.ai/en/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/datenschutz/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/privacy/"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.20</priority>
+  </url>
+
+</urlset>

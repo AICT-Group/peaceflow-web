@@ -6,12 +6,20 @@
     <title>peaceflow - navigate with clarity & connection</title>
     <link rel="icon" type="image/png" href="/img/icon.png">
 
-    <meta name="description" content="Peaceflow - your smart companion for conversations that connect. Clarity, connection, next steps.">
+    <meta name="description" content="peaceflow is an AI companion that helps people turn conflict into growth. Conversations that connect rather than divide – with clarity, connection, and next steps. Start for free.">
     <meta property="og:title" content="peaceflow - navigate with clarity & connection">
     <meta property="og:description" content="Conversations that connect rather than divide. Peaceflow guides you through conflicts with clarity and connection.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="/img/Chamaeleon.png">
+    <meta property="og:image" content="https://peaceflow.ai/img/Chamaeleon.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:url" content="https://peaceflow.ai/en/">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="peaceflow">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="peaceflow – navigate with clarity &amp; connection">
+    <meta name="twitter:description" content="Conversations that connect rather than divide. peaceflow guides you through conflicts with clarity and connection.">
+    <meta name="twitter:image" content="https://peaceflow.ai/img/Chamaeleon.png">
     <meta name="theme-color" content="#e6be1b">
 
     <!-- SEO / Hreflang Tags -->
@@ -25,6 +33,129 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=VT323&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap">
     <link rel="stylesheet" href="/css/styles.css">
+
+    <!-- Structured Data / JSON-LD — GEO + SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://peaceflow.ai/#organization",
+          "name": "AICT Group",
+          "alternateName": ["peaceflow", "AICT FlexCo"],
+          "url": "https://peaceflow.ai",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://peaceflow.ai/img/AICT_Logo_4C.png",
+            "width": 450,
+            "height": 150
+          },
+          "description": "AICT Group (Amplified Intelligence for Conflict Transformation) builds AI solutions for conflict resolution and personal transformation. Flagship product: peaceflow.",
+          "sameAs": [
+            "https://aict.group",
+            "https://app.peaceflow.ai"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "office@aict.group",
+            "contactType": "customer support"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://peaceflow.ai/#software",
+          "name": "peaceflow",
+          "applicationCategory": "HealthApplication",
+          "applicationSubCategory": "Conflict Resolution and Mental Clarity",
+          "operatingSystem": "Web",
+          "url": "https://peaceflow.ai",
+          "description": "peaceflow is an AI companion that helps people turn tension and conflict into personal growth — through empathetic conversation, pattern recognition, and shared reflection spaces.",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR",
+            "description": "Free entry available"
+          },
+          "publisher": { "@id": "https://peaceflow.ai/#organization" },
+          "inLanguage": ["de", "en"],
+          "featureList": [
+            "AI-guided conversation companion",
+            "Single and multi-user conversation spaces",
+            "Conflict analysis and pattern recognition",
+            "PeaceGuard for sensitive situations",
+            "Privacy-first: no training data usage without consent",
+            "Voice input support"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://peaceflow.ai/#website",
+          "url": "https://peaceflow.ai",
+          "name": "peaceflow",
+          "description": "AI companion for conversations that connect rather than divide",
+          "inLanguage": ["de", "en"],
+          "publisher": { "@id": "https://peaceflow.ai/#organization" }
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://peaceflow.ai/en/#webpage",
+          "url": "https://peaceflow.ai/en/",
+          "name": "peaceflow – navigate with clarity & connection",
+          "description": "peaceflow is your smart AI companion for conversations that connect rather than divide. Clarity, connection, and next steps.",
+          "inLanguage": "en",
+          "isPartOf": { "@id": "https://peaceflow.ai/#website" },
+          "about": { "@id": "https://peaceflow.ai/#software" }
+        },
+        {
+          "@type": "FAQPage",
+          "url": "https://peaceflow.ai/en/",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is peaceflow?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "peaceflow is an AI companion that helps people turn conflict and tension into personal growth. The app offers empathetic conversation guidance, pattern recognition, and shared reflection spaces for multiple users."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Who is peaceflow for?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "peaceflow is designed for individuals navigating personal conflicts, for leaders and HR teams supporting team health, and for experts like coaches and mediators who use it as a digital colleague."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does peaceflow work?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "You start a conversation and describe your situation. peaceflow listens, asks clarifying questions, recognizes patterns, and guides you step by step. You can also invite others to reflect together in a shared space."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is peaceflow private and secure?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. peaceflow does not use conversation data for AI training without explicit consent. Personal information is recognized and protected. Usage complies with GDPR requirements."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How much does peaceflow cost?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "peaceflow offers a free entry tier. Further pricing details are available directly in the app at app.peaceflow.ai."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
 

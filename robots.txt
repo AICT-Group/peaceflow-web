@@ -1,0 +1,49 @@
+# peaceflow.ai — robots.txt
+# Last updated: 2026-06-02
+
+# All crawlers: full access
+User-agent: *
+Allow: /
+
+# AI Search Crawlers — explicitly allowed
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Gemini
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Omgilibot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Sitemap
+Sitemap: https://peaceflow.ai/sitemap.xml
