@@ -33,6 +33,27 @@
     <priority>0.95</priority>
   </url>
 
+  <!-- Team / About -->
+  <url>
+    <loc>https://peaceflow.ai/de/team/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/team/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/team/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://peaceflow.ai/de/team/"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://peaceflow.ai/en/team/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/team/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/team/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://peaceflow.ai/de/team/"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
   <!-- German Features -->
   <url>
     <loc>https://peaceflow.ai/de/features/</loc>
