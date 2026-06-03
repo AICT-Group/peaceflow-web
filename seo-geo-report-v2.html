@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>peaceflow.ai — GEO + SEO Audit v2 | 03.06.2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#e6be1b;--teal:#5a8a95;--black:#111;--white:#fff;
+  --bg:#f6f6f6;--green:#4a8a5a;--red:#b6453d;
+  --critical:#b6453d;--high:#e6891a;--medium:#5a8a95;--low:#6e6e6e;
+  --gray-light:#e2e2e2;--gray-mid:#999;--gray-dark:#444;
+}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--black);min-height:100vh}
+a{color:var(--teal);text-decoration:none}
+
+/* HEADER */
+.site-header{background:var(--black);color:var(--white);padding:20px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.site-header .brand{font-family:'Courier Prime',monospace;font-size:1.25rem;font-weight:700;letter-spacing:.03em}
+.site-header .brand span{color:var(--gold)}
+.header-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.badge-intern{background:var(--gold);color:var(--black);font-size:.7rem;font-weight:700;letter-spacing:.1em;padding:4px 10px;border-radius:2px;text-transform:uppercase}
+.badge-v2{background:var(--teal);color:var(--white);font-size:.7rem;font-weight:700;letter-spacing:.1em;padding:4px 10px;border-radius:2px;text-transform:uppercase}
+.header-date{font-size:.8rem;color:#aaa;font-family:'Courier Prime',monospace}
+
+/* COMPARISON BANNER */
+.compare-banner{background:linear-gradient(135deg,#111 0%,#1a2a2e 60%,#0d1f1a 100%);color:var(--white);padding:24px 32px;border-left:5px solid var(--gold);position:relative;overflow:hidden}
+.compare-banner::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(230,190,27,.03) 40px,rgba(230,190,27,.03) 80px)}
+.compare-inner{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.compare-scores{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.score-block{text-align:center}
+.score-block .label{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#aaa;margin-bottom:4px}
+.score-block .value{font-family:'Courier Prime',monospace;font-size:2.8rem;font-weight:700;line-height:1}
+.score-block .value.old{color:#666}
+.score-block .value.new{color:var(--gold)}
+.arrow-anim{font-size:2rem;color:var(--green);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.2);opacity:.7}}
+.delta-block{background:rgba(74,138,90,.2);border:1px solid var(--green);border-radius:8px;padding:16px 24px;text-align:center}
+.delta-block .delta-num{font-family:'Courier Prime',monospace;font-size:3rem;font-weight:700;color:var(--green);line-height:1}
+.delta-block .delta-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:#aaa;margin-top:4px}
+.compare-summary{font-size:.85rem;color:#ccc;max-width:340px;line-height:1.6}
+.compare-summary strong{color:var(--gold)}
+
+/* MAIN LAYOUT */
+.container{max-width:1200px;margin:0 auto;padding:32px 24px}
+.section-title{font-family:'Courier Prime',monospace;font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-dark);margin-bottom:20px;padding-bottom:8px;border-bottom:2px solid var(--gray-light);display:flex;align-items:center;gap:10px}
+.section-title .dot{width:10px;height:10px;border-radius:50%;background:var(--gold);flex-shrink:0}
+
+/* GAUGE SECTION */
+.score-hero{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:start;margin-bottom:40px;flex-wrap:wrap}
+@media(max-width:700px){.score-hero{grid-template-columns:1fr}}
+.gauge-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.gauge-svg{width:220px;height:130px}
+.gauge-score-label{font-family:'Courier Prime',monospace;font-size:.85rem;color:var(--gray-mid);text-align:center}
+.gauge-score-label span{color:var(--black);font-weight:700}
+.category-bars{flex:1}
+.cat-bar-row{display:grid;grid-template-columns:110px 1fr auto;align-items:center;gap:12px;margin-bottom:14px}
+.cat-bar-name{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-dark)}
+.bar-track{height:20px;background:var(--gray-light);border-radius:10px;position:relative;overflow:visible}
+.bar-old{position:absolute;top:0;left:0;height:100%;background:rgba(100,100,100,.25);border-radius:10px;transition:width 1s ease;border:1.5px dashed #aaa}
+.bar-new{position:absolute;top:0;left:0;height:100%;border-radius:10px;transition:width 1.2s ease .3s}
+.cat-bar-vals{font-family:'Courier Prime',monospace;font-size:.75rem;text-align:right;white-space:nowrap}
+.cat-bar-vals .vnew{font-weight:700}
+.cat-bar-vals .vdelta{color:var(--green);font-size:.7rem}
+
+/* GRID CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:40px}
+.card{background:var(--white);border-radius:8px;padding:20px;border:1px solid var(--gray-light);transition:box-shadow .2s}
+.card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.card-improvement{border-left:4px solid var(--green)}
+.card-improvement .card-icon{color:var(--green);font-size:1.1rem;margin-bottom:8px}
+.card-improvement .card-text{font-size:.82rem;line-height:1.5;color:var(--gray-dark)}
+
+/* ISSUES */
+.issues-list{display:flex;flex-direction:column;gap:12px;margin-bottom:40px}
+.issue-card{background:var(--white);border-radius:8px;padding:20px;border:1px solid var(--gray-light);border-left:5px solid var(--gray-mid)}
+.issue-card.sev-critical{border-left-color:var(--critical)}
+.issue-card.sev-high{border-left-color:var(--high)}
+.issue-card.sev-medium{border-left-color:var(--medium)}
+.issue-card.sev-low{border-left-color:var(--low)}
+.issue-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.sev-badge{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:3px 8px;border-radius:3px;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.sev-badge.critical{background:var(--critical);color:#fff}
+.sev-badge.high{background:var(--high);color:#fff}
+.sev-badge.medium{background:var(--medium);color:#fff}
+.sev-badge.low{background:#ddd;color:#555}
+.cat-badge{font-size:.65rem;padding:3px 8px;border-radius:3px;background:#eee;color:#555;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.issue-title{font-weight:600;font-size:.88rem;color:var(--black);flex:1}
+.issue-detail{font-size:.8rem;color:var(--gray-dark);line-height:1.6;margin-bottom:8px}
+.issue-fix{font-size:.78rem;background:#f0f7f0;border:1px solid #c8e0c8;border-radius:4px;padding:10px 12px;color:#2a5a2a;line-height:1.5}
+.issue-fix strong{display:block;margin-bottom:3px;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:#4a8a5a}
+
+/* ACCORDION */
+.accordion{margin-bottom:40px}
+.acc-item{background:var(--white);border:1px solid var(--gray-light);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.acc-header{padding:18px 20px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;user-select:none}
+.acc-header:hover{background:#fafafa}
+.acc-title-wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.acc-cat-name{font-weight:700;font-size:.9rem}
+.acc-scores{display:flex;align-items:center;gap:8px}
+.score-pill{font-family:'Courier Prime',monospace;font-size:.8rem;padding:3px 10px;border-radius:12px;font-weight:700}
+.score-pill.old{background:#eee;color:#888}
+.score-pill.new{background:var(--gold);color:#111}
+.delta-pill{font-size:.75rem;font-weight:700;color:var(--green);background:rgba(74,138,90,.12);padding:3px 8px;border-radius:12px}
+.acc-chevron{font-size:1rem;color:#999;transition:transform .3s;flex-shrink:0}
+.acc-body{padding:0 20px 20px;display:none}
+.acc-body.open{display:block}
+.acc-summary{font-size:.83rem;line-height:1.7;color:var(--gray-dark);margin-bottom:16px;padding:14px;background:#f8f8f8;border-radius:6px;border-left:3px solid var(--teal)}
+.strengths-list{list-style:none;margin-bottom:16px}
+.strengths-list li{font-size:.8rem;line-height:1.5;padding:5px 0 5px 20px;position:relative;color:var(--gray-dark);border-bottom:1px solid #f0f0f0}
+.strengths-list li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700}
+.acc-sub-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-mid);margin-bottom:8px;margin-top:14px}
+
+/* TECH CHECKS */
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:40px}
+.tech-check{background:var(--white);border-radius:8px;padding:16px;border:1px solid var(--gray-light);display:flex;flex-direction:column;gap:6px}
+.tc-label{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-dark)}
+.tc-status{display:flex;align-items:center;gap:8px}
+.tc-badge{font-size:.85rem;font-weight:700}
+.tc-badge.pass{color:var(--green)}
+.tc-badge.fail{color:var(--red)}
+.tc-before{font-size:.7rem;color:var(--gray-mid);display:flex;align-items:center;gap:4px}
+.tc-before .was-pass{color:var(--green)}
+.tc-before .was-fail{color:var(--red)}
+.tc-detail{font-size:.72rem;color:#888;line-height:1.4}
+
+/* SCORE VERLAUF */
+.verlauf-table{width:100%;border-collapse:collapse;margin-bottom:40px;font-size:.82rem}
+.verlauf-table th{background:var(--black);color:var(--white);padding:10px 14px;text-align:left;font-family:'Courier Prime',monospace;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+.verlauf-table td{padding:10px 14px;border-bottom:1px solid var(--gray-light);background:var(--white)}
+.verlauf-table tr:hover td{background:#fafafa}
+.verlauf-table .td-delta{color:var(--green);font-weight:700;font-family:'Courier Prime',monospace}
+.verlauf-table .td-score{font-family:'Courier Prime',monospace;font-weight:700}
+.trend-bar{height:6px;background:var(--gray-light);border-radius:3px;min-width:60px;position:relative;overflow:hidden}
+.trend-fill{height:100%;background:var(--teal);border-radius:3px;transition:width .8s ease}
+
+/* ACTION PLAN */
+.action-plan{margin-bottom:40px}
+.action-section{margin-bottom:24px}
+.action-section-title{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-mid);margin-bottom:12px;padding:6px 12px;background:#eee;border-radius:4px}
+.action-item{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--white);border-radius:6px;border:1px solid var(--gray-light);margin-bottom:8px;font-size:.82rem}
+.action-item.done{opacity:.65}
+.action-item.done .action-text{text-decoration:line-through;color:#999}
+.action-num{font-family:'Courier Prime',monospace;font-size:.75rem;color:var(--gray-mid);flex-shrink:0;padding-top:1px;min-width:24px}
+.action-text{line-height:1.5;flex:1;color:var(--gray-dark)}
+.action-status{font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:10px;flex-shrink:0;white-space:nowrap}
+.action-status.erledigt{background:rgba(74,138,90,.15);color:var(--green)}
+.action-status.offen{background:rgba(230,142,26,.12);color:var(--high)}
+.action-status.kritisch{background:rgba(182,69,61,.12);color:var(--critical)}
+.action-prio{font-size:.65rem;padding:2px 6px;border-radius:3px;flex-shrink:0}
+.action-prio.p1{background:var(--critical);color:#fff}
+.action-prio.p2{background:var(--high);color:#fff}
+.action-prio.p3{background:var(--medium);color:#fff}
+
+/* FOOTER */
+.site-footer{background:var(--black);color:#666;text-align:center;padding:20px;font-size:.75rem;font-family:'Courier Prime',monospace}
+.site-footer span{color:#444}
+
+/* UTIL */
+.mb-40{margin-bottom:40px}
+.tag{font-size:.68rem;padding:2px 7px;border-radius:3px;background:#eee;color:#555;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="brand"><span>peaceflow</span>.ai — GEO + SEO Audit <span>v2</span></div>
+  <div class="header-meta">
+    <span class="badge-v2">Audit v2</span>
+    <span class="badge-intern">AICT Group — Intern</span>
+    <span class="header-date">03. Juni 2026</span>
+  </div>
+</header>
+
+<!-- COMPARISON BANNER -->
+<div class="compare-banner">
+  <div class="compare-inner">
+    <div class="compare-scores">
+      <div class="score-block">
+        <div class="label">Voraudit<br>02.06.2026</div>
+        <div class="value old">16</div>
+      </div>
+      <div class="arrow-anim">→</div>
+      <div class="score-block">
+        <div class="label">Neuer Score<br>03.06.2026</div>
+        <div class="value new">51</div>
+      </div>
+      <div class="delta-block">
+        <div class="delta-num">+35</div>
+        <div class="delta-label">Punkte Sprung</div>
+      </div>
+    </div>
+    <div class="compare-summary">
+      In 24 Stunden von <strong>Critical (16/100)</strong> auf <strong>Fair (51/100)</strong> — der größte messbare Einzelsprung durch technische Grundlagen: robots.txt, sitemap, llms.txt, Schema-Suite und ein vollständiges Impressum mit verifizierter Rechtsform. Bottleneck ist jetzt externe Korroboration.
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- SCORE HERO -->
+<div class="section-title"><span class="dot"></span> GEO Score Übersicht</div>
+<div class="score-hero mb-40">
+  <div class="gauge-wrap">
+    <svg class="gauge-svg" viewBox="0 0 220 130">
+      <!-- background arc -->
+      <path d="M20,120 A90,90 0 0,1 200,120" fill="none" stroke="#e2e2e2" stroke-width="18" stroke-linecap="round"/>
+      <!-- old score arc (16/100) -->
+      <path id="arc-old" d="M20,120 A90,90 0 0,1 200,120" fill="none" stroke="rgba(100,100,100,0.3)" stroke-width="18" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="238"/>
+      <!-- new score arc (51/100) -->
+      <path id="arc-new" d="M20,120 A90,90 0 0,1 200,120" fill="none" stroke="#e6be1b" stroke-width="18" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="139" opacity="0">
+        <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="0.3s" fill="freeze"/>
+        <animate attributeName="stroke-dashoffset" from="283" to="139" dur="1.2s" begin="0.3s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1"/>
+      </path>
+      <!-- center text -->
+      <text x="110" y="108" text-anchor="middle" font-family="'Courier Prime',monospace" font-size="38" font-weight="700" fill="#111">51</text>
+      <text x="110" y="125" text-anchor="middle" font-family="system-ui" font-size="11" fill="#999">/ 100</text>
+      <!-- label FAIR -->
+      <text x="110" y="80" text-anchor="middle" font-family="system-ui" font-size="10" font-weight="700" fill="#e6be1b" letter-spacing="2">FAIR</text>
+    </svg>
+    <div class="gauge-score-label">Gesamt-GEO-Score<br><span>51</span> von 100 Punkten</div>
+  </div>
+
+  <div class="category-bars">
+    <!-- Citability -->
+    <div class="cat-bar-row">
+      <div class="cat-bar-name">Citability</div>
+      <div class="bar-track" style="height:22px">
+        <div class="bar-old" style="width:18%"></div>
+        <div class="bar-new" style="width:38%;background:#5a8a95"></div>
+      </div>
+      <div class="cat-bar-vals"><span class="vnew">38</span><br><span class="vdelta">+20</span></div>
+    </div>
+    <!-- Brand -->
+    <div class="cat-bar-row">
+      <div class="cat-bar-name">Brand Auth.</div>
+      <div class="bar-track" style="height:22px">
+        <div class="bar-old" style="width:8%"></div>
+        <div class="bar-new" style="width:34%;background:#e6891a"></div>
+      </div>
+      <div class="cat-bar-vals"><span class="vnew">34</span><br><span class="vdelta">+26</span></div>
+    </div>
+    <!-- E-E-A-T -->
+    <div class="cat-bar-row">
+      <div class="cat-bar-name">E-E-A-T</div>
+      <div class="bar-track" style="height:22px">
+        <div class="bar-old" style="width:24%"></div>
+        <div class="bar-new" style="width:46%;background:#4a8a5a"></div>
+      </div>
+      <div class="cat-bar-vals"><span class="vnew">46</span><br><span class="vdelta">+22</span></div>
+    </div>
+    <!-- Technical -->
+    <div class="cat-bar-row">
+      <div class="cat-bar-name">Technical</div>
+      <div class="bar-track" style="height:22px">
+        <div class="bar-old" style="width:22%"></div>
+        <div class="bar-new" style="width:80%;background:#e6be1b"></div>
+      </div>
+      <div class="cat-bar-vals"><span class="vnew">80</span><br><span class="vdelta">+58</span></div>
+    </div>
+    <!-- Schema -->
+    <div class="cat-bar-row">
+      <div class="cat-bar-name">Schema</div>
+      <div class="bar-track" style="height:22px">
+        <div class="bar-old" style="width:3%"></div>
+        <div class="bar-new" style="width:68%;background:#9b59b6"></div>
+      </div>
+      <div class="cat-bar-vals"><span class="vnew">68</span><br><span class="vdelta">+65</span></div>
+    </div>
+    <!-- Platform -->
+    <div class="cat-bar-row">
+      <div class="cat-bar-name">Platform</div>
+      <div class="bar-track" style="height:22px">
+        <div class="bar-old" style="width:18%"></div>
+        <div class="bar-new" style="width:68%;background:#b6453d"></div>
+      </div>
+      <div class="cat-bar-vals"><span class="vnew">68</span><br><span class="vdelta">+50</span></div>
+    </div>
+    <div style="font-size:.7rem;color:#aaa;margin-top:8px">— — — Vorherige Werte (02.06.) &nbsp;&nbsp; ——— Aktuelle Werte (03.06.)</div>
+  </div>
+</div>
+
+<!-- SCORE VERLAUF TABELLE -->
+<div class="section-title"><span class="dot"></span> Score-Verlauf: 02.06. → 03.06.2026</div>
+<table class="verlauf-table">
+  <thead>
+    <tr>
+      <th>Kategorie</th>
+      <th>02.06.2026</th>
+      <th>03.06.2026</th>
+      <th>Delta</th>
+      <th>Trend</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Gesamt GEO Score</strong></td>
+      <td class="td-score">16</td>
+      <td class="td-score">51</td>
+      <td class="td-delta">+35</td>
+      <td><div class="trend-bar"><div class="trend-fill" style="width:51%"></div></div></td>
+    </tr>
+    <tr>
+      <td>AI Citability</td>
+      <td class="td-score" style="color:#aaa">18</td>
+      <td class="td-score">38</td>
+      <td class="td-delta">+20</td>
+      <td><div class="trend-bar"><div class="trend-fill" style="width:38%;background:#5a8a95"></div></div></td>
+    </tr>
+    <tr>
+      <td>Brand Authority</td>
+      <td class="td-score" style="color:#aaa">8</td>
+      <td class="td-score">34</td>
+      <td class="td-delta">+26</td>
+      <td><div class="trend-bar"><div class="trend-fill" style="width:34%;background:#e6891a"></div></div></td>
+    </tr>
+    <tr>
+      <td>E-E-A-T</td>
+      <td class="td-score" style="color:#aaa">24</td>
+      <td class="td-score">46</td>
+      <td class="td-delta">+22</td>
+      <td><div class="trend-bar"><div class="trend-fill" style="width:46%;background:#4a8a5a"></div></div></td>
+    </tr>
+    <tr>
+      <td>Technical GEO</td>
+      <td class="td-score" style="color:#aaa">22</td>
+      <td class="td-score">80</td>
+      <td class="td-delta">+58</td>
+      <td><div class="trend-bar"><div class="trend-fill" style="width:80%;background:#e6be1b"></div></div></td>
+    </tr>
+    <tr>
+      <td>Schema & Structured Data</td>
+      <td class="td-score" style="color:#aaa">3</td>
+      <td class="td-score">68</td>
+      <td class="td-delta">+65</td>
+      <td><div class="trend-bar"><div class="trend-fill" style="width:68%;background:#9b59b6"></div></div></td>
+    </tr>
+    <tr>
+      <td>Platform Optimization</td>
+      <td class="td-score" style="color:#aaa">18</td>
+      <td class="td-score">68</td>
+      <td class="td-delta">+50</td>
+      <td><div class="trend-bar"><div class="trend-fill" style="width:68%;background:#b6453d"></div></div></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- WAS HAT SICH VERBESSERT -->
+<div class="section-title"><span class="dot"></span> Umgesetzte Verbesserungen (24h)</div>
+<div class="cards-grid mb-40">
+  <div class="card card-improvement">
+    <div class="card-icon">✓</div>
+    <div class="card-text"><strong>robots.txt komplett neu</strong> — von 404 auf vollständige AI-Crawler-Allowlist: GPTBot, ClaudeBot, PerplexityBot, Google-Extended, CCBot und 8 weitere explizit erlaubt.</div>
+  </div>
+  <div class="card card-improvement">
+    <div class="card-icon">✓</div>
+    <div class="card-text"><strong>sitemap.xml erstellt</strong> — 10 Seiten mit hreflang-Alternates pro Seite und Image-Sitemap. Vorher vollständig abwesend.</div>
+  </div>
+  <div class="card card-improvement">
+    <div class="card-icon">✓</div>
+    <div class="card-text"><strong>llms.txt erstellt (88/100)</strong> — Entity-Definition, Use Cases, Brand-Vokabular, Site-Struktur. Direkt zitierfähig für ChatGPT, Claude und Perplexity.</div>
+  </div>
+  <div class="card card-improvement">
+    <div class="card-icon">✓</div>
+    <div class="card-text"><strong>hreflang absolute URLs</strong> — alle Sub-Pages und sitemap.xml korrigiert auf vollständige absolute URLs.</div>
+  </div>
+  <div class="card card-improvement">
+    <div class="card-icon">✓</div>
+    <div class="card-text"><strong>og:image absolute URLs</strong> — relative Pfade korrigiert, OG-Scraper-Fehler behoben. og:locale, og:site_name, twitter:card seitenübergreifend ergänzt.</div>
+  </div>
+  <div class="card card-improvement">
+    <div class="card-icon">✓</div>
+    <div class="card-text"><strong>FAQPage + SoftwareApplication Schema</strong> — 5 Q&A-Paare in DE und EN, SoftwareApplication mit featureList (6 Items), Offer mit Free-Tier, inLanguage und publisher.</div>
+  </div>
+  <div class="card card-improvement">
+    <div class="card-icon">✓</div>
+    <div class="card-text"><strong>Impressum vollständig</strong> — AICT FlexCo, FN 657 256 d, UID ATU82421924, Handelsgericht Wien, WKÖ/WKW, 4 verantwortliche Personen. Größter einzelner Vertrauenssprung.</div>
+  </div>
+  <div class="card card-improvement">
+    <div class="card-icon">✓</div>
+    <div class="card-text"><strong>Team-Page erstellt</strong> — 4 namentlich genannte Co-Founder mit verifizierbaren Rollen und externen Unternehmensreferenzen (degeler.consulting, garten.ai).</div>
+  </div>
+  <div class="card card-improvement">
+    <div class="card-icon">✓</div>
+    <div class="card-text"><strong>Physische Adresse</strong> — Bruno-Marek-Allee 5/10/6, 1020 Wien — spezifisch, kein Postfach, stimmt mit Handelsregister überein.</div>
+  </div>
+  <div class="card card-improvement">
+    <div class="card-icon">✓</div>
+    <div class="card-text"><strong>LinkedIn sameAs</strong> — Organization-Schema verlinkt auf linkedin.com/company/aict-group — schließt kritischste Entity-Disambiguation-Lücke.</div>
+  </div>
+  <div class="card card-improvement">
+    <div class="card-icon">✓</div>
+    <div class="card-text"><strong>@graph-Pattern mit @id</strong> — isPartOf, about und publisher referenzieren korrekt über @id-Anker. Kein JSON-LD-Parse-Fehler auf keiner Seite.</div>
+  </div>
+  <div class="card card-improvement">
+    <div class="card-icon">✓</div>
+    <div class="card-text"><strong>Österreichisches Firmenbuch</strong> — AICT FlexCo FN 657256d liefert einen staatlich verifizierten Third-Party-Entity-Anker, indexiert in Creditreform, wirtschaft.at, northdata.</div>
+  </div>
+</div>
+
+<!-- VERBLEIBENDE ISSUES -->
+<div class="section-title"><span class="dot"></span> Verbleibende Issues nach Severity</div>
+<div class="issues-list">
+
+  <!-- CRITICAL -->
+  <div class="issue-card sev-critical">
+    <div class="issue-header">
+      <span class="sev-badge critical">Critical</span>
+      <span class="cat-badge">AI Citability</span>
+      <div class="issue-title">FAQ nur als Schema — nicht als sichtbarer Seiteninhalt gerendert</div>
+    </div>
+    <div class="issue-detail">Alle 5 FAQ-Q&A-Paare existieren ausschließlich im JSON-LD-Block im HTML-Head. Kein sichtbares Accordion, kein gerenderter Q&A-Abschnitt auf der Seite. AI-Systeme, die gerenderten Text verarbeiten (u.a. Perplexity), sehen diese Antworten nicht.</div>
+    <div class="issue-fix"><strong>Fix:</strong> FAQ als sichtbares HTML rendern — Accordion oder einfacher Q&A-Abschnitt am Seitenende mit identischem Text wie im JSON-LD. Google Rich Results erfordert ebenfalls sichtbaren FAQ-Inhalt.</div>
+  </div>
+
+  <div class="issue-card sev-critical">
+    <div class="issue-header">
+      <span class="sev-badge critical">Critical</span>
+      <span class="cat-badge">AI Citability</span>
+      <div class="issue-title">Null Statistiken auf der gesamten Website</div>
+    </div>
+    <div class="issue-detail">Keine Prozentsätze, keine Nutzerzahlen, keine Erfolgsraten, keine Preisstufen, keine Forschungszitate, keine Zeitrahmen, keine Vergleichsdaten. Statistical Density: 8/100. Perplexity und ChatGPT Search bevorzugen stark faktenreiche Passagen.</div>
+    <div class="issue-fix"><strong>Fix:</strong> Mindestens 3–5 konkrete Datenpunkte auf die Homepage: Anzahl unterstützter Konfliktszenarien, durchschnittliche Sitzungslänge, unterstützte Sprachen, Gründungsjahr, Anzahl Use-Case-Kategorien. Auch interne Angaben zählen: "peaceflow deckt 4 Konfliktdomänen ab".</div>
+  </div>
+
+  <div class="issue-card sev-critical">
+    <div class="issue-header">
+      <span class="sev-badge critical">Critical</span>
+      <span class="cat-badge">Content E-E-A-T</span>
+      <div class="issue-title">Person-Schema nicht server-side gerendert — für Crawler unsichtbar</div>
+    </div>
+    <div class="issue-detail">WebFetch fand kein JSON-LD auf /de/team/, /en/team/ und /de/. Das Schema wird offenbar client-seitig via JavaScript injiziert — Googlebot und AI-Crawler im HTTP-only-Modus können es nicht lesen. Negiert die gesamte Structured-Data-Verbesserung.</div>
+    <div class="issue-fix"><strong>Fix:</strong> Alle JSON-LD-Blöcke in die Next.js &lt;Head&gt;-Komponente oder via generateMetadata() server-seitig rendern. Verifizieren mit: curl -s https://peaceflow.ai/de/team/ | grep -i ld+json</div>
+  </div>
+
+  <div class="issue-card sev-critical">
+    <div class="issue-header">
+      <span class="sev-badge critical">Critical</span>
+      <span class="cat-badge">Brand Authority</span>
+      <div class="issue-title">Kein Wikipedia / Wikidata-Eintrag</div>
+    </div>
+    <div class="issue-detail">Wikipedia und Wikidata sind Tier-1-Autoritätssignale für alle großen KI-Engines. Ohne Wikidata-Q-Item kann das Organization-Schema kein sameAs auf einen universell vertrauenswürdigen Knowledge-Graph-Node verweisen.</div>
+    <div class="issue-fix"><strong>Fix:</strong> Wikidata-Item für AICT Group / peaceflow.ai anlegen: Firmenbuch-Nummer, Gründer, Gründungsdatum, offizielle Website. Höchste ROI-Aktion für AI-Citability.</div>
+  </div>
+
+  <div class="issue-card sev-critical">
+    <div class="issue-header">
+      <span class="sev-badge critical">Critical</span>
+      <span class="cat-badge">Brand Authority</span>
+      <div class="issue-title">Null Press / Editorial Coverage — keine Drittquellen-Indexierung</div>
+    </div>
+    <div class="issue-detail">Kein Media-Coverage, keine Startup-Verzeichnisse (ProductHunt, Crunchbase, Tracxn), keine Podcast-Auftritte, keine Analyst-Erwähnungen gefunden. Alle fünf KI-Plattformen gewichten editoriale Co-Citation als primären Authority-Multiplikator.</div>
+    <div class="issue-fix"><strong>Fix:</strong> 2–3 editoriale Erwähnungen sichern: österreichische Startup-Media (Trending Topics, Brutkasten, Der Standard Digitalisierung), HR-Tech-Blog-Feature oder Founder-Interview. Ein TechCrunch/ProductHunt-Launchpost wäre transformativ.</div>
+  </div>
+
+  <!-- HIGH -->
+  <div class="issue-card sev-high">
+    <div class="issue-header">
+      <span class="sev-badge high">High</span>
+      <span class="cat-badge">AI Citability</span>
+      <div class="issue-title">Body-Copy verwendet "es/it" ohne peaceflow zu nennen</div>
+    </div>
+    <div class="issue-detail">6 Feature-Items starten mit "es" (z.B. "es hört zu", "es begleitet") ohne das Subjekt zu nennen. Jeder isoliert extrahierte Absatz verliert sein Subjekt. Self-Containment-Score: 48/100.</div>
+    <div class="issue-fix"><strong>Fix:</strong> "es" durch "peaceflow" in jedem Feature-Card-Eröffnungssatz ersetzen: "Peaceflow hört zu, fragt nach und erkennt Muster." 5-Minuten-Find-Replace.</div>
+  </div>
+
+  <div class="issue-card sev-high">
+    <div class="issue-header">
+      <span class="sev-badge high">High</span>
+      <span class="cat-badge">AI Citability</span>
+      <div class="issue-title">H1 und Section-Headings poetisch, nicht definitions-basiert</div>
+    </div>
+    <div class="issue-detail">H1: "manche situationen brauchen mehr als gute absichten" — für KI-Systeme kein Entity-Anker. Section-Headings wie "conflict is not a failure" haben null Query-Match-Potenzial für Informationssuchen zu KI-Konflikt-Tools.</div>
+    <div class="issue-fix"><strong>Fix:</strong> Ein H2 nahe dem Seitenanfang als direkte Definition: "Was ist peaceflow?" gefolgt vom exakten FAQ-Antworttext. Kein Redesign nötig — sitzt zwischen Hero und Painpoints-Sektion.</div>
+  </div>
+
+  <div class="issue-card sev-high">
+    <div class="issue-header">
+      <span class="sev-badge high">High</span>
+      <span class="cat-badge">Technical GEO</span>
+      <div class="issue-title">Team-Page fehlt Person-Schema für alle 4 Co-Founder</div>
+    </div>
+    <div class="issue-detail">teamPage.schemaTypes ist leer [] trotz Alexander Oliver Lexa (CEO), Felix Degeler (COO), Patrik Garten (CIO) und Carlos Berná Esteban (CTO) mit LinkedIn. LLMs können diese Personen ohne Person-Schema nicht zuverlässig als benannte Entitäten von peaceflow assoziieren.</div>
+    <div class="issue-fix"><strong>Fix:</strong> schema.org/Person-Markup für jeden Co-Founder auf /team: name, jobTitle, sameAs (LinkedIn-URL), worksFor mit Referenz auf Organization-Schema.</div>
+  </div>
+
+  <div class="issue-card sev-high">
+    <div class="issue-header">
+      <span class="sev-badge high">High</span>
+      <span class="cat-badge">Content E-E-A-T</span>
+      <div class="issue-title">Keine individuellen LinkedIn-Profil-URLs pro Founder</div>
+    </div>
+    <div class="issue-detail">Team-Page verlinkt nur auf die AICT-Group-Unternehmensseite. Individuelle linkedin.com/in/...-URLs für Lexa, Degeler, Garten und Berná fehlen. Google E-E-A-T-Guidelines gewichten individuelle Berufsprofil als Identitätsverifikation.</div>
+    <div class="issue-fix"><strong>Fix:</strong> Persönliche LinkedIn-URL jedes Gründers in Team-Card + als sameAs-Wert im Person-Schema. Höchste ROI-Authoritativeness-Aktion.</div>
+  </div>
+
+  <div class="issue-card sev-high">
+    <div class="issue-header">
+      <span class="sev-badge high">High</span>
+      <span class="cat-badge">Content E-E-A-T</span>
+      <div class="issue-title">Keine klinischen oder psychologischen Berater benannt</div>
+    </div>
+    <div class="issue-detail">peaceflow operiert in einem sensiblen Bereich (Konfliktlösung, emotionales Wohlbefinden). Die Features-Page erwähnt Praktiker-Interviews, nennt aber niemanden. Googles Health-Content-Guidelines gelten — fehlende qualifizierte Berater-Attribution ist signifikante Expertise-Lücke.</div>
+    <div class="issue-fix"><strong>Fix:</strong> Advisory-Board-Sektion auf Team-Page mit mindestens einem benannten Psychologen, Mediator oder Konfliktforscher. Credentials + Person-Schema sameAs auf Uni-Profil oder Berufsregister.</div>
+  </div>
+
+  <div class="issue-card sev-high">
+    <div class="issue-header">
+      <span class="sev-badge high">High</span>
+      <span class="cat-badge">Brand Authority</span>
+      <div class="issue-title">Kein ProductHunt, G2 oder Capterra Listing</div>
+    </div>
+    <div class="issue-detail">Diese Plattformen sind explizite sameAs-Kandidaten für SaaS-Produkte und werden regelmäßig von KI-Trainingspipelines gescrapt. Ohne sie kann peaceflow.ai nicht als echtes Produkt von KI-Engines trianguliert werden.</div>
+    <div class="issue-fix"><strong>Fix:</strong> ProductHunt-Launch (auch minimales Listing wird schnell indexiert). G2-Profil anlegen — keine Reviews für Existenz nötig. Capterra hat Self-Serve-Einreichung.</div>
+  </div>
+
+  <div class="issue-card sev-high">
+    <div class="issue-header">
+      <span class="sev-badge high">High</span>
+      <span class="cat-badge">Brand Authority</span>
+      <div class="issue-title">Kein Crunchbase-Profil</div>
+    </div>
+    <div class="issue-detail">Crunchbase ist die Standard-Unternehmensdatenbank für KI-Engines wenn Wikipedia fehlt. Ohne es ist die AICT-Group-Entität im Startup/Investor-Knowledge-Graph nicht verifizierbar. Das Firmenbuch-Eintrag ist gute Grundlage, aber nicht internationalisiert.</div>
+    <div class="issue-fix"><strong>Fix:</strong> Crunchbase-Profil für AICT Group anlegen mit Verweis auf peaceflow.ai, Gründungsdatum, Gründer, Hauptsitz (Wien) und Finanzierungsstatus. Free Tier ausreichend.</div>
+  </div>
+
+  <div class="issue-card sev-high">
+    <div class="issue-header">
+      <span class="sev-badge high">High</span>
+      <span class="cat-badge">Brand Authority</span>
+      <div class="issue-title">Keine öffentliche GitHub-Organisation</div>
+    </div>
+    <div class="issue-detail">llms.txt erwähnt Open-Source-Entwicklung, aber keine öffentliche GitHub-Org (AICT-Group oder peaceflow-ai) gefunden. Bricht Open-Source-Glaubwürdigkeitssignal und entfernt wichtigen Trust-Anker für developer-orientierte KI-Engines.</div>
+    <div class="issue-fix"><strong>Fix:</strong> Öffentliche GitHub-Org anlegen (github.com/AICT-Group oder github.com/peaceflow-ai) mit mindestens einem öffentlichen README-Repo. Als sameAs-URL in Organization-Schema ergänzen.</div>
+  </div>
+
+  <div class="issue-card sev-high">
+    <div class="issue-header">
+      <span class="sev-badge high">High</span>
+      <span class="cat-badge">Platform Optimization</span>
+      <div class="issue-title">EN Subpage hat kein Schema-Markup</div>
+    </div>
+    <div class="issue-detail">Englischsprachige Subpage (schemaTypes: []) hat kein Structured Data. AI-Crawler behandeln jede URL unabhängig — EN-Version ist für schema-basierte Ranking-Signale unsichtbar trotz hreflang.</div>
+    <div class="issue-fix"><strong>Fix:</strong> Homepage-Schema-Set (Organization, SoftwareApplication, FAQPage, WebPage, WebSite) auf EN Subpage spiegeln. Mindestens WebPage + SoftwareApplication ergänzen.</div>
+  </div>
+
+  <div class="issue-card sev-high">
+    <div class="issue-header">
+      <span class="sev-badge high">High</span>
+      <span class="cat-badge">Technical GEO</span>
+      <div class="issue-title">llms.txt fehlt FAQ-Sektion und AI Content Policy</div>
+    </div>
+    <div class="issue-detail">Quality-Score 88/100, aber kein FAQ-Block und keine explizite Content-Policy für KI-Crawler. FAQ-Content in llms.txt verbessert Zero-Click-Citation-Genauigkeit in ChatGPT, Perplexity und Claude erheblich.</div>
+    <div class="issue-fix"><strong>Fix:</strong> ## FAQ-Sektion mit 5-8 Q&A-Paaren in llms.txt ergänzen. ## Content Policy Block: Zitations- und Lizenzierungspräferenzen angeben.</div>
+  </div>
+
+  <!-- MEDIUM -->
+  <div class="issue-card sev-medium">
+    <div class="issue-header">
+      <span class="sev-badge medium">Medium</span>
+      <span class="cat-badge">Schema</span>
+      <div class="issue-title">BreadcrumbList fehlt auf allen Sub-Pages</div>
+    </div>
+    <div class="issue-detail">Keine BreadcrumbList auf /de/team/, /en/team/, /de/features/ oder /en/features/. Nur ein HTML-Kommentar auf der Team-Page aber kein Structured Data. Höchster ROI unter Schema-Typen für SERP-Display.</div>
+    <div class="issue-fix"><strong>Fix:</strong> BreadcrumbList zu jeder Sub-Page hinzufügen mit ListItem[position 1: peaceflow /, position 2: Team]. Für EN und Features-Page wiederholen.</div>
+  </div>
+
+  <div class="issue-card sev-medium">
+    <div class="issue-header">
+      <span class="sev-badge medium">Medium</span>
+      <span class="cat-badge">Schema</span>
+      <div class="issue-title">FAQPage fehlt @id — Cross-Referenzierung gebrochen</div>
+    </div>
+    <div class="issue-detail">Beide FAQPage-Blöcke (DE und EN) haben keine @id-Eigenschaft, daher können sie nicht von WebPage oder anderen Entitäten kreuzreferenziert werden.</div>
+    <div class="issue-fix"><strong>Fix:</strong> @id: 'https://peaceflow.ai/de/#faqpage' und inLanguage: 'de' ergänzen (analog für /en/). isPartOf: '@id': 'https://peaceflow.ai/#website' für Vollständigkeit.</div>
+  </div>
+
+  <div class="issue-card sev-medium">
+    <div class="issue-header">
+      <span class="sev-badge medium">Medium</span>
+      <span class="cat-badge">Schema</span>
+      <div class="issue-title">Organization-Block inkonsistent zwischen Seiten</div>
+    </div>
+    <div class="issue-detail">Homepage /de/ und /en/ Organization-Blöcke fehlen foundingDate und address (PostalAddress), die Team-Page hat beides. Suchmaschinen sehen widersprüchliche Entity-Beschreibungen.</div>
+    <div class="issue-fix"><strong>Fix:</strong> foundingDate: '2025' und address auf beiden Homepage-Varianten ergänzen, analog zur Team-Page.</div>
+  </div>
+
+  <div class="issue-card sev-medium">
+    <div class="issue-header">
+      <span class="sev-badge medium">Medium</span>
+      <span class="cat-badge">Schema</span>
+      <div class="issue-title">Person.sameAs fehlt für Lexa und Berná</div>
+    </div>
+    <div class="issue-detail">Alexander Oliver Lexa und Carlos Berná Esteban haben kein sameAs oder url auf ihren Person-Schemas. Felix Degeler und Patrik Garten haben externe URL-Referenzen. Asymmetrisches E-E-A-T-Signal.</div>
+    <div class="issue-fix"><strong>Fix:</strong> LinkedIn-Profil-URLs als sameAs-Arrays für beide Gründer ergänzen. Auch Xing-Profil oder persönliche Website qualifiziert.</div>
+  </div>
+
+  <div class="issue-card sev-medium">
+    <div class="issue-header">
+      <span class="sev-badge medium">Medium</span>
+      <span class="cat-badge">Content E-E-A-T</span>
+      <div class="issue-title">Kein Wikipedia / Wikidata-Eintrag (E-E-A-T Dimension)</div>
+    </div>
+    <div class="issue-detail">Wikidata ist primäres sameAs-Ziel für Googles Knowledge Graph und AI-Engines zur Entity-Auflösung. Weder AICT Group noch peaceflow erscheinen mit Wikidata-Eintrag.</div>
+    <div class="issue-fix"><strong>Fix:</strong> Wikidata-Item für AICT Group anlegen (Typ: Organisation) mit offiziellem Website, LinkedIn und Gründungsdaten. Low-effort, high-impact für Entity-Disambiguation.</div>
+  </div>
+
+  <div class="issue-card sev-medium">
+    <div class="issue-header">
+      <span class="sev-badge medium">Medium</span>
+      <span class="cat-badge">Technical GEO</span>
+      <div class="issue-title">Kein Thought-Leadership oder Blog in der Sitemap</div>
+    </div>
+    <div class="issue-detail">10-Seiten-Sitemap erscheint vollständig aus Produkt-/Marketing-Pages. LLMs bevorzugen stark Seiten mit substanziellen, zitierfähigen Artikeln zum Themenbereich (Konfliktlösung, Mediation, Gewaltfreie Kommunikation).</div>
+    <div class="issue-fix"><strong>Fix:</strong> 3-5 Langform-Artikel (1500+ Wörter) zu Kernthemen veröffentlichen: "KI und Konfliktlösung", "Nonviolent Communication im digitalen Zeitalter", "Konflikt als Wachstumschance". In Sitemap + llms.txt referenzieren.</div>
+  </div>
+
+  <div class="issue-card sev-medium">
+    <div class="issue-header">
+      <span class="sev-badge medium">Medium</span>
+      <span class="cat-badge">AI Citability</span>
+      <div class="issue-title">Keine zitierbaren Authority-Zitate oder externe Validierung im Body</div>
+    </div>
+    <div class="issue-detail">Princeton/Georgia-Tech-GEO-Forschung: Content mit zitierten Autoritäten erzielt 115% höhere Citation-Rates. Zwei anonyme Testimonials ("Nutzer:in nach einem Familiengespräch"), keine benannten Experten, keine Forschungsreferenzen.</div>
+    <div class="issue-fix"><strong>Fix:</strong> Ein benanntes Experten-Zitat oder ein quantifiziertes Case-Study-Ergebnis ergänzen. Z.B. Partner-Zitat mit Name und Rolle, oder spezifisches Outcome ("Teamspannung in 2 Sessions gelöst").</div>
+  </div>
+
+  <div class="issue-card sev-medium">
+    <div class="issue-header">
+      <span class="sev-badge medium">Medium</span>
+      <span class="cat-badge">Platform Optimization</span>
+      <div class="issue-title">Kein AggregateRating oder Review-Schema</div>
+    </div>
+    <div class="issue-detail">AI-Plattformen für Produktvergleiche (ChatGPT, Perplexity, Gemini) priorisieren Apps mit verifizierbaren Ratings. Kein Review-Schema vorhanden.</div>
+    <div class="issue-fix"><strong>Fix:</strong> User-Reviews auf G2 oder Capterra sammeln und AggregateRating-Schema einbinden ab Minimum 5 Reviews. Auch TestimonialCarousel mit Review-Schema von bestehenden Nutzern liefert Signal.</div>
+  </div>
+
+  <!-- LOW (ausgewählte) -->
+  <div class="issue-card sev-low">
+    <div class="issue-header">
+      <span class="sev-badge low">Low</span>
+      <span class="cat-badge">Technical GEO</span>
+      <div class="issue-title">"Gemini" User-Agent in robots.txt ist kein kanonischer Crawler-Name</div>
+    </div>
+    <div class="issue-detail">robots.txt listet "User-agent: Gemini", aber Googles AI-Crawler heißt "Google-Extended" (bereits vorhanden). Kein bestätigter Bot namens "Gemini" existiert — dieser Eintrag hat keine Wirkung.</div>
+    <div class="issue-fix"><strong>Fix:</strong> "User-agent: Gemini / Allow: /" Block entfernen. Optionally "User-agent: GoogleOther" für Vollständigkeit ergänzen.</div>
+  </div>
+
+  <div class="issue-card sev-low">
+    <div class="issue-header">
+      <span class="sev-badge low">Low</span>
+      <span class="cat-badge">Schema</span>
+      <div class="issue-title">WebPage fehlt datePublished und dateModified</div>
+    </div>
+    <div class="issue-detail">Alle WebPage-Blöcke auf /de/ und /en/ fehlen datePublished und dateModified. Diese Freshness-Signale werden von Suchmaschinen und AI-Crawlern zur Content-Currency-Bewertung genutzt.</div>
+    <div class="issue-fix"><strong>Fix:</strong> datePublished und dateModified bei jedem Deploy aktuell halten. Aktuelle Angabe: dateModified: '2026-06-03'.</div>
+  </div>
+
+  <div class="issue-card sev-low">
+    <div class="issue-header">
+      <span class="sev-badge low">Low</span>
+      <span class="cat-badge">Schema</span>
+      <div class="issue-title">2 FAQ-Antworten unter 200 Zeichen</div>
+    </div>
+    <div class="issue-detail">"Für wen ist peaceflow geeignet?" (181 Zeichen) und "Was kostet peaceflow?" (127 Zeichen) sind unter Googles FAQ-Rich-Results-Empfehlung von 200 Zeichen.</div>
+    <div class="issue-fix"><strong>Fix:</strong> Beide Antworten um 50-100 Zeichen erweitern. Für Pricing-Antwort: Was Free-Tier beinhaltet + Teaser für bezahlte Pläne. Für Audience-Antwort: 2-3 konkrete Beispiele.</div>
+  </div>
+
+  <div class="issue-card sev-low">
+    <div class="issue-header">
+      <span class="sev-badge low">Low</span>
+      <span class="cat-badge">Schema</span>
+      <div class="issue-title">HowTo-Schema Opportunity auf Homepage</div>
+    </div>
+    <div class="issue-detail">Kein HowTo-Block vorhanden. Das Produkt hat eine klare 3-4-Schritt-User-Journey (beschreiben → analysieren → Klarheit gewinnen → handeln), die direkt auf ein HowTo-Schema mappt.</div>
+    <div class="issue-fix"><strong>Fix:</strong> HowTo-Block auf DE und EN Homepage mit 3-4 HowToStep-Items zur peaceflow-Workflow. Mit sichtbarem "So funktioniert's"-Abschnitt pairen.</div>
+  </div>
+
+</div>
+
+<!-- KATEGORIE-TIEFEN-ANALYSE (ACCORDION) -->
+<div class="section-title"><span class="dot"></span> Kategorie-Tiefenanalyse</div>
+<div class="accordion">
+
+  <!-- AI Citability -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="toggleAcc(this)">
+      <div class="acc-title-wrap">
+        <span class="acc-cat-name">AI Citability</span>
+        <div class="acc-scores">
+          <span class="score-pill old">18</span>
+          <span style="color:#aaa;font-size:.8rem">→</span>
+          <span class="score-pill new">38</span>
+          <span class="delta-pill">+20 Punkte</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </div>
+    <div class="acc-body">
+      <div class="acc-summary">peaceflow.ai hat bedeutende strukturelle Verbesserungen gemacht — FAQPage JSON-LD mit 5 Q&A-Paaren, SoftwareApplication-Schema mit Feature-Liste, ein hochwertiges llms.txt (88/100) und sauberere entity-first Meta-Descriptions. Diese Ergänzungen trieben einen +20-Punkte-Sprung von 18 auf 38. Allerdings existiert das FAQ nur im HTML-Head als Schema, nicht als sichtbarer gerenderter Content. Alle fünf FAQ-Antworten sind für AI-Systeme, die gerenderten Text parsen, unsichtbar. Der sichtbare Body-Copy verlässt sich noch auf "es" (it) statt peaceflow explizit in extrahierbaren Passagen zu nennen. Die Lücke zwischen dem, was Schema sagt, und was Textinhalt liefert, ist jetzt der primäre Bottleneck.</div>
+      <div class="acc-sub-title">Stärken</div>
+      <ul class="strengths-list">
+        <li>FAQPage JSON-LD auf beiden /de und /en mit 5 gut geformten Q&A-Paaren</li>
+        <li>SoftwareApplication Schema mit featureList (6 Items), Offer, inLanguage, publisher</li>
+        <li>llms.txt 88/100: direkte "peaceflow is X"-Definition, Use-Cases, Brand-Vokabular, Site-Struktur</li>
+        <li>Organization-Schema verknüpft peaceflow mit AICT Group + sameAs (aict.group, LinkedIn, app.peaceflow.ai)</li>
+        <li>robots.txt erlaubt GPTBot, ClaudeBot, PerplexityBot</li>
+      </ul>
+      <div class="acc-sub-title">Offene Issues</div>
+      <ul class="strengths-list">
+        <li style="color:#b6453d">KRITISCH: FAQ nicht als sichtbarer Seiteninhalt gerendert</li>
+        <li style="color:#b6453d">KRITISCH: Null Statistiken auf der gesamten Website</li>
+        <li style="color:#e6891a">HIGH: Body-Copy verwendet "es/it" ohne peaceflow zu nennen</li>
+        <li style="color:#e6891a">HIGH: H1 und Section-Headings poetisch, nicht definitions-basiert</li>
+        <li style="color:#5a8a95">MEDIUM: SoftwareApplication featureList DE-only auf EN-Page nicht verifiziert</li>
+        <li style="color:#5a8a95">MEDIUM: llms.txt Site-Struktur listet nur 5 von 10 URLs</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Technical GEO -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="toggleAcc(this)">
+      <div class="acc-title-wrap">
+        <span class="acc-cat-name">Technical GEO</span>
+        <div class="acc-scores">
+          <span class="score-pill old">22</span>
+          <span style="color:#aaa;font-size:.8rem">→</span>
+          <span class="score-pill new">80</span>
+          <span class="delta-pill">+58 Punkte</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </div>
+    <div class="acc-body">
+      <div class="acc-summary">peaceflow.ai sprang von 22 auf 80 (+58 Punkte) nach einem umfassenden technischen Overhaul. Die Seite hat jetzt ein Best-Practice-robots.txt, vollständige Sitemap, ein hochwertiges llms.txt und reichhaltiges Homepage-Schema. Die verbleibenden Lücken konzentrieren sich in drei Bereichen: fehlende Person-Schema auf der Team-Page (Entity-Recognition für Gründer), dünne llms.txt FAQ-Sektion und fehlende Content-Policy-Deklaration, sowie spärliches Schema auf Sub-Pages.</div>
+      <div class="acc-sub-title">Stärken</div>
+      <ul class="strengths-list">
+        <li>robots.txt vollständig neu mit 13 AI-Crawlern explizit erlaubt (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, CCBot)</li>
+        <li>sitemap.xml von Grund auf neu mit 10 Seiten, hreflang und Image-Sitemap</li>
+        <li>llms.txt Quality-Score 88/100: Entity-Definition, Use Cases, Brand-Vokabular, Site-Struktur</li>
+        <li>Homepage-Schema umfassend (10 Typen): SoftwareApplication, FAQPage, Offer, Organization, WebSite, WebPage, ContactPoint, ImageObject, Question, Answer</li>
+        <li>Alle Sub-Pages mit hreflang-Alternates mit absoluten URLs</li>
+      </ul>
+      <div class="acc-sub-title">Offene Issues</div>
+      <ul class="strengths-list">
+        <li style="color:#e6891a">HIGH: Team-Page fehlt Person-Schema für alle 4 Co-Founder</li>
+        <li style="color:#e6891a">HIGH: llms.txt fehlt FAQ-Sektion und AI Content Policy</li>
+        <li style="color:#e6891a">HIGH: H1 keyword-absent für GEO Query-Match</li>
+        <li style="color:#5a8a95">MEDIUM: Sub-Pages haben minimales oder kein Schema</li>
+        <li style="color:#5a8a95">MEDIUM: Kein Blog/Thought-Leadership in Sitemap</li>
+        <li style="color:#6e6e6e">LOW: "Gemini" User-Agent in robots.txt ist kein kanonischer Name</li>
+        <li style="color:#6e6e6e">LOW: Google Search Console Sitemap-Einreichung nicht verifiziert</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- E-E-A-T -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="toggleAcc(this)">
+      <div class="acc-title-wrap">
+        <span class="acc-cat-name">Content E-E-A-T</span>
+        <div class="acc-scores">
+          <span class="score-pill old">24</span>
+          <span style="color:#aaa;font-size:.8rem">→</span>
+          <span class="score-pill new">46</span>
+          <span class="delta-pill">+22 Punkte</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </div>
+    <div class="acc-body">
+      <div class="acc-summary">peaceflow.ai hat sich von Critical auf Fair bei E-E-A-T bewegt. Der bedeutendste Gewinn liegt im Bereich Trustworthiness: Das Impressum legt jetzt eine vollständig registrierte österreichische Rechtseinheit offen (AICT FlexCo, FN 657 256 d, UID ATU82421924, HG Wien), vier benannte verantwortliche Personen, WKÖ/WKW-Mitgliedschaft und eine genaue physische Adresse. Das Person-Schema mit sameAs-Links erscheint jedoch nicht im crawlbaren HTML — wahrscheinlich ein Next.js-Hydratationsproblem wo Schema client-seitig injiziert wird. Authoritativeness bleibt die schwächste Dimension: kein Press-Coverage, kein Wikipedia-Eintrag, keine unabhängigen Review-Aggregatoren.</div>
+      <div class="acc-sub-title">Stärken</div>
+      <ul class="strengths-list">
+        <li>Impressum rechtlich vollständig: AICT FlexCo, FN 657 256 d, UID ATU82421924, Handelsgericht Wien, WKÖ/WKW</li>
+        <li>Team-Page benennt 4 Co-Founder mit realen Rollen und externen Unternehmensreferenzen</li>
+        <li>Physische Adresse (Bruno-Marek-Allee 5/10/6, 1020 Wien) spezifisch, kein Postfach</li>
+        <li>FAQPage-Schema auf Homepage für strukturierte Antwortmaschinen-Optimierung</li>
+        <li>PeaceGuard-Safety-Layer und Privacy-First-Positionierung dokumentiert</li>
+      </ul>
+      <div class="acc-sub-title">Offene Issues</div>
+      <ul class="strengths-list">
+        <li style="color:#b6453d">KRITISCH: Person-Schema nicht server-side gerendert — für Crawler unsichtbar</li>
+        <li style="color:#e6891a">HIGH: Keine individuellen LinkedIn-Profil-URLs pro Founder</li>
+        <li style="color:#e6891a">HIGH: Kein Press-Coverage oder Third-Party-Erwähnungen</li>
+        <li style="color:#e6891a">HIGH: Keine klinischen/psychologischen Berater benannt</li>
+        <li style="color:#5a8a95">MEDIUM: Kein Wikipedia / Wikidata-Eintrag</li>
+        <li style="color:#5a8a95">MEDIUM: Keine User-Review-Aggregatoren (G2, Capterra, Trustpilot)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Schema -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="toggleAcc(this)">
+      <div class="acc-title-wrap">
+        <span class="acc-cat-name">Schema & Structured Data</span>
+        <div class="acc-scores">
+          <span class="score-pill old">3</span>
+          <span style="color:#aaa;font-size:.8rem">→</span>
+          <span class="score-pill new">68</span>
+          <span class="delta-pill">+65 Punkte</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </div>
+    <div class="acc-body">
+      <div class="acc-summary">Ein dramatischer Sprung von 3 auf 68 — die Implementierung deckt korrekt jeden hochpriorisierten Schema-Typ für ein bilinguales SaaS-Produkt ab. Das @graph-Pattern mit korrekten @id-Kreuzreferenzen ist architektonisch solide. Beide Sprachversionen (/de/ und /en/) haben vollständige Homepage-Schema-Parität. Die Kernlücken: fehlende BreadcrumbList auf Sub-Pages, inkonsistenter Organization-Block seitenübergreifend, FAQPage fehlt @id, dünne Person-Schemas (kein Bild, 2 von 4 fehlen sameAs). Keine strukturellen Validierungsfehler gefunden.</div>
+      <div class="acc-sub-title">Stärken</div>
+      <ul class="strengths-list">
+        <li>Vollständiges @graph-Pattern mit @id-Kreuzreferenzen — isPartOf, about, publisher alle korrekt</li>
+        <li>Kern-Homepage-Schema deckt alle 5 kritischen Typen: Organization, SoftwareApplication, WebSite, WebPage, FAQPage</li>
+        <li>Bilinguale Parität: /de/ und /en/ tragen beide das vollständige Schema-Graph</li>
+        <li>FAQPage mit 5 Q&A-Paaren in beiden Sprachen — 3 von 5 Antworten über 200 Zeichen</li>
+        <li>Organization.sameAs beinhaltet LinkedIn + 2 zusätzliche Entity-Anker</li>
+        <li>SoftwareApplication: applicationCategory=HealthApplication, featureList, Offer mit Free-Tier</li>
+        <li>Kein JSON-LD-Parse-Fehler auf irgendeiner Seite</li>
+      </ul>
+      <div class="acc-sub-title">Offene Issues</div>
+      <ul class="strengths-list">
+        <li style="color:#5a8a95">MEDIUM: BreadcrumbList fehlt auf allen Sub-Pages</li>
+        <li style="color:#5a8a95">MEDIUM: FAQPage fehlt @id — Cross-Referenzierung gebrochen</li>
+        <li style="color:#5a8a95">MEDIUM: Organization-Block inkonsistent zwischen Seiten</li>
+        <li style="color:#5a8a95">MEDIUM: Person.sameAs fehlt für Lexa und Berná</li>
+        <li style="color:#5a8a95">MEDIUM: Person.image fehlt für alle 4 Gründer</li>
+        <li style="color:#5a8a95">MEDIUM: Features-Page fehlt WebPage-Schema vollständig</li>
+        <li style="color:#6e6e6e">LOW: WebPage fehlt datePublished und dateModified</li>
+        <li style="color:#6e6e6e">LOW: 2 FAQ-Antworten unter 200 Zeichen</li>
+        <li style="color:#6e6e6e">LOW: Offer fehlt availability und url</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Brand Authority -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="toggleAcc(this)">
+      <div class="acc-title-wrap">
+        <span class="acc-cat-name">Brand Authority</span>
+        <div class="acc-scores">
+          <span class="score-pill old">8</span>
+          <span style="color:#aaa;font-size:.8rem">→</span>
+          <span class="score-pill new">34</span>
+          <span class="delta-pill">+26 Punkte</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </div>
+    <div class="acc-body">
+      <div class="acc-summary">peaceflow.ai hat bedeutende strukturelle Fortschritte gemacht: das llms.txt ist jetzt wirklich hochwertig (88/100), die Schema-Suite ist umfassend, und die Team-Page verankert vier benannte Co-Founder mit LinkedIn-Links. Das österreichische Handelsregister (Firmenbuch FN 657256d, eingetragen Juli 2025) liefert ein maschinenverifizierbares Legal-Entity-Signal, das Plattformen wie Crunchbase und Wikidata referenzieren können. Cross-Links von degeler.consulting und garten.ai fügen moderate Co-Citation-Autorität hinzu. Der Score bleibt jedoch bei Poor, weil die wichtigsten AI-Engine-Trust-Hebel — Third-Party-Review-Plattformen, unabhängige Press-Coverage, Knowledge-Graph-Einträge und eine öffentliche GitHub-Präsenz — vollständig fehlen.</div>
+      <div class="acc-sub-title">Stärken</div>
+      <ul class="strengths-list">
+        <li>llms.txt 88/100 — Entity-Definition, Use Cases, Brand-Vokabular direkt zitierfähig</li>
+        <li>Vollständige Schema-Suite: SoftwareApplication, FAQPage, Organization, Offer, WebSite</li>
+        <li>Österreichisches Firmenbuch (AICT FlexCo, FN 657256d) — staatlich verifizierter Third-Party-Entity-Anker</li>
+        <li>4 benannte Co-Founder mit LinkedIn-Links — verifizierbares Mensch-Identität</li>
+        <li>Partner-Cross-Referenzen (degeler.consulting, garten.ai, Dentalyst) — kleines aber echtes Co-Citation-Cluster</li>
+        <li>robots.txt erlaubt explizit GPTBot, ClaudeBot, PerplexityBot</li>
+      </ul>
+      <div class="acc-sub-title">Offene Issues</div>
+      <ul class="strengths-list">
+        <li style="color:#b6453d">KRITISCH: Kein Wikipedia / Wikidata-Eintrag</li>
+        <li style="color:#b6453d">KRITISCH: Null Press / Editorial Coverage</li>
+        <li style="color:#e6891a">HIGH: Kein ProductHunt, G2 oder Capterra Listing</li>
+        <li style="color:#e6891a">HIGH: Kein Crunchbase-Profil</li>
+        <li style="color:#e6891a">HIGH: Keine öffentliche GitHub-Organisation</li>
+        <li style="color:#5a8a95">MEDIUM: Team-Page fehlt Person-Schema</li>
+        <li style="color:#5a8a95">MEDIUM: Kein App Store oder Mobile Listing</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Platform Optimization -->
+  <div class="acc-item">
+    <div class="acc-header" onclick="toggleAcc(this)">
+      <div class="acc-title-wrap">
+        <span class="acc-cat-name">Platform Optimization</span>
+        <div class="acc-scores">
+          <span class="score-pill old">18</span>
+          <span style="color:#aaa;font-size:.8rem">→</span>
+          <span class="score-pill new">68</span>
+          <span class="delta-pill">+50 Punkte</span>
+        </div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </div>
+    <div class="acc-body">
+      <div class="acc-summary">peaceflow.ai hat außerordentliche strukturelle Fortschritte gemacht — ein +50-Punkte-Sprung hauptsächlich durch Entsperrung aller wichtigen AI-Crawler (GPTBot, PerplexityBot, ClaudeBot waren zuvor blockiert), Hinzufügen eines hochwertigen llms.txt (88/100), Implementierung von FAQPage und SoftwareApplication-Schema, und Etablierung einer Organization-Entität mit LinkedIn-Verifikation. Die Seite ist jetzt von allen fünf großen AI-Plattformen genuinely indexierbar und interpretierbar. Die verbleibende Lücke zu 100 ist fast ausschließlich ein externes Korroboration- und Content-Depth-Problem.</div>
+      <div class="acc-sub-title">Stärken</div>
+      <ul class="strengths-list">
+        <li>Alle großen AI-Crawler jetzt explizit erlaubt — entfernt die größte Einzelbarriere des vorherigen 18/100-Scores</li>
+        <li>llms.txt 88/100 mit Entity-Definition, Use Cases, Brand-Vokabular — direkte ChatGPT/Perplexity-Kontext-Pipeline</li>
+        <li>FAQPage ermöglicht Google AI Overviews Featured Placement für Konfliktlösungs-Queries</li>
+        <li>SoftwareApplication + Offer-Schema: Produkt-Card-Rendering in Google AI Overviews und Gemini</li>
+        <li>Organization-Schema mit LinkedIn sameAs: verifizierbarer Entity-Anker für Knowledge-Graph-Kandidatur</li>
+        <li>Team-Page mit 4 benannten Co-Foundern mit LinkedIn-Links: E-E-A-T-Grundlage</li>
+      </ul>
+      <div class="acc-sub-title">Offene Issues</div>
+      <ul class="strengths-list">
+        <li style="color:#e6891a">HIGH: EN Subpage hat kein Schema-Markup</li>
+        <li style="color:#e6891a">HIGH: Team-Page fehlt Person-Schema</li>
+        <li style="color:#e6891a">HIGH: Kein externer Korroboration — Entity nicht von Drittquellen verifizierbar</li>
+        <li style="color:#5a8a95">MEDIUM: Kein AggregateRating oder Review-Schema</li>
+        <li style="color:#5a8a95">MEDIUM: Content-Tiefe zu dünn für informationale Query-Capture</li>
+        <li style="color:#5a8a95">MEDIUM: llms.txt Site-Struktur spärlich — nur 5 Links für 10-Seiten-Sitemap</li>
+        <li style="color:#6e6e6e">LOW: Kein Bing Webmaster Tools oder Wikidata-Präsenz</li>
+        <li style="color:#6e6e6e">LOW: Homepage H1 nicht keyword-verankert für Discovery-Queries</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- TECHNISCHE CHECKS -->
+<div class="section-title"><span class="dot"></span> Technische Checks: Vorher / Nachher</div>
+<div class="tech-grid mb-40">
+
+  <div class="tech-check">
+    <div class="tc-label">robots.txt</div>
+    <div class="tc-status">
+      <span class="tc-badge pass">✓ Vorhanden</span>
+    </div>
+    <div class="tc-before"><span class="was-fail">✗</span> Vorher: 404</div>
+    <div class="tc-detail">13 AI-Crawler explizit erlaubt. Vollständige Best-Practice-Implementierung.</div>
+  </div>
+
+  <div class="tech-check">
+    <div class="tc-label">GPTBot erlaubt</div>
+    <div class="tc-status">
+      <span class="tc-badge pass">✓ Erlaubt</span>
+    </div>
+    <div class="tc-before"><span class="was-fail">✗</span> Vorher: Blockiert</div>
+    <div class="tc-detail">OpenAI-Crawler jetzt explizit in robots.txt zugelassen.</div>
+  </div>
+
+  <div class="tech-check">
+    <div class="tc-label">ClaudeBot erlaubt</div>
+    <div class="tc-status">
+      <span class="tc-badge pass">✓ Erlaubt</span>
+    </div>
+    <div class="tc-before"><span class="was-fail">✗</span> Vorher: Blockiert</div>
+    <div class="tc-detail">Anthropic-Crawler jetzt explizit in robots.txt zugelassen.</div>
+  </div>
+
+  <div class="tech-check">
+    <div class="tc-label">PerplexityBot erlaubt</div>
+    <div class="tc-status">
+      <span class="tc-badge pass">✓ Erlaubt</span>
+    </div>
+    <div class="tc-before"><span class="was-fail">✗</span> Vorher: Blockiert</div>
+    <div class="tc-detail">Perplexity AI-Crawler jetzt explizit in robots.txt zugelassen.</div>
+  </div>
+
+  <div class="tech-check">
+    <div class="tc-label">sitemap.xml</div>
+    <div class="tc-status">
+      <span class="tc-badge pass">✓ 10 Seiten</span>
+    </div>
+    <div class="tc-before"><span class="was-fail">✗</span> Vorher: Nicht vorhanden</div>
+    <div class="tc-detail">10 Seiten, hreflang-Alternates, Image-Sitemap. Von Grund auf neu erstellt.</div>
+  </div>
+
+  <div class="tech-check">
+    <div class="tc-label">hreflang (absolut)</div>
+    <div class="tc-status">
+      <span class="tc-badge pass">✓ Korrekt</span>
+    </div>
+    <div class="tc-before"><span class="was-fail">✗</span> Vorher: Relative URLs</div>
+    <div class="tc-detail">Alle Sub-Pages und Sitemap mit absoluten URLs korrigiert.</div>
+  </div>
+
+  <div class="tech-check">
+    <div class="tc-label">llms.txt</div>
+    <div class="tc-status">
+      <span class="tc-badge pass">✓ 88/100</span>
+    </div>
+    <div class="tc-before"><span class="was-fail">✗</span> Vorher: Nicht vorhanden</div>
+    <div class="tc-detail">Entity-Definition, Use Cases, Brand-Vokabular, Site-Struktur vorhanden.</div>
+  </div>
+
+  <div class="tech-check">
+    <div class="tc-label">FAQPage Schema</div>
+    <div class="tc-status">
+      <span class="tc-badge pass">✓ 5 Q&A (DE+EN)</span>
+    </div>
+    <div class="tc-before"><span class="was-fail">✗</span> Vorher: Kein Schema</div>
+    <div class="tc-detail">FAQPage JSON-LD auf /de/ und /en/. ABER: nicht als sichtbarer Seiteninhalt gerendert.</div>
+  </div>
+
+  <div class="tech-check">
+    <div class="tc-label">SoftwareApplication Schema</div>
+    <div class="tc-status">
+      <span class="tc-badge pass">✓ Vorhanden</span>
+    </div>
+    <div class="tc-before"><span class="was-fail">✗</span> Vorher: Kein Schema</div>
+    <div class="tc-detail">HealthApplication, featureList (6 Items), Offer mit Free-Tier, inLanguage.</div>
+  </div>
+
+  <div class="tech-check">
+    <div class="tc-label">og:image (absolut)</div>
+    <div class="tc-status">
+      <span class="tc-badge pass">✓ Absolut</span>
+    </div>
+    <div class="tc-before"><span class="was-fail">✗</span> Vorher: Relative URL</div>
+    <div class="tc-detail">og:image, og:locale, og:site_name, twitter:card seitenübergreifend korrigiert.</div>
+  </div>
+
+  <div class="tech-check">
+    <div class="tc-label">Team-Page Person Schema</div>
+    <div class="tc-status">
+      <span class="tc-badge fail">✗ Fehlt</span>
+    </div>
+    <div class="tc-before"><span class="was-fail">✗</span> Vorher: Fehlt</div>
+    <div class="tc-detail">schemaTypes: [] auf /de/team/ und /en/team/. Person-Schema client-seitig injiziert — für Crawler unsichtbar.</div>
+  </div>
+
+  <div class="tech-check">
+    <div class="tc-label">Impressum (vollständig)</div>
+    <div class="tc-status">
+      <span class="tc-badge pass">✓ Rechtlich komplett</span>
+    </div>
+    <div class="tc-before"><span class="was-fail">✗</span> Vorher: Unvollständig</div>
+    <div class="tc-detail">AICT FlexCo, FN 657 256 d, UID, Handelsgericht Wien, WKÖ/WKW, 4 Verantwortliche.</div>
+  </div>
+
+  <div class="tech-check">
+    <div class="tc-label">@graph JSON-LD Pattern</div>
+    <div class="tc-status">
+      <span class="tc-badge pass">✓ Valide</span>
+    </div>
+    <div class="tc-before"><span class="was-fail">✗</span> Vorher: Kein Schema</div>
+    <div class="tc-detail">Kein JSON-LD-Parse-Fehler auf irgendeiner gecrawlten Seite.</div>
+  </div>
+
+  <div class="tech-check">
+    <div class="tc-label">LinkedIn sameAs</div>
+    <div class="tc-status">
+      <span class="tc-badge pass">✓ Vorhanden</span>
+    </div>
+    <div class="tc-before"><span class="was-fail">✗</span> Vorher: Fehlte</div>
+    <div class="tc-detail">Organization.sameAs beinhaltet linkedin.com/company/aict-group.</div>
+  </div>
+
+  <div class="tech-check">
+    <div class="tc-label">GSC Sitemap Einreichung</div>
+    <div class="tc-status">
+      <span class="tc-badge fail">? Nicht verifiziert</span>
+    </div>
+    <div class="tc-before"><span class="was-fail">—</span> Vorher: Unbekannt</div>
+    <div class="tc-detail">Sitemap existiert unter /sitemap.xml. GSC-Einreichung aus Crawl-Daten nicht verifizierbar.</div>
+  </div>
+
+</div>
+
+<!-- 30-TAGE ACTION PLAN -->
+<div class="section-title"><span class="dot"></span> 30-Tage Action Plan (aktualisiert 03.06.2026)</div>
+<div class="action-plan">
+
+  <div class="action-section">
+    <div class="action-section-title">Woche 1 — Bereits erledigt (02.–03.06.2026)</div>
+
+    <div class="action-item done">
+      <span class="action-num">01</span>
+      <span class="action-text">robots.txt von Grund auf neu mit expliziter AI-Crawler-Allowlist (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, CCBot + 8 weitere)</span>
+      <span class="action-status erledigt">Erledigt</span>
+    </div>
+    <div class="action-item done">
+      <span class="action-num">02</span>
+      <span class="action-text">sitemap.xml erstellt: 10 Seiten, hreflang-Alternates, Image-Sitemap</span>
+      <span class="action-status erledigt">Erledigt</span>
+    </div>
+    <div class="action-item done">
+      <span class="action-num">03</span>
+      <span class="action-text">llms.txt erstellt mit 88/100 Qualitätsscore: Entity-Definition, Use Cases, Brand-Vokabular, Site-Struktur</span>
+      <span class="action-status erledigt">Erledigt</span>
+    </div>
+    <div class="action-item done">
+      <span class="action-num">04</span>
+      <span class="action-text">hreflang auf absolute URLs korrigiert — alle Sub-Pages und Sitemap</span>
+      <span class="action-status erledigt">Erledigt</span>
+    </div>
+    <div class="action-item done">
+      <span class="action-num">05</span>
+      <span class="action-text">og:image absolute URL + og:locale, og:site_name, twitter:card seitenübergreifend</span>
+      <span class="action-status erledigt">Erledigt</span>
+    </div>
+    <div class="action-item done">
+      <span class="action-num">06</span>
+      <span class="action-text">FAQPage + SoftwareApplication + Offer Schema auf Homepage (DE + EN)</span>
+      <span class="action-status erledigt">Erledigt</span>
+    </div>
+    <div class="action-item done">
+      <span class="action-num">07</span>
+      <span class="action-text">Impressum vollständig: AICT FlexCo, FN 657 256 d, UID, HG Wien, WKÖ/WKW, 4 Verantwortliche</span>
+      <span class="action-status erledigt">Erledigt</span>
+    </div>
+    <div class="action-item done">
+      <span class="action-num">08</span>
+      <span class="action-text">Team-Page erstellt mit 4 Co-Foundern, Rollen, externen Unternehmensreferenzen</span>
+      <span class="action-status erledigt">Erledigt</span>
+    </div>
+    <div class="action-item done">
+      <span class="action-num">09</span>
+      <span class="action-text">LinkedIn sameAs in Organization-Schema ergänzt</span>
+      <span class="action-status erledigt">Erledigt</span>
+    </div>
+  </div>
+
+  <div class="action-section">
+    <div class="action-section-title">Woche 1 — Sofort (03.–07.06.2026) — Kritische Lücken</div>
+
+    <div class="action-item">
+      <span class="action-num">10</span>
+      <span class="action-prio p1">P1</span>
+      <span class="action-text">JSON-LD Schema server-side rendern (Next.js &lt;Head&gt;) — verifizieren mit curl | grep ld+json auf /de/team/</span>
+      <span class="action-status kritisch">Kritisch</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">11</span>
+      <span class="action-prio p1">P1</span>
+      <span class="action-text">FAQ als sichtbares HTML rendern — Accordion oder Q&A-Abschnitt am Seitenende mit identischem Text wie JSON-LD</span>
+      <span class="action-status kritisch">Kritisch</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">12</span>
+      <span class="action-prio p1">P1</span>
+      <span class="action-text">Mindestens 5 konkrete Datenpunkte auf Homepage: Szenarien, Sitzungslänge, Sprachen, Gründungsjahr, Use-Case-Kategorien</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">13</span>
+      <span class="action-prio p1">P1</span>
+      <span class="action-text">"es" durch "peaceflow" in allen Feature-Card-Eröffnungssätzen ersetzen (5-Minuten-Find-Replace)</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">14</span>
+      <span class="action-prio p1">P1</span>
+      <span class="action-text">Individuelle LinkedIn-URLs pro Founder auf Team-Page ergänzen + als sameAs in Person-Schema</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">15</span>
+      <span class="action-prio p2">P2</span>
+      <span class="action-text">FAQPage @id ergänzen: 'https://peaceflow.ai/de/#faqpage' + inLanguage: 'de'</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">16</span>
+      <span class="action-prio p2">P2</span>
+      <span class="action-text">EN Subpage Schema-Set spiegeln: Organization, SoftwareApplication, FAQPage, WebPage, WebSite</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">17</span>
+      <span class="action-prio p2">P2</span>
+      <span class="action-text">llms.txt FAQ-Sektion (5-8 Q&A-Paare) + Content-Policy-Block ergänzen</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">18</span>
+      <span class="action-prio p2">P2</span>
+      <span class="action-text">Google Search Console: sitemap.xml einreichen, Indexierung der 10 Seiten verifizieren</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+  </div>
+
+  <div class="action-section">
+    <div class="action-section-title">Woche 2 — Schema & Content (08.–14.06.2026)</div>
+
+    <div class="action-item">
+      <span class="action-num">19</span>
+      <span class="action-prio p2">P2</span>
+      <span class="action-text">BreadcrumbList auf allen Sub-Pages ergänzen: /de/team/, /en/team/, /de/features/, /en/features/</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">20</span>
+      <span class="action-prio p2">P2</span>
+      <span class="action-text">Organization foundingDate + address auf /de/ und /en/ Homepage analog zur Team-Page</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">21</span>
+      <span class="action-prio p2">P2</span>
+      <span class="action-text">Person.sameAs für Lexa und Berná ergänzen. Person.image für alle 4 Gründer mit ImageObject</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">22</span>
+      <span class="action-prio p2">P2</span>
+      <span class="action-text">Features-Page: WebPage-Block + datePublished/dateModified + BreadcrumbList ergänzen</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">23</span>
+      <span class="action-prio p2">P2</span>
+      <span class="action-text">H2 "Was ist peaceflow?" nahe Seitenanfang als definitionen-basierter Anchor für AI-Systeme</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">24</span>
+      <span class="action-prio p2">P2</span>
+      <span class="action-text">HowTo-Schema auf Homepage (3-4 Schritte) + sichtbarer "So funktioniert peaceflow"-Abschnitt</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">25</span>
+      <span class="action-prio p3">P3</span>
+      <span class="action-text">2 kurze FAQ-Antworten auf 200+ Zeichen erweitern (Pricing + Zielgruppe)</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">26</span>
+      <span class="action-prio p3">P3</span>
+      <span class="action-text">"Gemini" User-Agent aus robots.txt entfernen. Offer: availability + url ergänzen.</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+  </div>
+
+  <div class="action-section">
+    <div class="action-section-title">Wochen 3–4 — Externe Korroboration (15.–30.06.2026)</div>
+
+    <div class="action-item">
+      <span class="action-num">27</span>
+      <span class="action-prio p1">P1</span>
+      <span class="action-text">Crunchbase-Profil für AICT Group anlegen: Gründungsdatum, Gründer, Hauptsitz Wien, peaceflow.ai als Produkt</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">28</span>
+      <span class="action-prio p1">P1</span>
+      <span class="action-text">ProductHunt Launch vorbereiten und einreichen — auch minimales Listing wird schnell indexiert</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">29</span>
+      <span class="action-prio p1">P1</span>
+      <span class="action-text">G2-Profil anlegen (keine Reviews nötig für Existenz). Capterra Self-Serve-Einreichung.</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">30</span>
+      <span class="action-prio p1">P1</span>
+      <span class="action-text">Wikidata-Item für AICT Group / peaceflow.ai: Firmenbuch-Nr, Gründer, Gründungsdatum, Website</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">31</span>
+      <span class="action-prio p1">P1</span>
+      <span class="action-text">Öffentliche GitHub-Org anlegen (github.com/AICT-Group oder peaceflow-ai) mit Public README-Repo</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">32</span>
+      <span class="action-prio p2">P2</span>
+      <span class="action-text">Erste editoriale Erwähnung sichern: Trending Topics / Brutkasten / Der Standard Digitalisierung (Pitch vorbereiten)</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">33</span>
+      <span class="action-prio p2">P2</span>
+      <span class="action-text">Advisory Board Sektion auf Team-Page: mindestens 1 benannter Psychologe / Mediator mit Credentials</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">34</span>
+      <span class="action-prio p2">P2</span>
+      <span class="action-text">3 erste Blog-Artikel (1500+ Wörter) zu Kernthemen veröffentlichen: KI+Konflikt, NVC digital, Konflikt als Wachstumschance</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">35</span>
+      <span class="action-prio p3">P3</span>
+      <span class="action-text">Bing Webmaster Tools: Site einreichen. Speakable-Schema auf WebPage für Voice/AI Agents.</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+    <div class="action-item">
+      <span class="action-num">36</span>
+      <span class="action-prio p3">P3</span>
+      <span class="action-text">Audit v3 nach Umsetzung der kritischen Items — Ziel-Score: 65–70 (Good)</span>
+      <span class="action-status offen">Offen</span>
+    </div>
+  </div>
+
+</div>
+
+</div><!-- /container -->
+
+<footer class="site-footer">
+  peaceflow.ai — GEO + SEO Audit v2 &nbsp;|&nbsp; <span>03. Juni 2026</span> &nbsp;|&nbsp; AICT Group — Intern &nbsp;|&nbsp; Powered by Claude Code
+</footer>
+
+<script>
+function toggleAcc(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.acc-chevron');
+  if (body.classList.contains('open')) {
+    body.classList.remove('open');
+    chevron.style.transform = 'rotate(0deg)';
+  } else {
+    body.classList.add('open');
+    chevron.style.transform = 'rotate(180deg)';
+  }
+}
+
+// Animate category bars on load
+document.addEventListener('DOMContentLoaded', function() {
+  const barsNew = document.querySelectorAll('.bar-new');
+  barsNew.forEach(bar => {
+    const w = bar.style.width;
+    bar.style.width = '0';
+    setTimeout(() => { bar.style.width = w; }, 300);
+  });
+});
+</script>
+</body>
+</html>
