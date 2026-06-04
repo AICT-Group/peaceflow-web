@@ -381,6 +381,21 @@ nav.nav-hidden {
     transition-duration: var(--dur-1);
 }
 
+/* Hero CTA — extra punch (larger, stronger glow) */
+.hero-copy .btn {
+    padding: 17px 44px;
+    font-size: 1.1rem;
+    box-shadow:
+        0 8px 28px rgba(20,40,50,0.18),
+        0 0 0 3px rgba(230,190,27,0.22);
+}
+.hero-copy .btn:hover {
+    box-shadow:
+        0 12px 36px rgba(20,40,50,0.24),
+        0 0 0 5px rgba(230,190,27,0.32);
+    transform: scale(1.03);
+}
+
 /* Ghost / secondary button — transparent + gold hairline */
 .btn-secondary {
     background-color: transparent;
@@ -480,7 +495,11 @@ section {
     max-height: clamp(320px, 50vh, 600px);
     object-fit: cover;
     border-radius: var(--r-xl);
-    box-shadow: var(--shadow-md);
+    /* Visible frame + punchy shadow — make the Chamäleon stand out */
+    border: 2px solid rgba(20,40,50,0.13);
+    box-shadow:
+        0 4px 16px rgba(20,40,50,0.10),
+        0 20px 52px rgba(20,40,50,0.16);
     display: block;
 }
 
