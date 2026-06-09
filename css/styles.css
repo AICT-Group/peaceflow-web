@@ -1035,10 +1035,48 @@ footer a:hover { text-decoration: underline; }
 /* ── Accessibility / Focus ────────────────────────────────────────────────── */
 /* Focus ring: translucent gold glow (DS: shadow-glow) */
 a:focus-visible,
-button:focus-visible {
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible,
+[role="button"]:focus-visible {
     outline: none;
     box-shadow: 0 0 0 3px rgba(230,190,27,0.45);
     border-radius: var(--r-sm);
+}
+
+/* „Zum Inhalt springen" — visuell versteckt, bei Tastatur-Fokus sichtbar */
+.skip-link {
+    position: absolute;
+    left: 12px;
+    top: -200px;
+    z-index: 2000;
+    padding: 10px 18px;
+    background: var(--pf-ink);
+    color: var(--pf-white);
+    font-family: var(--font-highlight);
+    text-decoration: none;
+    border-radius: var(--r-sm);
+    box-shadow: var(--shadow-md);
+    transition: top 0.15s ease;
+}
+.skip-link:focus {
+    top: 12px;
+}
+
+/* Nur für Screenreader (visuell versteckt, für AT lesbar) */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 /* Selection */
