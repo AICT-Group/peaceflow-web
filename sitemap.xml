@@ -13,7 +13,7 @@
       <image:loc>https://peaceflow.ai/img/Chamaeleon.png</image:loc>
       <image:title>peaceflow — KI-Begleiter für Konfliktlösung</image:title>
     </image:image>
-    <lastmod>2026-06-02</lastmod>
+    <lastmod>2026-06-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -28,7 +28,7 @@
       <image:loc>https://peaceflow.ai/img/Chamaeleon.png</image:loc>
       <image:title>peaceflow — AI companion for conflict transformation</image:title>
     </image:image>
-    <lastmod>2026-06-02</lastmod>
+    <lastmod>2026-06-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
@@ -39,7 +39,7 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/team/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/team/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://peaceflow.ai/de/team/"/>
-    <lastmod>2026-06-02</lastmod>
+    <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
@@ -49,7 +49,7 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/team/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/team/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://peaceflow.ai/de/team/"/>
-    <lastmod>2026-06-02</lastmod>
+    <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
@@ -60,7 +60,7 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/features/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/features/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://peaceflow.ai/de/features/"/>
-    <lastmod>2026-06-02</lastmod>
+    <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
@@ -71,7 +71,7 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/features/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/features/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://peaceflow.ai/de/features/"/>
-    <lastmod>2026-06-02</lastmod>
+    <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
@@ -81,7 +81,7 @@
     <loc>https://peaceflow.ai/de/impressum/</loc>
     <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/impressum/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/imprint/"/>
-    <lastmod>2026-06-02</lastmod>
+    <lastmod>2026-06-09</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.20</priority>
   </url>
@@ -90,7 +90,7 @@
     <loc>https://peaceflow.ai/en/imprint/</loc>
     <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/impressum/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/imprint/"/>
-    <lastmod>2026-06-02</lastmod>
+    <lastmod>2026-06-09</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.20</priority>
   </url>
@@ -100,7 +100,7 @@
     <loc>https://peaceflow.ai/de/datenschutz/</loc>
     <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/datenschutz/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/privacy/"/>
-    <lastmod>2026-06-02</lastmod>
+    <lastmod>2026-06-09</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.20</priority>
   </url>
@@ -109,9 +109,30 @@
     <loc>https://peaceflow.ai/en/privacy/</loc>
     <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/datenschutz/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/privacy/"/>
-    <lastmod>2026-06-02</lastmod>
+    <lastmod>2026-06-09</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.20</priority>
+  </url>
+
+  <!-- Barrierefreiheit / Accessibility -->
+  <url>
+    <loc>https://peaceflow.ai/de/barrierefreiheit/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/barrierefreiheit/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/accessibility/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://peaceflow.ai/de/barrierefreiheit/"/>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
+  </url>
+
+  <url>
+    <loc>https://peaceflow.ai/en/accessibility/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://peaceflow.ai/de/barrierefreiheit/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peaceflow.ai/en/accessibility/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://peaceflow.ai/de/barrierefreiheit/"/>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
   </url>
 
 </urlset>

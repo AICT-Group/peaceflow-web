@@ -63,7 +63,13 @@ Contact: office@aict.group
 - [English Homepage](https://peaceflow.ai/en/): Full product landing page in English
 - [Features & Roadmap DE](https://peaceflow.ai/de/features/): What peaceflow can do today and what's coming
 - [Features & Roadmap EN](https://peaceflow.ai/en/features/): Same in English
+- [Team DE](https://peaceflow.ai/de/team/) / [Team EN](https://peaceflow.ai/en/team/): The four AICT Group founders behind peaceflow
 - [App / Login](https://app.peaceflow.ai/login): Start using peaceflow
+
+## Optional
+
+- [Accessibility statement EN](https://peaceflow.ai/en/accessibility/) / [Barrierefreiheitserklärung DE](https://peaceflow.ai/de/barrierefreiheit/): WCAG 2.2 AA conformance
+- [llms-full.txt](https://peaceflow.ai/llms-full.txt): Extended single-document context for AI systems
 
 ## Content language
 
