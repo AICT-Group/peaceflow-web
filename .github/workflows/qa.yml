@@ -1,0 +1,53 @@
+# Pre-Deploy-QA-Gate — läuft auf Pull Requests gegen main (und manuell).
+# Prüft HTML, interne/externe Links und Lighthouse-Budgets (A11y/SEO).
+# Der eigentliche Deploy (static.yml) läuft auf push:main — dieses Gate
+# soll vor dem Merge grün sein.
+name: QA Gate
+
+on:
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  html-and-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: HTML lint (htmlhint)
+        run: npx --yes htmlhint "**/*.html" --ignore "design-system/**,onboarding-emails/**,seo-geo-report*.html"
+
+      - name: Link check (lychee)
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress --max-concurrency 4 --accept 200,206,429,999
+            --exclude-mail
+            "./**/*.html"
+          fail: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Serve site
+        run: |
+          python3 -m http.server 8080 &
+          sleep 2
+      - name: Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            http://localhost:8080/de/
+            http://localhost:8080/en/
+            http://localhost:8080/de/team/
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          # Budgets: A11y und SEO sind harte Gates, Performance nur Warnung.
+          configPath: ./.github/lighthouserc.json
