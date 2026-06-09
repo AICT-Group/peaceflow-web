@@ -1,0 +1,9 @@
+Contact: mailto:hello@aict.group
+Preferred-Languages: de, en
+Canonical: https://peaceflow.ai/.well-known/security.txt
+Expires: 2027-06-09T00:00:00Z
+
+# Bitte vermutete Sicherheitslücken vertraulich an obige Adresse melden.
+# Please report suspected vulnerabilities confidentially to the address above.
+# Wir bestätigen Reports innerhalb von 5 Werktagen / we acknowledge within 5 business days.
+# Kein bezahltes Bounty-Programm / no paid bounty program.
