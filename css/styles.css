@@ -493,13 +493,8 @@ section {
     width: clamp(420px, 36vw, 720px);
     height: auto;
     max-height: clamp(320px, 50vh, 600px);
-    object-fit: cover;
-    border-radius: var(--r-xl);
-    /* Visible frame + punchy shadow — make the Chamäleon stand out */
-    border: 2px solid rgba(20,40,50,0.13);
-    box-shadow:
-        0 4px 16px rgba(20,40,50,0.10),
-        0 20px 52px rgba(20,40,50,0.16);
+    /* Freigestelltes Maskottchen — frei schwebend, kein Rahmen */
+    object-fit: contain;
     display: block;
 }
 
@@ -1178,7 +1173,7 @@ button:focus-visible {
     .hero-visual img {
         width: min(620px, 92vw);
         max-height: 360px;
-        object-fit: cover;
+        object-fit: contain;
     }
 }
 
