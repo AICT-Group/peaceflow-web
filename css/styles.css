@@ -11,8 +11,9 @@
     --pf-primary-soft: #f4dc7b;   /* gold  — soft fills */
     --pf-primary-mist: #fbf3d2;   /* gold  — tints, hover bg */
 
-    --pf-accent:       #5a8a95;   /* teal  — supporting accent */
+    --pf-accent:       #5a8a95;   /* teal  — supporting accent (graphics/large) */
     --pf-accent-ink:   #3d626b;   /* teal  — hover */
+    --pf-accent-text:  #47767f;   /* teal  — normal-size text/links, WCAG AA ≥4.5:1 */
     --pf-accent-soft:  #b8cdd2;   /* teal  — soft fills */
     --pf-accent-mist:  #e7eef0;   /* teal  — tints */
 
@@ -211,7 +212,7 @@ p {
 }
 
 /* Highlight colours */
-.highlight        { color: var(--pf-accent); }
+.highlight        { color: var(--pf-accent-text); }
 .highlight-yellow { color: var(--pf-primary); }
 
 /* Headline dot — gold accent period */
@@ -296,7 +297,7 @@ nav.nav-hidden {
     white-space: nowrap;
 }
 
-.nav-links a:hover { color: var(--pf-accent); }
+.nav-links a:hover { color: var(--pf-accent-text); }
 
 /* Nav CTA: gold pill — ink text on gold (never white on gold) */
 .nav-links a.btn       { color: var(--pf-ink); }
@@ -520,7 +521,7 @@ section {
     margin-top: 60px;
 }
 
-.painpoint-card h3 { color: var(--pf-accent); }
+.painpoint-card h3 { color: var(--pf-accent-text); }
 
 .painpoint-card:hover {
     transform: translateY(-8px);
@@ -760,7 +761,7 @@ section {
 
 .quote-author {
     font-family: var(--font-body);
-    color: var(--pf-accent);
+    color: var(--pf-accent-text);
     font-size: 0.9rem;
 }
 
@@ -968,7 +969,7 @@ footer a:hover { text-decoration: underline; }
     text-decoration: none;
 }
 
-.lang-switcher a:hover { color: var(--pf-accent); }
+.lang-switcher a:hover { color: var(--pf-accent-text); }
 
 .lang-switcher .active {
     color: var(--pf-ink);
@@ -1132,13 +1133,13 @@ summary:focus-visible,
     color: var(--fg-2);
 }
 
-.legal-content a { color: var(--pf-accent); text-decoration: none; border-bottom: none; }
+.legal-content a { color: var(--pf-accent-text); text-decoration: none; border-bottom: none; }
 .legal-content a:hover { text-decoration: underline; }
 
 .legal-back-link {
     display: inline-block;
     margin-bottom: 30px;
-    color: var(--pf-accent);
+    color: var(--pf-accent-text);
     text-decoration: none;
     font-family: var(--font-display);
     font-size: 0.85rem;

@@ -483,9 +483,13 @@
     </p>
 
     <div class="newsletter-embed">
-      <!-- Hinweis: Dies ist noch das deutsche MailerLite Formular. Ein separates EN-Formular wird hier benötigt. -->
-      <iframe 
-        src="https://preview.mailerlite.io/forms/1706257/173305924124935291/share"
+      <!-- EN-Formular: "Peaceflow Newsletter Form (EN)" (ID 189872920836703814), Gruppe "Newsletter", Double-Opt-In.
+           TODO vor Deploy: Inhalt/Text dieses Formulars EINMALIG im MailerLite-Dashboard anlegen
+           (https://dashboard.mailerlite.com/forms/189872920836703814/overview) — per API nicht möglich.
+           Bis dahin liefert die Share-URL HTTP 503 (kein Content). -->
+      <iframe
+        src="https://preview.mailerlite.io/forms/1706257/189872920836703814/share"
+        title="peaceflow newsletter sign-up"
         frameborder="0"
         scrolling="no"
         style="width: 100%; max-width: 520px; height: 560px; border-radius: 16px;">
