@@ -208,13 +208,18 @@
                 </div>
 
                 <div class="hero-visual" aria-hidden="true">
-                    <img
-                        src="/img/Chamaeleon.png"
-                        sizes="(max-width: 900px) 92vw, 720px"
-                        alt=""
-                        loading="eager"
-                        decoding="async"
-                    >
+                    <picture>
+                        <source type="image/avif" srcset="/img/Chamaeleon.avif">
+                        <source type="image/webp" srcset="/img/Chamaeleon.webp">
+                        <img
+                            src="/img/Chamaeleon.png"
+                            alt=""
+                            width="899"
+                            height="854"
+                            loading="eager"
+                            decoding="async"
+                        >
+                    </picture>
                     <div class="hero-glow"></div>
                 </div>
             </div>
